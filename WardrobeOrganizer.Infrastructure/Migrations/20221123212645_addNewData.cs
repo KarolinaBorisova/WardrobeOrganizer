@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class addNewData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,19 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Storages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Storages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,6 +167,78 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Clothes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SizeHeight = table.Column<int>(type: "int", nullable: true),
+                    Size = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    CategoryClothing = table.Column<int>(type: "int", nullable: false),
+                    StorageId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clothes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clothes_Storages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "Storages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Outerwear",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SizeHeight = table.Column<int>(type: "int", nullable: true),
+                    Size = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    CategoryOuterwear = table.Column<int>(type: "int", nullable: false),
+                    StorageId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Outerwear", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Outerwear_Storages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "Storages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SizeEu = table.Column<int>(type: "int", nullable: true),
+                    Centimetres = table.Column<int>(type: "int", nullable: true),
+                    CategoryShoes = table.Column<int>(type: "int", nullable: false),
+                    StorageId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shoes_Storages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "Storages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +277,21 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clothes_StorageId",
+                table: "Clothes",
+                column: "StorageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Outerwear_StorageId",
+                table: "Outerwear",
+                column: "StorageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shoes_StorageId",
+                table: "Shoes",
+                column: "StorageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -212,10 +312,22 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Clothes");
+
+            migrationBuilder.DropTable(
+                name: "Outerwear");
+
+            migrationBuilder.DropTable(
+                name: "Shoes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Storages");
         }
     }
 }

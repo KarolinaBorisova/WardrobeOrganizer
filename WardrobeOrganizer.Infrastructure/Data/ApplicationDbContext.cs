@@ -9,5 +9,14 @@ namespace WardrobeOrganizer.Infrastructure.Data
             : base(options)
         {
         }
+
+
+        public DbSet<Storage> Storages { get; set; }
+
+        public DbSet<Clothing> Clothes { get; set; }
+
+        public DbSet<Shoes> Shoes { get; set; }
+
+        public DbSet<Outerwear> Outerwear { get; set; }
     }
 }
