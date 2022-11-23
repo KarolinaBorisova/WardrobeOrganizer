@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WardrobeOrganizer.Controllers
 {
+   [Authorize]
     public class ItemController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+       // public async Task<IActionResult> Add()
+       // {
+       //     var model = new SportAddViewModel()
+       //     {
+       //         Halls = await hallService.AllHalls()
+       //     };
+       //     return View(model);
+       // }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WardrobeOrganizer.Infrastructure.Data.Configuration;
 
 namespace WardrobeOrganizer.Infrastructure.Data
 {
@@ -10,6 +11,13 @@ namespace WardrobeOrganizer.Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new StorageConfiguration());
+            builder.ApplyConfiguration(new ClothingConfiguration());
+
+            base.OnModelCreating(builder);
+        }
 
         public DbSet<Storage> Storages { get; set; }
 
