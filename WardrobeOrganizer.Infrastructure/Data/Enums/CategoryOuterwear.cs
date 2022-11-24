@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WardrobeOrganizer.Infrastructure.Data
+namespace WardrobeOrganizer.Infrastructure.Data.Enums
 {
     public enum CategoryOuterwear
     {

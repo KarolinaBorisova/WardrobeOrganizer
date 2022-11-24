@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WardrobeOrganizer.Infrastructure.Data
+﻿namespace WardrobeOrganizer.Infrastructure.Data.Enums
 {
     public enum CategoryClothing
     {
@@ -19,7 +13,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         Short,
         Skirt,
         Set,
-        Dress         
-            
+        Dress
+
     }
 }

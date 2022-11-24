@@ -2,7 +2,7 @@
 
 namespace WardrobeOrganizer.Controllers
 {
-    public class BaseController : Controller
+    public class ClothesController : Controller
     {
         public IActionResult Index()
         {
