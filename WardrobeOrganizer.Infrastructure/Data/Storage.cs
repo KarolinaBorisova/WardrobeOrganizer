@@ -6,6 +6,8 @@
 
         public string Name { get; set; }
 
+        public string Place { get; set; }
+
         public IList<Clothing> Clothes { get; set; } = new List<Clothing>();
 
         public IList<Shoes> Shoes { get; set; } = new List<Shoes>();

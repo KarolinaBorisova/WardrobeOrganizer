@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace WardrobeOrganizer.Core.Models.Storage
 {
-    internal class AllStoragesViewModel
+    public class AllStoragesViewModel
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+
     }
 }

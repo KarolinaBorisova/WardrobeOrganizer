@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<AllStoragesViewModel>
 @{
+    ViewBag.Title = "All Storages";
+}
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr/>
+@if (Model.Count() == 0)
+{
+    <p class="lead">
+        There are no storages in the system.
+    </p>
+    <h5>
+        <a class="btn btn-primary" asp-controller="Storage" asp-action="Add"> Add new storage</a>
+    </h5>
+}
+@foreach (var storage in Model)
+{
+    <div class="card text-center" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@storage.Name</h5>
+            <a href="#" class="btn btn-primary">Go to @storage.Name</a>
+        </div>
+    </div>
 }

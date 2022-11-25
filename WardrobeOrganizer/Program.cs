@@ -32,7 +32,7 @@ namespace WardrobeOrganizer
                {
                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                });
-
+            builder.Services.AddApplicationServices();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

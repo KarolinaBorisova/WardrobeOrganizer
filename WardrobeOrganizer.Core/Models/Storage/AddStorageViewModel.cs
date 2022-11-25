@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WardrobeOrganizer.Core.Models.Storage
 {
-    internal class AddStorageViewModel
+    public class AddStorageViewModel
     {
     }
 }

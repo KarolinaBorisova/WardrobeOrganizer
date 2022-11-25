@@ -23,7 +23,7 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
             {
                 Id = 1,
                 Name = "Дестки гардероб",
-
+                Place="В детската стая"
             };
 
             storages.Add(storage);
