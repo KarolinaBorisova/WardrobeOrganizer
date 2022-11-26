@@ -14,11 +14,11 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public string? Description { get; set; }
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
     }
 }

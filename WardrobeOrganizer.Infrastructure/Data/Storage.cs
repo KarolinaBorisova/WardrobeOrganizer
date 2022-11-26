@@ -1,12 +1,19 @@
-﻿namespace WardrobeOrganizer.Infrastructure.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WardrobeOrganizer.Infrastructure.Data
 {
     public class Storage
     {
+        [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; } = null!;
 
-        public string Place { get; set; }
+        [Required]
+        [MaxLength(200)]
+        public string Place { get; set; } = null!;
 
         public IList<Clothing> Clothes { get; set; } = new List<Clothing>();
 

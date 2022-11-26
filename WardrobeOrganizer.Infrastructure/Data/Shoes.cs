@@ -11,17 +11,19 @@ namespace WardrobeOrganizer.Infrastructure.Data
 {
     public class Shoes:Item
     {
-        public int? SizeEu { get; set; }
+        [Required]
+        public int SizeEu { get; set; }
 
-        public int? Centimetres { get; set; }
+        public int Centimetres { get; set; }
 
         [Required]
         public CategoryShoes CategoryShoes { get; set; }
 
+        [Required]
         public int StorageId { get; set; }
 
         [Required]
         [ForeignKey(nameof(StorageId))]
-        public Storage Storage { get; set; }
+        public Storage Storage { get; set; } = null!;
     }
 }

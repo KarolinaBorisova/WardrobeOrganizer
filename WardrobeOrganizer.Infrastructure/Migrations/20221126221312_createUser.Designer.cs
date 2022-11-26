@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WardrobeOrganizer.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221126221312_createUser")]
+    partial class createUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,25 +210,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             StorageId = 1,
                             Url = "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg"
                         });
-                });
-
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Outerwear", b =>
@@ -495,17 +478,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Storage");
-                });
-
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
-                {
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Outerwear", b =>

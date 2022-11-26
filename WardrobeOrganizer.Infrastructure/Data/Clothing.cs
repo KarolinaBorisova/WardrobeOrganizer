@@ -13,8 +13,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
     {
         public int? SizeHeight { get; set; }
 
+        [Required]
         [MaxLength(5)]
-        public string Size { get; set; }
+        public string Size { get; set; } = null!;
 
         [Required]
         public CategoryClothing CategoryClothing { get; set; }
@@ -23,6 +24,6 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         [Required]
         [ForeignKey(nameof(StorageId))]
-        public Storage Storage { get; set; }
+        public Storage Storage { get; set; } = null!;
     }
 }
