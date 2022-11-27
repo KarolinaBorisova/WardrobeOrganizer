@@ -34,7 +34,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Storage" asp-action="Add">Add Storage</a>
                             </li>
                             <li class="nav-item">
-                                <form class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Become">Become family member</form>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Add">Add Member</a>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Member" asp-action="Become" method="post">
+                                    <button type="submit">Become family member</button>
+                                </form>
                             </li>
                            
                         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
 
@@ -17,6 +18,24 @@ namespace WardrobeOrganizer.Core.Services
         public MemberService(IRepository _repo)
         {
             this.repo = _repo;
+        }
+
+        public async Task AddMember(AddMemberViewModel model)
+        {
+            var member = new Member()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = model.Gender,
+                Birthdate = model.Birthdate,
+                ShoeSizeEu = model.ShoeSizeEu,
+                FootLengthCm = model.FootLengthCm,
+                ClothesSize = model.ClothesSize,
+                UserHeight = model.UserHeight,
+            };
+
+            await repo.AddAsync(member);
+            await repo.SaveChangesAsync();
         }
 
         public async Task Create(string userId)

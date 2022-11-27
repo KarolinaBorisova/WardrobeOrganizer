@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Member;
+using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Extensions;
 
 namespace WardrobeOrganizer.Controllers
@@ -16,6 +18,19 @@ namespace WardrobeOrganizer.Controllers
             this.memberService = _memberService;
         }
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            var model = new AddMemberViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddMemberViewModel model)
+        {
+            await  memberService.AddMember(model);
+            return RedirectToAction("Index","Home");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Become()

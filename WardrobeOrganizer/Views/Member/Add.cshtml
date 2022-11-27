@@ -1,0 +1,49 @@
+﻿@model AddMemberViewModel
+@{
+    ViewBag.Title = "Add Member";
+}
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+</div>
+<form method="post" >
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class = "label" asp-for="FirstName">First name</label>
+            <input asp-for="FirstName" class="form-control" id="FirstName" placeholder="First name">
+        </div>
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="LastName">Last Name</label>
+            <input asp-for="LastName" class="form-control" id="LastName" placeholder="Last Name">
+        </div>
+    </div>
+    <div class="form-row col-md-4">
+        <label class="label" asp-for="Birthdate">Birthdate</label>
+        <input asp-for="Birthdate" type="date" class="form-control" id="Birthdate" placeholder="Birthdate">
+    </div>
+    <div class="form-row col-md-2">
+        <label class="label" asp-for="Gender">Gender</label>
+        <input asp-for="Gender" type="text" class="form-control" id="Gender">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label class="label" asp-for="ShoeSizeEu">Shoe Size</label>
+            <input asp-for="ShoeSizeEu" type="text" class="form-control" id="ShoeSizeEu">
+        </div>
+        <div class="form-group col-md-2">
+            <label class="label" asp-for="FootLengthCm">Foot length in centimetres</label>
+            <input asp-for="FootLengthCm" type="text" class="form-control" id="FootLengthCm">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label class="label" asp-for="ClothesSize">Clothing Size</label>
+            <input asp-for="ClothesSize" type="text" class="form-control" id="ClothesSize">
+        </div>
+        <div class="form-group col-md-2">
+            <label class="label" asp-for="UserHeight">Height</label>
+            <input asp-for="UserHeight" type="text" class="form-control" id="UserHeight">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add member</button>
+</form>
