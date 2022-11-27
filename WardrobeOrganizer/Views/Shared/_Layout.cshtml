@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/lib/toastr/toastr.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WardrobeOrganizer.styles.css" asp-append-version="true" />
-    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -33,6 +33,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Storage" asp-action="Add">Add Storage</a>
                             </li>
+                            <li class="nav-item">
+                                <form class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Become">Become family member</form>
+                            </li>
                            
                         }
                     </ul>
@@ -49,8 +52,8 @@
 
     <footer class="border-top footer text-muted">
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

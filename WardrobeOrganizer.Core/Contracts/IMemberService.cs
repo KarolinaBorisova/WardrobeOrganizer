@@ -9,5 +9,7 @@ namespace WardrobeOrganizer.Core.Contracts
     public interface IMemberService
     { 
         Task<bool> ExistsById(string userId);
+
+        Task Create(string userId);
     }
 }

@@ -13,10 +13,22 @@ namespace WardrobeOrganizer.Core.Services
     public class MemberService : IMemberService
     {
         private readonly IRepository repo;
-
+        
         public MemberService(IRepository _repo)
         {
             this.repo = _repo;
+        }
+
+        public async Task Create(string userId)
+        {
+            var member = new Member()
+            {
+
+                UserId = userId,
+            };
+
+            await repo.AddAsync(member);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsById(string userId)

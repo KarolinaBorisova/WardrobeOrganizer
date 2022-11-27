@@ -9,8 +9,12 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [Key]
         public int Id { get; set; }
 
-     
-        public string UserId { get; set; }
+        public int? StorageId { get; set; }
+
+        [ForeignKey(nameof(StorageId))]
+        public Storage? Storage { get; set; }
+
+        public string UserId { get; set; } = null!;
 
         [Required]
         [ForeignKey(nameof(UserId))]

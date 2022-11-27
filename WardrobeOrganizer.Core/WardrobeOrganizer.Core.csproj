@@ -10,4 +10,8 @@
     <ProjectReference Include="..\WardrobeOrganizer.Infrastructure\WardrobeOrganizer.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Member\" />
+  </ItemGroup>
+
 </Project>

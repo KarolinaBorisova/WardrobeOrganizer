@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
-using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Extensions;
 
 namespace WardrobeOrganizer.Controllers
 {
-    [Authorize]
+   
     public class MemberController : Controller
     {
         private readonly IMemberService memberService;
@@ -17,25 +16,20 @@ namespace WardrobeOrganizer.Controllers
             this.memberService = _memberService;
         }
 
-        [HttpGet]
+
+        [HttpPost]
         public async Task<IActionResult> Become()
         {
-            if (await memberService.ExistsById(User.Id()))
+            var userId = User.Id();
+
+            if (await memberService.ExistsById(userId))
             {
                 TempData[MessageConstant.ErrorMessage] = "You are already a member of this family";
                 return RedirectToAction("Index", "Home");
             }
 
-            TempData[MessageConstant.SuccessMessage] = "You are already a member of this family";
+           await memberService.Create(userId);
             return RedirectToAction("Index", "Home");
-
-        }
-
-        [HttpPost]
-        public IActionResult Become(BecomeMemberModel model)
-        {
-           
-            return View();
         }
     }
 }
