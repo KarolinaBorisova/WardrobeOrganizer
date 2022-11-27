@@ -4,7 +4,7 @@ using WardrobeOrganizer.Infrastructure.Data.Configuration;
 
 namespace WardrobeOrganizer.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User> 
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -29,7 +29,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public DbSet<Member> Members { get; set; }
 
-        public DbSet<User> Users { get; set; }
+      
 
 
     }
