@@ -26,7 +26,7 @@ namespace WardrobeOrganizer.Core.Services
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Gender = model.Gender,
+               // Gender = model.Gender,
                 Birthdate = model.Birthdate,
                 ShoeSizeEu = model.ShoeSizeEu,
                 FootLengthCm = model.FootLengthCm,

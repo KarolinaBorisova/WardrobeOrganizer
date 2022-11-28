@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Core.Models.Member
 {
@@ -22,19 +23,19 @@ namespace WardrobeOrganizer.Core.Models.Member
         public DateTime Birthdate { get; set; }
 
         [Required]
-        [MaxLength(10)]
-        public string Gender { get; set; } = null!;
+        [EnumDataType(typeof(Gender))]
+        public  Gender Gender { get; set; }
 
         [Required]
         public int ShoeSizeEu { get; set; }
 
 
-        public int? FootLengthCm { get; set; }
+        public double? FootLengthCm { get; set; }
 
         [Required]
         [MaxLength(5)]
         public string ClothesSize { get; set; } = null!;
 
-        public int? UserHeight { get; set; }
+        public double? UserHeight { get; set; }
     }
 }

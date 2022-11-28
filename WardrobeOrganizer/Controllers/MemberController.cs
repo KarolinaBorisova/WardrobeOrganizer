@@ -28,7 +28,13 @@ namespace WardrobeOrganizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddMemberViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return View(model);
+            }
             await  memberService.AddMember(model);
+            TempData[MessageConstant.SuccessMessage] = "Member added";
             return RedirectToAction("Index","Home");
         }
 
@@ -45,6 +51,17 @@ namespace WardrobeOrganizer.Controllers
 
            await memberService.Create(userId);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Home()
+        {
+            var model = new HomeMemberViewModel()
+            { FirstName= "test",
+            LastName = "test2",
+            Storages = new List<AllStoragesViewModel>()
+            };
+            return View(model);
         }
     }
 }

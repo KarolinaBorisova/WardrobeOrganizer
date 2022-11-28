@@ -1,4 +1,5 @@
-﻿@model AddMemberViewModel
+﻿
+@model AddMemberViewModel
 @{
     ViewBag.Title = "Add Member";
 }
@@ -23,7 +24,9 @@
     </div>
     <div class="form-row col-md-2">
         <label class="label" asp-for="Gender">Gender</label>
-        <input asp-for="Gender" type="text" class="form-control" id="Gender">
+        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+            <option selected="selected" value="">Please select</option>
+        </select>     
     </div>
     <div class="form-row">
         <div class="form-group col-md-2">

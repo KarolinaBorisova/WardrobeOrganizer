@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Infrastructure.Data
 {
@@ -14,9 +14,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [ForeignKey(nameof(StorageId))]
         public Storage? Storage { get; set; }
 
-        public string? UserId { get; set; } 
+        public string? UserId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(UserId))]
         public User? User { get; set; }
 
@@ -34,20 +33,19 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public DateTime Birthdate { get; set; }
 
         [Required]
-        [MaxLength(10)]
-        public string Gender { get; set; } = null!;
+        public Gender Gender { get; set; }
 
         [Required]
         public int ShoeSizeEu { get; set; }
 
 
-        public int? FootLengthCm { get; set; }
+        public double? FootLengthCm { get; set; }
 
         [Required]
         [MaxLength(5)]
         public string ClothesSize { get; set; } = null!;
 
-        public int? UserHeight { get; set; }
+        public double? UserHeight { get; set; }
 
     }
 }
