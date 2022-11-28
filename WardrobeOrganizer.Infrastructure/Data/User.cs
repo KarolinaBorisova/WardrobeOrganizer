@@ -13,6 +13,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(50)]
         public string LastName { get; set; } = null!;
 
-       
+        [MaxLength(100)]
+        public Family? Family { get; set; }
+
     }
 }

@@ -47,5 +47,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public double? UserHeight { get; set; }
 
+        [MaxLength(100)]
+        public Family? Family { get; set; }
+
     }
 }

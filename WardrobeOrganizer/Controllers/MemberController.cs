@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models;
+using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Extensions;
@@ -33,9 +35,10 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return View(model);
             }
-            await  memberService.AddMember(model);
+
+            int id =  await  memberService.AddMember(model);
             TempData[MessageConstant.SuccessMessage] = "Member added";
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Home", "Member", new { id} );
         }
 
         [HttpPost]
@@ -56,10 +59,11 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public IActionResult Home()
         {
-            var model = new HomeMemberViewModel()
+            var model  = new HomeMemberViewModel()
             { FirstName= "test",
             LastName = "test2",
-            Storages = new List<AllStoragesViewModel>()
+            MineStorage = new StoragesViewModel(),
+            Family = new FamilyViewModel()
             };
             return View(model);
         }

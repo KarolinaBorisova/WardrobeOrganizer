@@ -16,11 +16,11 @@ namespace WardrobeOrganizer.Core.Services
             repo = _repo;
         }
 
-        public async Task<IEnumerable<AllStoragesViewModel>> AllStorages()
+        public async Task<IEnumerable<StoragesViewModel>> AllStorages()
         {
             return await repo.AllReadonly<Storage>()
                 .OrderBy(x => x.Name)
-               .Select(s => new AllStoragesViewModel
+               .Select(s => new StoragesViewModel
                {
                    Id = s.Id,
                    Name = s.Name,

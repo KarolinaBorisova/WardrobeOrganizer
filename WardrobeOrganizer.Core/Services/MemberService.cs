@@ -20,7 +20,7 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task AddMember(AddMemberViewModel model)
+        public async Task<int> AddMember(AddMemberViewModel model)
         {
             var member = new Member()
             {
@@ -36,6 +36,8 @@ namespace WardrobeOrganizer.Core.Services
 
             await repo.AddAsync(member);
             await repo.SaveChangesAsync();
+
+            return member.Id;
         }
 
         public async Task Create(string userId)

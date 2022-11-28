@@ -13,6 +13,8 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task Create(string userId);
 
-        Task AddMember(AddMemberViewModel model);
+        Task<int> AddMember(AddMemberViewModel model);
+
+        
     }
 }

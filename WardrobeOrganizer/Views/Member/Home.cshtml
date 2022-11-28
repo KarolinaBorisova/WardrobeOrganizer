@@ -4,30 +4,26 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">@Model.FirstName + " " + @Model.LastName</h1>
+    <h1 class="display-4">@Model.FirstName @Model.LastName</h1>
+</div>
+<div>
+    <div class="card-body">
+
+        <h6>
+            <a class="btn btn-primary" asp-controller="Storage" asp-action="Content"
+               asp-route-id="@Model.MineStorage.Id">Go to @Model.FirstName`s Wardrobe</a>
+        </h6>
+    </div>
+
+    <div class="card-body">
+
+        <h6>
+            <a class="btn btn-primary" asp-controller="Family" asp-action="Home"
+               asp-route-id="@Model.Family.Id">Go to @Model.FirstName`s Family</a>
+        </h6>
+    </div>
 </div>
 
-@if (Model.Storages.Count() == 0)
-{
-    <div class="card-header">
-        No storages
-    </div>
-}
-else
-{
-    <div class="card-header">
-        My storages
-        @foreach (var storage in Model.Storages)
-        {
-            <div class="card-body">
-                <h5 class="card-title">@storage.Name</h5>
-                          <h6>
-                        <a class="btn btn-primary" asp-controller="Storage" asp-action="Content"
-                    asp-route-id="@storage.Id"> @storage.Name</a>
-                        </h6>              
-            </div>
-        }
-    </div>
 
 
-}
+
