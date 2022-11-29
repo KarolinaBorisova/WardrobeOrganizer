@@ -40,6 +40,18 @@ namespace WardrobeOrganizer.Core.Services
             return member.Id;
         }
 
+        public async Task<ICollection<MemberViewModel>> AllMembers()
+        {
+            return await repo.AllReadonly<Member>()
+                .Select(m => new MemberViewModel
+                {
+                    Id = m.Id,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+
+                }).ToListAsync();
+        }
+
         public async Task Create(string userId)
         {
             var member = new Member()
@@ -57,5 +69,7 @@ namespace WardrobeOrganizer.Core.Services
             return await repo.All<Member>()
                 .AnyAsync(m => m.UserId == userId);
         }
+
+
     }
 }

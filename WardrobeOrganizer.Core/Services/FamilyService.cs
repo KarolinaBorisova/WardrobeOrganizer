@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,18 +20,32 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task<int> Create(FamilyViewModel model)
+        public async Task<int> Create(FamilyViewModel model, string userId)
         {
             var family = new Family()
             {
                 Name = model.Name,
-
+               UserId = userId,
             };
 
            await repo.AddAsync(family);
             await repo.SaveChangesAsync();
 
             return family.Id;
+        }
+
+        public async Task<FamilyViewModel> GetFamilyByUserId(string userId)
+        {
+            return await repo.AllReadonly<Family>()
+                .Where(f => f.UserId== userId)
+                .Select(f => new FamilyViewModel()
+                {
+                    Id = f.Id,
+                    Name = f.Name,
+                }).FirstOrDefaultAsync();
+                
+                
+                
         }
     }
 }

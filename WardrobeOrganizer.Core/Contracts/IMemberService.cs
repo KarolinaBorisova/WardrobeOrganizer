@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Models.Member;
+using WardrobeOrganizer.Core.Models.Storage;
 
 namespace WardrobeOrganizer.Core.Contracts
 {
@@ -15,6 +16,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<int> AddMember(AddMemberViewModel model);
 
-        
+        Task<ICollection<MemberViewModel>> AllMembers();
+
     }
 }

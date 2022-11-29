@@ -4,7 +4,7 @@ namespace WardrobeOrganizer.Core.Contracts
 {
     public interface IStorageService
     {
-        Task<IEnumerable<StoragesViewModel>> AllStorages();
+        Task<ICollection<StoragesViewModel>> AllStorages();
 
     }
 }

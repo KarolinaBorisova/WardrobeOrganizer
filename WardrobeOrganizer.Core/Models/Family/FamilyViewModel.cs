@@ -12,5 +12,6 @@ namespace WardrobeOrganizer.Core.Models.Family
 
         public string Name { get; set; }
 
+        public string? UserId { get; set; }
     }
 }

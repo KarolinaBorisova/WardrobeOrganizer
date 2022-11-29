@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WardrobeOrganizer.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221129212831_ModifyFamily")]
+    partial class ModifyFamily
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,14 +225,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Families");
                 });
@@ -426,11 +421,16 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("FamilyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -468,6 +468,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FamilyId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -542,17 +544,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Navigation("Storage");
                 });
 
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Family", b =>
-                {
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.User", "User")
-                        .WithOne("Family")
-                        .HasForeignKey("WardrobeOrganizer.Infrastructure.Data.Family", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
                 {
                     b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
@@ -605,6 +596,15 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Navigation("Family");
                 });
 
+            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.User", b =>
+                {
+                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
+                        .WithMany()
+                        .HasForeignKey("FamilyId");
+
+                    b.Navigation("Family");
+                });
+
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Family", b =>
                 {
                     b.Navigation("Members");
@@ -619,11 +619,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Navigation("Outerwear");
 
                     b.Navigation("Shoes");
-                });
-
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.User", b =>
-                {
-                    b.Navigation("Family");
                 });
 #pragma warning restore 612, 618
         }

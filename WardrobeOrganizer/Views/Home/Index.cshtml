@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using WardrobeOrganizer.Infrastructure.Data
 @inject SignInManager<User> SignInManager
+@model HomeUserViewModel
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -8,3 +10,21 @@
 <div class="text-center">
     <h1 class="display-4">Wardrobe Organizer</h1>
 </div>
+@if (User.Identity.IsAuthenticated )
+{
+    @if (Model.Family != null)
+    {
+        <div class="text-center">
+            <h3 class="display-3">@Model.Family.Name</h3>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3 class="display-3">First Step:</h3>
+            <button asp-controller="Family" asp-action="Add">Add Family</button>
+        </div>
+    }
+    
+
+}

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Razor.Language.Extensions;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Extensions;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -39,7 +40,7 @@ namespace WardrobeOrganizer.Controllers
                 return View(family);
             }
 
-            await familyService.Create(family);
+            await familyService.Create(family, User.Id());
 
             return RedirectToAction("Index", "Home");
         }
