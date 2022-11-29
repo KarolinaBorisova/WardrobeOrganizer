@@ -29,6 +29,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public DbSet<Member> Members { get; set; }
 
+        public DbSet<Family> Families { get; set; }
+
+
       
 
 

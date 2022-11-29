@@ -1,0 +1,17 @@
+﻿@model FamilyViewModel
+@{
+    ViewBag.Title = "Create Family";
+}
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+</div>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="Name">Family name</label>
+            <input asp-for="Name" class="form-control" id="Name" placeholder="Family name">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
