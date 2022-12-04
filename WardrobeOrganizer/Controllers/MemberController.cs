@@ -41,20 +41,6 @@ namespace WardrobeOrganizer.Controllers
             return RedirectToAction("Home", "Member", new { id} );
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Become()
-        {
-            var userId = User.Id();
-
-            if (await memberService.ExistsById(userId))
-            {
-                TempData[MessageConstant.ErrorMessage] = "You are already a member of this family";
-                return RedirectToAction("Index", "Home");
-            }
-
-           await memberService.Create(userId);
-            return RedirectToAction("Index", "Home");
-        }
 
         [HttpGet]
         public IActionResult Home()

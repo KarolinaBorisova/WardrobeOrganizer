@@ -170,6 +170,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<int>("CategoryClothing")
                         .HasColumnType("int");
 
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -224,13 +227,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Families");
                 });
@@ -279,16 +278,13 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<double?>("UserHeight")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FamilyId");
 
-                    b.HasIndex("StorageId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("StorageId")
+                        .IsUnique()
+                        .HasFilter("[StorageId] IS NOT NULL");
 
                     b.ToTable("Members");
                 });
@@ -303,6 +299,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     b.Property<int>("CategoryOuterwear")
                         .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -347,6 +346,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<int>("Centimetres")
                         .HasColumnType("int");
 
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -380,6 +382,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("FamilyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MemberId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -426,6 +431,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("FamilyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -468,6 +476,10 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FamilyId")
+                        .IsUnique()
+                        .HasFilter("[FamilyId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -542,17 +554,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Navigation("Storage");
                 });
 
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Family", b =>
-                {
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.User", "User")
-                        .WithOne("Family")
-                        .HasForeignKey("WardrobeOrganizer.Infrastructure.Data.Family", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
                 {
                     b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
@@ -560,18 +561,13 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasForeignKey("FamilyId");
 
                     b.HasOne("WardrobeOrganizer.Infrastructure.Data.Storage", "Storage")
-                        .WithMany()
-                        .HasForeignKey("StorageId");
-
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne("Member")
+                        .HasForeignKey("WardrobeOrganizer.Infrastructure.Data.Member", "StorageId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Family");
 
                     b.Navigation("Storage");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Outerwear", b =>
@@ -605,25 +601,34 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Navigation("Family");
                 });
 
+            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.User", b =>
+                {
+                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
+                        .WithOne("User")
+                        .HasForeignKey("WardrobeOrganizer.Infrastructure.Data.User", "FamilyId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Family");
+                });
+
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Family", b =>
                 {
                     b.Navigation("Members");
 
                     b.Navigation("Storages");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Storage", b =>
                 {
                     b.Navigation("Clothes");
 
+                    b.Navigation("Member");
+
                     b.Navigation("Outerwear");
 
                     b.Navigation("Shoes");
-                });
-
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.User", b =>
-                {
-                    b.Navigation("Family");
                 });
 #pragma warning restore 612, 618
         }

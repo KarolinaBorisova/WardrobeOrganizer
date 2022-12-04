@@ -10,14 +10,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public int Id { get; set; }
 
         public int? StorageId { get; set; }
-
         [ForeignKey(nameof(StorageId))]
         public Storage? Storage { get; set; }
-
-        public string? UserId { get; set; }
-
-        [ForeignKey(nameof(UserId))]
-        public User? User { get; set; }
 
 
         [Required]
@@ -47,8 +41,10 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public double? UserHeight { get; set; }
 
-        [MaxLength(100)]
+       
+        [ForeignKey(nameof(FamilyId))]
         public Family? Family { get; set; }
+        public int? FamilyId { get; set; }
 
     }
 }

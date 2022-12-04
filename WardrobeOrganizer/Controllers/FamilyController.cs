@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
+using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
 
 namespace WardrobeOrganizer.Controllers
@@ -26,8 +28,15 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
-        { 
+        public async Task<IActionResult> Add()
+        {
+            var userId = User.Id();     
+
+            if (await familyService.HasFamily(userId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "You are already add a family";
+                return RedirectToAction("Index", "Home");
+            }
             var model = new FamilyViewModel();
             return View(model);
         }
@@ -35,6 +44,15 @@ namespace WardrobeOrganizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(FamilyViewModel family)
         {
+            var userId = User.Id();
+
+            if (await familyService.HasFamily(userId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "You are already add a family";
+                return RedirectToAction("Index", "Home");
+            }
+
+
             if (!ModelState.IsValid)
             { 
                 return View(family);

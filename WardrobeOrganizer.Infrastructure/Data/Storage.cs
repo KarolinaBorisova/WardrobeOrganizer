@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WardrobeOrganizer.Infrastructure.Data
 {
@@ -15,8 +16,13 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(200)]
         public string Place { get; set; } = null!;
 
-        [MaxLength(100)]
+        [ForeignKey(nameof(FamilyId))]
         public Family? Family { get; set; }
+        public int? FamilyId { get; set; }
+
+        [ForeignKey(nameof(MemberId))]
+        public Member? Member { get; set; }
+        public int? MemberId { get; set; }
 
         public IList<Clothing> Clothes { get; set; } = new List<Clothing>();
 

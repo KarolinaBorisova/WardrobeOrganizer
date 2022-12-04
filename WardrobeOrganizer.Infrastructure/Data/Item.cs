@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,14 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public string? Description { get; set; }
 
         public string? Url { get; set; }
+
+        public string? Color { get; set; }
+
+        public int StorageId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(StorageId))]
+        public Storage Storage { get; set; } = null!;
 
     }
 }

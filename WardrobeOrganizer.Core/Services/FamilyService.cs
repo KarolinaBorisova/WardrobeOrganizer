@@ -22,13 +22,23 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> Create(FamilyViewModel model, string userId)
         {
+
+            var user = await repo.All<User>()
+            .Where(u => u.Id == userId)
+            .FirstOrDefaultAsync();
+
             var family = new Family()
             {
                 Name = model.Name,
-               UserId = userId,
+                UserId = userId,
+                User = user,
             };
 
-           await repo.AddAsync(family);
+            user.Family = family;
+
+
+
+            await repo.AddAsync(family);
             await repo.SaveChangesAsync();
 
             return family.Id;
@@ -37,15 +47,31 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<FamilyViewModel> GetFamilyByUserId(string userId)
         {
             return await repo.AllReadonly<Family>()
+                .Include(f=>f.User)
                 .Where(f => f.UserId== userId)
-                .Select(f => new FamilyViewModel()
+                .Select(f => new FamilyViewModel() 
                 {
                     Id = f.Id,
                     Name = f.Name,
+                   UserId = userId
                 }).FirstOrDefaultAsync();
+                  
                 
-                
-                
+        }
+
+        public async Task<bool> HasFamily(string userId)
+        {
+            var user = await repo.AllReadonly<User>()
+                .Include(u=>u.Family)
+                .Where(u => u.Id == userId)
+                .FirstOrDefaultAsync();     
+
+            if (user?.Family == null)
+            {
+                return false;
+            }
+        
+                return true;
         }
     }
 }

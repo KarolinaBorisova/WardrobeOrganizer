@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using WardrobeOrganizer.Infrastructure.Data.Configuration;
 
 namespace WardrobeOrganizer.Infrastructure.Data
@@ -15,6 +16,20 @@ namespace WardrobeOrganizer.Infrastructure.Data
         {
             builder.ApplyConfiguration(new StorageConfiguration());
             builder.ApplyConfiguration(new ClothingConfiguration());
+
+            builder.Entity<Family>()
+            .HasOne<User>(f=> f.User)
+            .WithOne(u =>u.Family)
+            .HasForeignKey<User>(u => u.FamilyId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Storage>()
+           .HasOne<Member>(m=> m.Member)
+           .WithOne(u => u.Storage)
+           .HasForeignKey<Member>(u => u.StorageId)
+           .OnDelete(DeleteBehavior.SetNull);
+
+
 
             base.OnModelCreating(builder);
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WardrobeOrganizer.Infrastructure.Data
 {
@@ -13,8 +14,10 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(50)]
         public string? LastName { get; set; } = null!;
 
-        [MaxLength(100)]
+
+        [ForeignKey(nameof(FamilyId))]
         public Family? Family { get; set; }
+        public int? FamilyId { get; set; }
 
     }
 }

@@ -18,12 +18,6 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         [Required]
         public CategoryShoes CategoryShoes { get; set; }
-
-        [Required]
-        public int StorageId { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(StorageId))]
-        public Storage Storage { get; set; } = null!;
+   
     }
 }

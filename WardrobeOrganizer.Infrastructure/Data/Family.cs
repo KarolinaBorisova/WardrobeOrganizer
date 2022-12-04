@@ -17,11 +17,10 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public string UserId { get; set; }
-
-        [Required]
+       
+        public string? UserId { get; set; }  
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public ICollection<Member> Members { get; set; } = new List<Member>();
 

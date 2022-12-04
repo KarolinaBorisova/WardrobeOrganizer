@@ -15,10 +15,5 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [Required]
         public CategoryOuterwear CategoryOuterwear { get; set; }
 
-        public int StorageId { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(StorageId))]
-        public Storage Storage { get; set; } = null!;
     }
 }
