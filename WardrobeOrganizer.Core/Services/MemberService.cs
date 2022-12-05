@@ -20,7 +20,7 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task<int> AddMember(AddMemberViewModel model)
+        public async Task<int> AddMember(AddMemberViewModel model, int familyId)
         {
             var member = new Member()
             {
@@ -32,6 +32,8 @@ namespace WardrobeOrganizer.Core.Services
                 FootLengthCm = model.FootLengthCm,
                 ClothesSize = model.ClothesSize,
                 UserHeight = model.UserHeight,
+                FamilyId = familyId,
+                
             };
 
             await repo.AddAsync(member);

@@ -16,5 +16,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<FamilyViewModel> GetFamilyByUserId(string id);
 
         Task<bool> HasFamily(string userId);
+
+        Task<int> GetFamilyId(string userId);
     }
 }

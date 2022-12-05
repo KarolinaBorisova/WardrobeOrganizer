@@ -10,12 +10,16 @@
 <div class="text-center">
     <h1 class="display-4">Wardrobe Organizer</h1>
 </div>
-@if (User.Identity.IsAuthenticated )
+@if (User.Identity.IsAuthenticated)
 {
     @if (Model.Family != null)
     {
         <div class="text-center">
             <h3 class="display-3">@Model.Family.Name</h3>
+        </div>
+        <div class="d-lg-inline-block">
+        <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
+        <a class="btn btn-primary" asp-controller="Storage" asp-action="Add">Add new storage</a>
         </div>
     }
     else
@@ -24,7 +28,8 @@
             <h3 class="display-3">First Step:</h3>
             <a class="btn btn-primary" asp-controller="Family" asp-action="Add">Add Family</a>
         </div>
+
     }
-    
+
 
 }

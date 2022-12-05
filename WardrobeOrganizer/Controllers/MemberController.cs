@@ -14,10 +14,13 @@ namespace WardrobeOrganizer.Controllers
     public class MemberController : Controller
     {
         private readonly IMemberService memberService;
+        private readonly IFamilyService familyService;
 
-        public MemberController(IMemberService _memberService)
+        public MemberController(IMemberService _memberService,
+            IFamilyService _familyService)
         {
             this.memberService = _memberService;
+            this.familyService = _familyService;
         }
 
         [HttpGet]
@@ -35,8 +38,9 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return View(model);
             }
+            int familiId = await familyService.GetFamilyId(User.Id());
 
-            int id =  await  memberService.AddMember(model);
+            int id =  await  memberService.AddMember(model,familiId);
             TempData[MessageConstant.SuccessMessage] = "Member added";
             return RedirectToAction("Home", "Member", new { id} );
         }

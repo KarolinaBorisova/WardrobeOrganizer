@@ -59,6 +59,12 @@ namespace WardrobeOrganizer.Core.Services
                 
         }
 
+        public async Task<int> GetFamilyId(string userId)
+        {
+            return (await repo.AllReadonly<Family>()
+                 .FirstOrDefaultAsync(f => f.UserId == userId))?.Id ?? 0;
+        }
+
         public async Task<bool> HasFamily(string userId)
         {
             var user = await repo.AllReadonly<User>()

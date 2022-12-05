@@ -37,5 +37,7 @@ namespace WardrobeOrganizer.Core.Models.Member
         public string ClothesSize { get; set; } = null!;
 
         public double? UserHeight { get; set; }
+
+        public int FamilyId { get; set; }
     }
 }
