@@ -8,7 +8,7 @@ using WardrobeOrganizer.Core.Models.Storage;
 
 namespace WardrobeOrganizer.Core.Models.Member
 {
-    public class HomeMemberViewModel
+    public class InfoMemberViewModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -16,14 +16,31 @@ namespace WardrobeOrganizer.Core.Services
             repo = _repo;
         }
 
-        public async Task<ICollection<StoragesViewModel>> AllStorages()
+        public async Task<int> AddStorage(AddStorageViewModel model, int familyId)
+        {
+            var storage = new Storage()
+            {
+                Name = model.Name,
+                Place = model.Place,
+                FamilyId = familyId,
+            };
+
+            await repo.AddAsync(storage);
+            await repo.SaveChangesAsync();
+
+            return storage.Id;
+        }
+
+        public async Task<ICollection<StoragesViewModel>> AllStorages(int familyId)
         {
             return await repo.AllReadonly<Storage>()
+                .Where(s=>s.FamilyId == familyId )
                 .OrderBy(x => x.Name)
                .Select(s => new StoragesViewModel
                {
                    Id = s.Id,
                    Name = s.Name,
+                   Place = s.Place,
 
                }).ToListAsync();
         }

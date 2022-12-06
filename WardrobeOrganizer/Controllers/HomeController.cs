@@ -28,10 +28,11 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Index()
         {
+            int familiId = await familyService.GetFamilyId(User.Id());
             var model = new HomeUserViewModel
             {
-                Storages = await storageService.AllStorages(),
-                Members = await memberService.AllMembers(),
+                Storages = await storageService.AllStorages(familiId),
+                Members = await memberService.AllMembers(familiId),
                 Family = await familyService.GetFamilyByUserId(User.Id())
             };
 

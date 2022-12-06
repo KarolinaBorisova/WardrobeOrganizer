@@ -47,9 +47,9 @@ namespace WardrobeOrganizer.Controllers
 
 
         [HttpGet]
-        public IActionResult Home()
+        public IActionResult Info()
         {
-            var model  = new HomeMemberViewModel()
+            var model  = new InfoMemberViewModel()
             { FirstName= "test",
             LastName = "test2",
             MineStorage = new StoragesViewModel(),

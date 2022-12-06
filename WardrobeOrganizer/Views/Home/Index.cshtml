@@ -17,10 +17,44 @@
         <div class="text-center">
             <h3 class="display-3">@Model.Family.Name</h3>
         </div>
-        <div class="d-lg-inline-block">
-        <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
-        <a class="btn btn-primary" asp-controller="Storage" asp-action="Add">Add new storage</a>
+        <div class="card-group">
+            @foreach (var member in @Model.Members)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h4><a class="card-title text-dark" asp-controller="Member" asp-action="Info">@member.FirstName @member.LastName</a></h4>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-danger " asp-controller="Member" asp-action="Delete">Delete member</a>
+                        <a class="btn btn-danger" asp-controller="Member" asp-action="Edit">Edit member</a>
+                    </div>
+                </div>
+            }
         </div>
+        <div class="text-center">
+            <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
+        </div>
+        <div class="card-group">
+            @foreach (var storage in @Model.Storages)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h4><a class="card-title text-dark" asp-controller="Storage" asp-action="Info">@storage.Name</a></h4>
+                        <p class="card-text">Place: @storage.Place</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-danger " asp-controller="Storage" asp-action="Delete">Delete storage</a>
+                        <a class="btn btn-danger" asp-controller="Stroage" asp-action="Edit">Edit storage</a>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class="text-center">
+            <a class="btn btn-primary" asp-controller="Storage" asp-action="Add">Add new storage</a>
+        </div>
+
     }
     else
     {

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.Design;
+using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
@@ -12,17 +14,22 @@ namespace WardrobeOrganizer.Controllers
     {
 
         private readonly IStorageService storageService;
+        private readonly IFamilyService familyService;
+        
 
 
-        public StorageController(IStorageService _storageService)
+        public StorageController(IStorageService _storageService,
+            IFamilyService _familyService)
         {
             this.storageService = _storageService;
+            this.familyService = _familyService;
          
         }
 
         public async Task<IActionResult> All()
         {
-            var model = await storageService.AllStorages();
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var model = await storageService.AllStorages(familiId);
 
             return View(model);
         }
@@ -37,8 +44,16 @@ namespace WardrobeOrganizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddStorageViewModel model)
         {
-            int id = 1;
-            return RedirectToAction(nameof(Content), new { id });
+            if (!ModelState.IsValid)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Try again";
+                return View(model);
+            }
+
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            int storgeId = await storageService.AddStorage(model, familiId);
+            return RedirectToAction(nameof(Content), new { storgeId });
         }
 
         public async Task<IActionResult> Content(int id)

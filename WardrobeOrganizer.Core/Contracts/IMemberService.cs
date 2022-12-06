@@ -16,7 +16,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<int> AddMember(AddMemberViewModel model, int familyId);
 
-        Task<ICollection<MemberViewModel>> AllMembers();
+        Task<ICollection<MemberViewModel>> AllMembers(int familyId);
 
     }
 }

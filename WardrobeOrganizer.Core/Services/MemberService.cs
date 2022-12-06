@@ -22,11 +22,12 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId)
         {
+            
             var member = new Member()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-               // Gender = model.Gender,
+               //GenderId = model.Gender,
                 Birthdate = model.Birthdate,
                 ShoeSizeEu = model.ShoeSizeEu,
                 FootLengthCm = model.FootLengthCm,
@@ -42,9 +43,10 @@ namespace WardrobeOrganizer.Core.Services
             return member.Id;
         }
 
-        public async Task<ICollection<MemberViewModel>> AllMembers()
+        public async Task<ICollection<MemberViewModel>> AllMembers(int familyId)
         {
             return await repo.AllReadonly<Member>()
+                .Where(f => f.FamilyId == familyId)
                 .Select(m => new MemberViewModel
                 {
                     Id = m.Id,
