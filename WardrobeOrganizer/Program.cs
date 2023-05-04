@@ -24,9 +24,14 @@ namespace WardrobeOrganizer
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 4;
                 options.Password.RequireUppercase = false;
-                
-             })
+
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+         //  builder.Services.ConfigureApplicationCookie(options =>
+         //  {
+         //      options.LoginPath = "/Account/Login";
+         //  });
             builder.Services.AddControllersWithViews(
                options =>
                {
@@ -46,7 +51,7 @@ namespace WardrobeOrganizer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+             
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
