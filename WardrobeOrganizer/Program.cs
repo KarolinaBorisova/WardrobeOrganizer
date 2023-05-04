@@ -10,7 +10,7 @@ namespace WardrobeOrganizer
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+                
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -24,6 +24,8 @@ namespace WardrobeOrganizer
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 4;
                 options.Password.RequireUppercase = false;
+
+                options.User.RequireUniqueEmail = true;
 
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
