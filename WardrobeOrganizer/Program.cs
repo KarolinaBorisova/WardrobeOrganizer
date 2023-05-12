@@ -20,13 +20,14 @@ namespace WardrobeOrganizer
             builder.Services.AddDefaultIdentity<User>(options =>
             {
 
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireUppercase = false;
+                options.SignIn.RequireConfirmedAccount = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedAccount");
+                options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedEmail");
+                options.Password.RequireDigit = builder.Configuration.GetValue<bool>("Identity:RequireDigit");
+                options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:RequiredLength"); 
+                options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:RequireNonAlphanumeric"); 
+                options.Password.RequireUppercase = builder.Configuration.GetValue<bool>("Identity:RequireUppercase"); 
 
-                options.User.RequireUniqueEmail = true;
-
+                options.User.RequireUniqueEmail = builder.Configuration.GetValue<bool>("Identity:RequireUniqueEmail"); 
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
