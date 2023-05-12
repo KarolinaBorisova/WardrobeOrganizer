@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WardrobeOrganizer</title>
+    <title>@ViewData["Title"] - Wardrobe Organizer</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/toastr/toastr.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WardrobeOrganizer.styles.css" asp-append-version="true" />
+    @RenderSection("css", false)
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
@@ -56,6 +57,9 @@
     </div>
 
     <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.UtcNow.Year - Wardrobe Organizer
+        </div>
     </footer>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/toastr/toastr.min.js"></script>

@@ -15,7 +15,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public string? LastName { get; set; } = null!;
 
 
-        [ForeignKey(nameof(FamilyId))]
+        //[ForeignKey(nameof(FamilyId))]
         public Family? Family { get; set; }
         public int? FamilyId { get; set; }
 

@@ -14,8 +14,10 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new StorageConfiguration());
             builder.ApplyConfiguration(new ClothingConfiguration());
+            builder.ApplyConfiguration(new FamilyConfiguration());
 
             builder.Entity<Family>()
             .HasOne<User>(f=> f.User)

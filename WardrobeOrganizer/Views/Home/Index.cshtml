@@ -3,11 +3,14 @@
 @inject SignInManager<User> SignInManager
 @model HomeUserViewModel
 
+@section css {
+    <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+}
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center test">
     <h1 class="display-4">Wardrobe Organizer</h1>
 </div>
 @if (User.Identity.IsAuthenticated)

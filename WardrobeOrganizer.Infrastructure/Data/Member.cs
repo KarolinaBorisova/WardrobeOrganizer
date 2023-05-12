@@ -10,7 +10,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public int Id { get; set; }
 
         public int? StorageId { get; set; }
-        [ForeignKey(nameof(StorageId))]
+        //[ForeignKey(nameof(StorageId))]
         public Storage? Storage { get; set; }
 
 

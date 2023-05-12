@@ -12,14 +12,14 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230428184700_InitalMigration")]
-    partial class InitalMigration
+    [Migration("20230512181451_newSeed")]
+    partial class newSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -234,6 +234,20 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Families");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Borisovi",
+                            UserId = "1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Popovi",
+                            UserId = "2"
+                        });
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
@@ -492,6 +506,44 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "aa3f87cd-39e8-4ccd-9c1d-78b28c57dfe6",
+                            Email = "dani@abv.bg",
+                            EmailConfirmed = false,
+                            FirstName = "Yordan",
+                            LastName = "Borisov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DANI@ABV.BG",
+                            NormalizedUserName = "DANI@ABV.BG",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGy4x6tc6/3Aerj7rNRW6BHgQ2i/W+e3RbQIpJuRB1gB4/YBSWfeDMnGXP85xtbUiA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "bdd48fa2-acee-4a1a-b447-f2bf546544fc",
+                            TwoFactorEnabled = false,
+                            UserName = "dani@abv.bg"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "af4e0c2e-d8c6-4cc5-ad5e-e408536ff0f5",
+                            Email = "karolina@abv.bg",
+                            EmailConfirmed = false,
+                            FirstName = "Karolina",
+                            LastName = "Borisova",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KAROLINA@ABV.BG",
+                            NormalizedUserName = "KAROLINA@ABV.BG",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA1OfiUfusIGfNI3h0PHqeblOXTftMYZ/xceVroY1sdHgpsjQsTZd/5sTgDgiWWwmA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ebbc1816-906f-4825-9d9a-daaafd44d065",
+                            TwoFactorEnabled = false,
+                            UserName = "karolina@abv.bg"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

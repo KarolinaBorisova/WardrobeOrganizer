@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -308,6 +308,20 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FamilyId", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "1", 0, "e7f018f9-1570-4371-a8ec-529d9adf1bf9", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAELiHTu6jkB02hEODwH87tGnd9ce7bm7ymJBViPo6HF0lRyhIw74iWXY8n92oL+zMaA==", null, false, "57f82e55-2ba2-4f61-94ba-be96cd53f88f", false, "dani@abv.bg" },
+                    { "2", 0, "110a39ab-470c-4cb9-ada5-bf09842d4679", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAEDqt1T7iWG9DHsZ66TInDArH42WYU7DLiVE29hYHVT4kU5yVWgMIey3KKQzGpHYZrA==", null, false, "a6a4e23d-ee9c-4c53-bed7-39cc0ce2337e", false, "karolina@abv.bg" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Families",
+                columns: new[] { "Id", "Name", "UserId" },
+                values: new object[] { 1, "Borisovi", "1" });
 
             migrationBuilder.InsertData(
                 table: "Storages",

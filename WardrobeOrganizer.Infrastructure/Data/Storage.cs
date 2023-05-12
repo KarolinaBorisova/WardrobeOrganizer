@@ -20,7 +20,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public Family? Family { get; set; }
         public int? FamilyId { get; set; }
 
-        [ForeignKey(nameof(MemberId))]
+        //[ForeignKey(nameof(MemberId))]
         public Member? Member { get; set; }
         public int? MemberId { get; set; }
 

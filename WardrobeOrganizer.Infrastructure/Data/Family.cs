@@ -19,7 +19,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
        
         public string? UserId { get; set; }  
-        [ForeignKey(nameof(UserId))]
+        //[ForeignKey(nameof(UserId))]
         public User? User { get; set; }
 
         public ICollection<Member> Members { get; set; } = new List<Member>();
