@@ -27,6 +27,7 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int id)
         {
+              TempData[MessageConstant.SuccessMessage] = "Member added";
             int familiId = await familyService.GetFamilyId(User.Id());
             var model = await memberService.AllMembers(familiId);
 
@@ -51,8 +52,7 @@ namespace WardrobeOrganizer.Controllers
             int familiId = await familyService.GetFamilyId(User.Id());
 
             int id =  await  memberService.AddMember(model,familiId);
-            TempData[MessageConstant.SuccessMessage] = "Member added";
-            return RedirectToAction("Index", "Home", new {id} );
+            return RedirectToAction("All", "Member", new {id} );
         }
 
 

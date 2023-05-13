@@ -33,10 +33,6 @@
                             <h4><a class="card-title text-dark" asp-controller="Member" asp-action="Info">@member.FirstName @member.LastName</a></h4>
                             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                         </div>
-                        <div class="card-footer">
-                            <a class="btn btn-danger " asp-controller="Member" asp-action="Delete">Delete member</a>
-                            <a class="btn btn-danger" asp-controller="Member" asp-action="Edit">Edit member</a>
-                        </div>
                     </div>
                     count++;
                     if(count == 3 ){
@@ -70,10 +66,6 @@
                         <div class="card-body">
                             <h4><a class="card-title text-dark" asp-controller="Storage" asp-action="Info">@storage.Name</a></h4>
                             <p class="card-text">Place: @storage.Place</p>
-                        </div>
-                        <div class="card-footer">
-                            <a class="btn btn-danger " asp-controller="Storage" asp-action="Delete">Delete storage</a>
-                            <a class="btn btn-danger" asp-controller="Stroage" asp-action="Edit">Edit storage</a>
                         </div>
                     </div>
                     count++;
