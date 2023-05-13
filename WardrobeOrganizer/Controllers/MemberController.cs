@@ -6,11 +6,12 @@ using WardrobeOrganizer.Core.Models;
 using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
 
 namespace WardrobeOrganizer.Controllers
 {
-   
+    [Authorize]
     public class MemberController : Controller
     {
         private readonly IMemberService memberService;
@@ -21,6 +22,15 @@ namespace WardrobeOrganizer.Controllers
         {
             this.memberService = _memberService;
             this.familyService = _familyService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All(int id)
+        {
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var model = await memberService.AllMembers(familiId);
+
+            return View(model);
         }
 
         [HttpGet]
@@ -42,20 +52,40 @@ namespace WardrobeOrganizer.Controllers
 
             int id =  await  memberService.AddMember(model,familiId);
             TempData[MessageConstant.SuccessMessage] = "Member added";
-            return RedirectToAction("Home", "Member", new { id} );
+            return RedirectToAction("Index", "Home", new {id} );
         }
 
 
         [HttpGet]
-        public IActionResult Info()
+        public IActionResult Info(int id)
         {
             var model  = new InfoMemberViewModel()
             { FirstName= "test",
             LastName = "test2",
-            MineStorage = new StoragesViewModel(),
+            MineStorage = new AllStoragesViewModel(),
             Family = new FamilyViewModel()
             };
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = new AddMemberViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, AddMemberViewModel model)
+        {
+            return RedirectToAction("Info", "Member", new { id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return RedirectToAction("All", "Member");
         }
     }
 }

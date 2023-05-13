@@ -25,6 +25,7 @@
         }
         else{
             <div class="card-group">
+                @{var count = 0;}
                 @foreach (var member in @Model.Members)
                 {
                     <div class="card">
@@ -37,7 +38,16 @@
                             <a class="btn btn-danger" asp-controller="Member" asp-action="Edit">Edit member</a>
                         </div>
                     </div>
+                    count++;
+                    if(count == 3 ){
+                        break;
+                    };
                 }
+            </div>
+        }
+        @if (Model.Members.Count > 3){
+            <div class="text-center">
+                <a class="btn btn-primary" asp-controller="Member" asp-action="All">Show all family members</a>
             </div>
         }
         <div class="text-center">
@@ -51,6 +61,9 @@
         }
         else{
             <div class="card-group">
+                @{
+                    var count = 0;
+                }
                 @foreach (var storage in @Model.Storages)
                 {
                     <div class="card">
@@ -63,7 +76,18 @@
                             <a class="btn btn-danger" asp-controller="Stroage" asp-action="Edit">Edit storage</a>
                         </div>
                     </div>
+                    count++;
+                    if (count == 3)
+                    {
+                        break;
+                    };
                 }
+            </div>
+        }
+        @if (Model.Storages.Count > 3)
+        {
+            <div class="text-center">
+                <a class="btn btn-primary" asp-controller="Storage" asp-action="All">Show all family storages</a>
             </div>
         }
         <div class="text-center">

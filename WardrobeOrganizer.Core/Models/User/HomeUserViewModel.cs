@@ -13,8 +13,8 @@ namespace WardrobeOrganizer.Core.Models.User
     {
         public FamilyViewModel Family { get; set; }
 
-        public ICollection<StoragesViewModel> Storages { get; set; }
+        public ICollection<AllStoragesViewModel> Storages { get; set; }
 
-        public ICollection<MemberViewModel> Members { get; set; }
+        public ICollection<AllMembersViewModel> Members { get; set; }
     }
 }

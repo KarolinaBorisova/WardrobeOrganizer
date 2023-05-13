@@ -31,12 +31,12 @@ namespace WardrobeOrganizer.Core.Services
             return storage.Id;
         }
 
-        public async Task<ICollection<StoragesViewModel>> AllStorages(int familyId)
+        public async Task<ICollection<AllStoragesViewModel>> AllStorages(int familyId)
         {
             return await repo.AllReadonly<Storage>()
                 .Where(s=>s.FamilyId == familyId )
                 .OrderBy(x => x.Name)
-               .Select(s => new StoragesViewModel
+               .Select(s => new AllStoragesViewModel
                {
                    Id = s.Id,
                    Name = s.Name,

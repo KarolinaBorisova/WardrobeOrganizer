@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Razor.Language.Extensions;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Family;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
@@ -23,6 +24,7 @@ namespace WardrobeOrganizer.Controllers
       
         public async Task<IActionResult> Info(int id)
         {
+
             var model = new InfoFamilyViewModel();
             return View(model);
         }
@@ -61,6 +63,26 @@ namespace WardrobeOrganizer.Controllers
             await familyService.Create(family, User.Id());
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = new FamilyViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, FamilyViewModel model)
+        {
+            return RedirectToAction("Info", "Family", new { id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return RedirectToAction("All", "Family");
         }
 
     }

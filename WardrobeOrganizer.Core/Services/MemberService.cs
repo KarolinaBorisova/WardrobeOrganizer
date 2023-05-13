@@ -43,11 +43,11 @@ namespace WardrobeOrganizer.Core.Services
             return member.Id;
         }
 
-        public async Task<ICollection<MemberViewModel>> AllMembers(int familyId)
+        public async Task<ICollection<AllMembersViewModel>> AllMembers(int familyId)
         {
             return await repo.AllReadonly<Member>()
                 .Where(f => f.FamilyId == familyId)
-                .Select(m => new MemberViewModel
+                .Select(m => new AllMembersViewModel
                 {
                     Id = m.Id,
                     FirstName = m.FirstName,
@@ -56,25 +56,26 @@ namespace WardrobeOrganizer.Core.Services
                 }).ToListAsync();
         }
 
-      //  public async Task Create(string userId)
-      //  {
-      //      var member = new Member()
-      //      {
-      //
-      //          UserId = userId,
-      //      };
-      //
-      //      await repo.AddAsync(member);
-      //      await repo.SaveChangesAsync();
-      //  }
-      //
-      //
-      //  public async Task<bool> ExistsById(string userId)
-      //  {
-      //      return await repo.All<Member>()
-      //          .AnyAsync(m => m.UserId == userId);
-      //  }
-      
+
+        //  public async Task Create(string userId)
+        //  {
+        //      var member = new Member()
+        //      {
+        //
+        //          UserId = userId,
+        //      };
+        //
+        //      await repo.AddAsync(member);
+        //      await repo.SaveChangesAsync();
+        //  }
+        //
+        //
+        //  public async Task<bool> ExistsById(string userId)
+        //  {
+        //      return await repo.All<Member>()
+        //          .AnyAsync(m => m.UserId == userId);
+        //  }
+
 
 
     }
