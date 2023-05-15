@@ -6,9 +6,53 @@
 <h2 class="text-center">Address: @@Sofia, bul.Simeonovsko shose N85</h2>
 <h2 class="text-center">Storage Place: @@Kids`s room</h2>
 <h2 class="text-center">Storage Name: @@Big wardrobe</h2>
-<ul>
-    <li><a asp-controller="Storage" asp-action="Info">Clothes</a></li>
-    <li><a asp-controller="Storage" asp-action="Info">Outerwear</a></li>
-    <li><a asp-controller="Storage" asp-action="Info">Shoes</a></li>
-    <li><a asp-controller="Storage" asp-action="Info">Accessories</a></li>
-</ul>
+<div class="nav-container">
+       <div class="dropdown">
+        <button class="dropbtn">Clothes</button>
+  <div class="dropdown-content">
+    <a asp-controller="Storage" asp-action="Info">Tshirts</a>
+    <a asp-controller="Storage" asp-action="Info">Longsleeves</a>
+    <a asp-controller="Storage" asp-action="Info">Blouses</a>
+    <a asp-controller="Storage" asp-action="Info">Sweatshirts</a>
+    <a asp-controller="Storage" asp-action="Info">Cardigans</a>
+    <a asp-controller="Storage" asp-action="Info">Jeans</a>
+    <a asp-controller="Storage" asp-action="Info">Leggings</a>
+    <a asp-controller="Storage" asp-action="Info">Trousers</a>
+    <a asp-controller="Storage" asp-action="Info">Shorts</a>
+    <a asp-controller="Storage" asp-action="Info">Sets</a>
+    <a asp-controller="Storage" asp-action="Info">Dresses</a>
+  </div>
+</div>
+    <div class="dropdown">
+        <button class="dropbtn">Outerwear</button>
+        <div class="dropdown-content">
+            <a asp-controller="Storage" asp-action="Info">WinterJacket</a>
+            <a asp-controller="Storage" asp-action="Info">RainJacket</a>
+            <a asp-controller="Storage" asp-action="Info">Jacket</a>
+            <a asp-controller="Storage" asp-action="Info">Vest</a>
+            <a asp-controller="Storage" asp-action="Info">Coat</a>
+            <a asp-controller="Storage" asp-action="Info">Snowsuit</a>
+            <a asp-controller="Storage" asp-action="Info">WinterTrousers</a>
+            <a asp-controller="Storage" asp-action="Info">RainTrousers</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Shoes</button>
+        <div class="dropdown-content">
+            <a asp-controller="Storage" asp-action="Info">Boots</a>
+            <a asp-controller="Storage" asp-action="Info">Trainers</a>
+            <a asp-controller="Storage" asp-action="Info">Sandals</a>
+            <a asp-controller="Storage" asp-action="Info">RainBoots</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Accessories</button>
+        <div class="dropdown-content">
+            <a asp-controller="Storage" asp-action="Info">Hats</a>
+            <a asp-controller="Storage" asp-action="Info">Gloves</a>
+            <a asp-controller="Storage" asp-action="Info">Scarves</a>
+            <a asp-controller="Storage" asp-action="Info">Hair accessories</a>
+            <a asp-controller="Storage" asp-action="Info">Sunglasses</a>
+        </div>
+    </div>
+</div>
