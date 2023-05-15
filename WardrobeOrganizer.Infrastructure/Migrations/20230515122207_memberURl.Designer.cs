@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WardrobeOrganizer.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230515122207_memberURl")]
+    partial class memberURl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,6 +281,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImgUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -513,7 +516,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "30902058-3166-4f17-87a7-22fa0319dfd0",
+                            ConcurrencyStamp = "08b47f54-f9f7-48e4-97e1-5871d0f06859",
                             Email = "dani@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -521,9 +524,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANI@ABV.BG",
                             NormalizedUserName = "DANI@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO3PDy/hR6ZzYp27hFuC4W8RcKnCB8WktzgItwHF7h69Ghx5wEm8V16Lt2ZhZbWQ+w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOe73w8UL8gb13fDBedWuGmS+BE7c3Ut72BaaEefEyqgNIGsvFYOLqDUxOxJ94o+Vw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "440ac940-c9c1-42b1-9405-02fecea680ff",
+                            SecurityStamp = "52b0d7a1-51ef-4e38-9249-60de6a277848",
                             TwoFactorEnabled = false,
                             UserName = "dani@abv.bg"
                         },
@@ -531,7 +534,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "905e7a4d-4915-4676-ad57-5abd6d08748d",
+                            ConcurrencyStamp = "c46b2776-0194-4d6b-9050-8460c427f189",
                             Email = "karolina@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Karolina",
@@ -539,9 +542,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KAROLINA@ABV.BG",
                             NormalizedUserName = "KAROLINA@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJKoRb2dMIgmpqcJdfo3tws/IK47bWnrWqBpLlAqprICOfzH8nEPkE07pn31eKfoCw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJerqDQE6Jo+4I7c6ZC+saaVFaXpNUsiFTbflajqRbEBt134TN0aKAIykB9Q9UslWw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7e9ef23b-2e35-465b-8f42-2653ff12a5cd",
+                            SecurityStamp = "65973fe1-2467-4169-9b73-5047beccf40d",
                             TwoFactorEnabled = false,
                             UserName = "karolina@abv.bg"
                         });

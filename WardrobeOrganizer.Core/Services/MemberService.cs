@@ -34,6 +34,7 @@ namespace WardrobeOrganizer.Core.Services
                 ClothesSize = model.ClothesSize,
                 UserHeight = model.UserHeight,
                 FamilyId = familyId,
+                ImgUrl = model.ImgUrl
                 
             };
 
@@ -52,6 +53,7 @@ namespace WardrobeOrganizer.Core.Services
                     Id = m.Id,
                     FirstName = m.FirstName,
                     LastName = m.LastName,
+                    ImgUrl = m.ImgUrl
 
                 }).ToListAsync();
         }

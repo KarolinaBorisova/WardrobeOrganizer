@@ -22,6 +22,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(50)]
         public string LastName { get; set; } = null!;
 
+        
+        public string? ImgUrl { get; set; } 
+
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime Birthdate { get; set; }

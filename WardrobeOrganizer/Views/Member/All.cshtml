@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<AllMembersViewModel>
    
 @{
-    ViewBag.Title = "All Members";
+    ViewData["Title"] = "All Members";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewData["Title"]</h2>
 <hr/>
 <div class="card-group">
    
@@ -12,6 +12,7 @@
     {
         <div class="card">
             <div class="card-body">
+                <img src="@member.ImgUrl" alt="Avatar" style="width:100%">
                 <h4><a class="card-title text-dark" asp-controller="Member" asp-action="Info">@member.FirstName @member.LastName</a></h4>
                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
             </div>

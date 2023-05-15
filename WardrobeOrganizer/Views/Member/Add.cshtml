@@ -3,10 +3,10 @@
 }
 @model AddMemberViewModel
 @{
-    ViewBag.Title = "Add Member";
+    ViewData["Title"] = "Add Member";
 }
 <div class="text-center">
-    <h1 class="display-4">@ViewBag.Title</h1>
+    <h1 class="display-4"> @ViewData["Title"]</h1>
 </div>
 <form method="post" >
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -18,6 +18,10 @@
         <div class="form-group col-md-6">
             <label class="label" asp-for="LastName">Last Name</label>
             <input asp-for="LastName" class="form-control" id="LastName" placeholder="Last Name">
+        </div>
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="ImgUrl">Image URL</label>
+            <input asp-for="ImgUrl" class="form-control" id="ImgUrl" placeholder="Image URL">
         </div>
     </div>
     <div class="form-row col-md-4">
