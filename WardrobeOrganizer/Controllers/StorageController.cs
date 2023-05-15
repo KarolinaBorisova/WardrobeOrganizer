@@ -80,8 +80,14 @@ namespace WardrobeOrganizer.Controllers
         {
             return RedirectToAction(nameof(All));
         }
+        
 
-
+        [HttpGet]
+        public async Task<IActionResult> Info(int id)
+        {
+            var model = new InfoStorageViewModel();
+            return View(model);
+        }
 
     }
 }

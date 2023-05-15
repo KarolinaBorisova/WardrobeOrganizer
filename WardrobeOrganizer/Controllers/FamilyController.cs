@@ -6,6 +6,7 @@ using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Core.Models.User;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
 
@@ -15,17 +16,31 @@ namespace WardrobeOrganizer.Controllers
     public class FamilyController : Controller
     {
         private readonly IFamilyService familyService;
+        private readonly IStorageService storageService;
+        private readonly IMemberService memberService;
 
        
-        public FamilyController(IFamilyService _familyService)
+        public FamilyController(IFamilyService _familyService,
+             IStorageService _storageService,
+             IMemberService _memberService )
         {
             familyService = _familyService;
+            storageService = _storageService;
+            memberService = _memberService;
         }
       
-        public async Task<IActionResult> Info(int id)
+        public async Task<IActionResult> Info()
         {
+            var family = await familyService.GetFamilyByUserId(User.Id());
+            var model = new InfoFamilyViewModel()
+            {
+                Id = family.Id,
+                Name = family.Name,
+                Members = await memberService.AllMembers(family.Id),
+                Storages = await storageService.AllStorages(family.Id)
 
-            var model = new InfoFamilyViewModel();
+            };
+            
             return View(model);
         }
 

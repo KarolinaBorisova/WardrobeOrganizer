@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WardrobeOrganizer.Core.Models.Member;
+﻿using WardrobeOrganizer.Core.Models.Member;
+using WardrobeOrganizer.Core.Models.Storage;
 
 namespace WardrobeOrganizer.Core.Models.Family
 {
@@ -11,8 +7,10 @@ namespace WardrobeOrganizer.Core.Models.Family
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public ICollection<MemberViewModel> Members { get; set; }
+        public ICollection<AllMembersViewModel> Members { get; set; } = null!;
+
+        public ICollection<AllStoragesViewModel> Storages { get; set; } = null!;
     }
 }

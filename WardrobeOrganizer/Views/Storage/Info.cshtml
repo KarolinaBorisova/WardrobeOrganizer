@@ -1,0 +1,14 @@
+﻿@model InfoStorageViewModel
+@{
+    ViewBag.Title = "Storage Info";
+}
+<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">Address: @@Sofia, bul.Simeonovsko shose N85</h2>
+<h2 class="text-center">Storage Place: @@Kids`s room</h2>
+<h2 class="text-center">Storage Name: @@Big wardrobe</h2>
+<ul>
+    <li><a asp-controller="Storage" asp-action="Info">Clothes</a></li>
+    <li><a asp-controller="Storage" asp-action="Info">Outerwear</a></li>
+    <li><a asp-controller="Storage" asp-action="Info">Shoes</a></li>
+    <li><a asp-controller="Storage" asp-action="Info">Accessories</a></li>
+</ul>

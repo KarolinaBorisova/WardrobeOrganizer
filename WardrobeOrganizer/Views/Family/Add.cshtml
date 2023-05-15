@@ -1,9 +1,9 @@
 ﻿@model FamilyViewModel
 @{
-    ViewBag.Title = "Create Family";
+    ViewData["Title"] = "Create Family";
 }
 <div class="text-center">
-    <h1 class="display-4">@ViewBag.Title</h1>
+    <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
