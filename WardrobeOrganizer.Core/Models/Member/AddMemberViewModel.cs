@@ -18,7 +18,7 @@ namespace WardrobeOrganizer.Core.Models.Member
         [MaxLength(50)]
         public string LastName { get; set; } = null!;
 
-
+        [Display(Name = "Image URL")]
         public string ImgUrl { get; set; }
 
 

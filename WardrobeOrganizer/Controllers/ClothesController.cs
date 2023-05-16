@@ -1,11 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WardrobeOrganizer.Core.Constants;
+using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Clothes;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Extensions;
 
 namespace WardrobeOrganizer.Controllers
 {
     public class ClothesController : Controller
     {
+        private readonly IClothesService clothesService;
+        private readonly IFamilyService familyService;
+
+        public ClothesController(IClothesService _clothesService,
+        IFamilyService _familyService)
+        {
+            this.clothesService = _clothesService;
+            this.familyService = _familyService;
+        }
+
         public async Task<IActionResult> All()
         {
             var model = new AllClothesViewModel();
@@ -22,8 +36,15 @@ namespace WardrobeOrganizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddClothesViewModel model)
         {
-            int id = 1;
-            return RedirectToAction(nameof(Details), new { id });
+            if(!ModelState.IsValid)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return View(model);
+            }
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            int id = await clothesService.AddClothes(model, familiId);
+            return RedirectToAction("All", "Member", new { id });
         }
 
         public async Task<IActionResult> Details(int id)

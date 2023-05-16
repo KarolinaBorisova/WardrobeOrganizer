@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IFamilyService, FamilyService>();
+            services.AddScoped<IClothesService, ClothesService>();
 
 
             return services;

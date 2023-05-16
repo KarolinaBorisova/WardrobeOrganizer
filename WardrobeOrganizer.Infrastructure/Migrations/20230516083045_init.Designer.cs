@@ -12,8 +12,8 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230515123333_memberURlneLast")]
-    partial class memberURlneLast
+    [Migration("20230516083045_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,8 +169,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryClothing")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
@@ -207,7 +208,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CategoryClothing = 0,
+                            Category = "Tshurt",
                             Name = "Тениска",
                             Size = "М",
                             StorageId = 1,
@@ -515,7 +516,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "30902058-3166-4f17-87a7-22fa0319dfd0",
+                            ConcurrencyStamp = "eb5951b0-eec0-4b0c-99d4-a3f0f81e95ae",
                             Email = "dani@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -523,9 +524,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANI@ABV.BG",
                             NormalizedUserName = "DANI@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO3PDy/hR6ZzYp27hFuC4W8RcKnCB8WktzgItwHF7h69Ghx5wEm8V16Lt2ZhZbWQ+w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECHC05xfi0ac8rm1OLAssUD1fyBYgJc83X8Ry38LEBBXp/pNqm8SofuPDRwwEd8dmg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "440ac940-c9c1-42b1-9405-02fecea680ff",
+                            SecurityStamp = "124c4977-c9df-49de-ba58-91ea6971a9b8",
                             TwoFactorEnabled = false,
                             UserName = "dani@abv.bg"
                         },
@@ -533,7 +534,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "905e7a4d-4915-4676-ad57-5abd6d08748d",
+                            ConcurrencyStamp = "5373f46a-74f7-4a26-a6af-6589f51c2384",
                             Email = "karolina@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Karolina",
@@ -541,9 +542,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KAROLINA@ABV.BG",
                             NormalizedUserName = "KAROLINA@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJKoRb2dMIgmpqcJdfo3tws/IK47bWnrWqBpLlAqprICOfzH8nEPkE07pn31eKfoCw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDgAAeZLpFvZz78m7RM5ydge4BmxIswTljAZ1110peuxUWfVIBNKoVxXvbTcOANcMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7e9ef23b-2e35-465b-8f42-2653ff12a5cd",
+                            SecurityStamp = "3c8fb8fe-3e9e-454e-abee-b0f83b8c23ed",
                             TwoFactorEnabled = false,
                             UserName = "karolina@abv.bg"
                         });

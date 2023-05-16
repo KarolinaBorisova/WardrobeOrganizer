@@ -20,7 +20,7 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
             {
                 Id = 1,
                 Name = "Тениска",
-                CategoryClothing = CategoryClothing.Tshirt,
+                Category = "Tshurt",
                 Size = "М",
                 StorageId = 1,
                 Url = "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg"

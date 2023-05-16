@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -206,7 +206,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SizeHeight = table.Column<int>(type: "int", nullable: true),
                     Size = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    CategoryClothing = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -233,6 +233,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     StorageId = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     ShoeSizeEu = table.Column<int>(type: "int", nullable: false),
@@ -314,14 +315,18 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FamilyId", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "e7f018f9-1570-4371-a8ec-529d9adf1bf9", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAELiHTu6jkB02hEODwH87tGnd9ce7bm7ymJBViPo6HF0lRyhIw74iWXY8n92oL+zMaA==", null, false, "57f82e55-2ba2-4f61-94ba-be96cd53f88f", false, "dani@abv.bg" },
-                    { "2", 0, "110a39ab-470c-4cb9-ada5-bf09842d4679", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAEDqt1T7iWG9DHsZ66TInDArH42WYU7DLiVE29hYHVT4kU5yVWgMIey3KKQzGpHYZrA==", null, false, "a6a4e23d-ee9c-4c53-bed7-39cc0ce2337e", false, "karolina@abv.bg" }
+                    { "1", 0, "eb5951b0-eec0-4b0c-99d4-a3f0f81e95ae", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAECHC05xfi0ac8rm1OLAssUD1fyBYgJc83X8Ry38LEBBXp/pNqm8SofuPDRwwEd8dmg==", null, false, "124c4977-c9df-49de-ba58-91ea6971a9b8", false, "dani@abv.bg" },
+                    { "2", 0, "5373f46a-74f7-4a26-a6af-6589f51c2384", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAEDgAAeZLpFvZz78m7RM5ydge4BmxIswTljAZ1110peuxUWfVIBNKoVxXvbTcOANcMQ==", null, false, "3c8fb8fe-3e9e-454e-abee-b0f83b8c23ed", false, "karolina@abv.bg" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Families",
                 columns: new[] { "Id", "Name", "UserId" },
-                values: new object[] { 1, "Borisovi", "1" });
+                values: new object[,]
+                {
+                    { 1, "Borisovi", "1" },
+                    { 2, "Popovi", "2" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Storages",
@@ -330,8 +335,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Clothes",
-                columns: new[] { "Id", "CategoryClothing", "Color", "Description", "Name", "Size", "SizeHeight", "StorageId", "Url" },
-                values: new object[] { 1, 0, null, null, "Тениска", "М", null, 1, "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg" });
+                columns: new[] { "Id", "Category", "Color", "Description", "Name", "Size", "SizeHeight", "StorageId", "Url" },
+                values: new object[] { 1, "Tshurt", null, null, "Тениска", "М", null, 1, "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
