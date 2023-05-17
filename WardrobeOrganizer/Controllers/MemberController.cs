@@ -57,14 +57,16 @@ namespace WardrobeOrganizer.Controllers
 
 
         [HttpGet]
-        public IActionResult Info(int id)
+        public async Task<IActionResult> Info(int id)
         {
-            var model  = new InfoMemberViewModel()
-            { FirstName= "test",
-            LastName = "test2",
-            MineStorage = new AllStoragesViewModel(),
-            Family = new FamilyViewModel()
-            };
+            if(await memberService.ExistsById(id) == false)
+            {
+                return RedirectToAction("All", "Member");
+            }
+
+            var model = await memberService.GetMemberById(id);
+            
+       
             return View(model);
         }
 

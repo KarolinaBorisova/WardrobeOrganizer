@@ -7,20 +7,22 @@
     <h1 class="display-4">@Model.FirstName @Model.LastName</h1>
 </div>
 <div>
-    <div class="card-body">
-
-        <h6>
-            <a class="btn btn-primary" asp-controller="Storage" asp-action="Content"
-               asp-route-id="@Model.MineStorage.Id">Go to @Model.FirstName`s Wardrobe</a>
-        </h6>
-    </div>
-
-    <div class="card-body">
-
-        <h6>
-            <a class="btn btn-primary" asp-controller="Family" asp-action="Home"
-               asp-route-id="@Model.Family.Id">Go to @Model.FirstName`s Family</a>
-        </h6>
+    <div class="card">
+        <div class="card-body">
+            <img src="@Model.ImgUrl" alt="Avatar" style="width:100%">
+            <h4>@Model.FirstName @Model.LastName</h4>
+            <p class="card-text">Birthdate: @Model.Birthdate</p>
+            <p class="card-text">Gender: @Model.Gender</p>
+            <p class="card-text">Height: @Model.UserHeight</p>
+            <p class="card-text">Clothes size: @Model.ClothesSize</p>
+            <p class="card-text">Shoes size: @Model.ShoeSizeEu</p>
+            <p class="card-text">Foot length in cm: @Model.FootLengthCm</p>
+    
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-danger " asp-controller="Member" asp-action="Delete">Delete member</a>
+            <a class="btn btn-danger" asp-controller="Member" asp-action="Edit">Edit member</a>
+        </div>
     </div>
 </div>
 

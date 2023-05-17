@@ -58,6 +58,35 @@ namespace WardrobeOrganizer.Core.Services
                 }).ToListAsync();
         }
 
+        public async Task<InfoMemberViewModel> GetMemberById(int memberId)
+        {
+            return await repo.AllReadonly<Member>()
+                .Where(m=>m.Id == memberId)
+                .Select(m => new InfoMemberViewModel()
+                {
+                    Id=m.Id,
+                    FirstName=m.FirstName,
+                    LastName=m.LastName,
+                    ImgUrl=m.ImgUrl,
+                    Birthdate = m.Birthdate,
+                    Gender = m.Gender,
+                    ShoeSizeEu = m.ShoeSizeEu,
+                    FootLengthCm = m.FootLengthCm,
+                    ClothesSize=m.ClothesSize,
+                    UserHeight=m.UserHeight,
+                    Family = new Models.Family.FamilyViewModel()
+                    {
+                        Name = m.Family.Name,
+                        UserId = m.Family.UserId,
+                        Id = m.Family.Id
+
+                    }
+                    
+
+                })
+                .FirstAsync();
+        }
+
 
         //  public async Task Create(string userId)
         //  {
@@ -72,11 +101,11 @@ namespace WardrobeOrganizer.Core.Services
         //  }
         //
         //
-        //  public async Task<bool> ExistsById(string userId)
-        //  {
-        //      return await repo.All<Member>()
-        //          .AnyAsync(m => m.UserId == userId);
-        //  }
+          public async Task<bool> ExistsById(int id)
+         {
+              return await repo.AllReadonly<Member>()
+                .AnyAsync(m=>m.Id == id);
+          }
 
 
 

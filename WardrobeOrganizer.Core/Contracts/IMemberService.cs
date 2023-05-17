@@ -10,7 +10,7 @@ namespace WardrobeOrganizer.Core.Contracts
 {
     public interface IMemberService
     { 
-       // Task<bool> ExistsById(string userId);
+        Task<bool> ExistsById(int id);
 
        // Task Create(string userId);
 
@@ -18,5 +18,6 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<ICollection<AllMembersViewModel>> AllMembers(int familyId);
 
+        Task<InfoMemberViewModel> GetMemberById(int MemberId);
     }
 }
