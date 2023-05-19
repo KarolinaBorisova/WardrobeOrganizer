@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Core.Models.Clothes
 {
@@ -22,7 +23,7 @@ namespace WardrobeOrganizer.Core.Models.Clothes
 
         public int? MemberId { get; set; }
 
-        public string Category { get; set; }
+        public CategoryClothing Category { get; set; }
 
         public int? StorageId { get; set; }
     }

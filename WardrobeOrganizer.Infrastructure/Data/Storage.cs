@@ -12,17 +12,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(50)]
         public string Name { get; set; } = null!;
 
-        [Required]
-        [MaxLength(200)]
-        public string Place { get; set; } = null!;
-
-        [ForeignKey(nameof(FamilyId))]
-        public Family? Family { get; set; }
-        public int? FamilyId { get; set; }
-
-        //[ForeignKey(nameof(MemberId))]
-        public Member? Member { get; set; }
-        public int? MemberId { get; set; }
+        [ForeignKey(nameof(HouseId))]
+        public House House { get; set; } = null!;
+        public int HouseId { get; set; }
 
         public IList<Clothing> Clothes { get; set; } = new List<Clothing>();
 

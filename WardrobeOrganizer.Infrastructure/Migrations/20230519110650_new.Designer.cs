@@ -12,8 +12,8 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230516083045_init")]
-    partial class init
+    [Migration("20230519110650_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,14 +169,16 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -195,9 +197,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("StorageId");
@@ -208,11 +207,11 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Category = "Tshurt",
+                            Category = 0,
+                            ImgUrl = "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg",
                             Name = "Тениска",
                             Size = "М",
-                            StorageId = 1,
-                            Url = "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg"
+                            StorageId = 1
                         });
                 });
 
@@ -249,6 +248,34 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             Name = "Popovi",
                             UserId = "2"
                         });
+                });
+
+            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.House", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("FamilyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FamilyId");
+
+                    b.ToTable("Houses");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
@@ -292,19 +319,12 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<int>("ShoeSizeEu")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StorageId")
-                        .HasColumnType("int");
-
                     b.Property<double?>("UserHeight")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FamilyId");
-
-                    b.HasIndex("StorageId")
-                        .IsUnique()
-                        .HasFilter("[StorageId] IS NOT NULL");
 
                     b.ToTable("Members");
                 });
@@ -326,6 +346,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -341,9 +364,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -372,6 +392,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -382,9 +405,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     b.Property<int>("StorageId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -401,10 +421,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("FamilyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MemberId")
+                    b.Property<int>("HouseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -412,14 +429,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Place")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FamilyId");
+                    b.HasIndex("HouseId");
 
                     b.ToTable("Storages");
 
@@ -427,8 +439,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Дестки гардероб",
-                            Place = "В детската стая"
+                            HouseId = 1,
+                            Name = "Дестки гардероб"
                         });
                 });
 
@@ -516,7 +528,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eb5951b0-eec0-4b0c-99d4-a3f0f81e95ae",
+                            ConcurrencyStamp = "27d10a87-c45b-4007-b84f-462cd6e04c80",
                             Email = "dani@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -524,9 +536,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANI@ABV.BG",
                             NormalizedUserName = "DANI@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAECHC05xfi0ac8rm1OLAssUD1fyBYgJc83X8Ry38LEBBXp/pNqm8SofuPDRwwEd8dmg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGbbo80VMAhtDyOAFHOOQmg3Q/B6sHKpVpLSkPhFlTdiCVA61lvTWFrirDYFXZAU/Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "124c4977-c9df-49de-ba58-91ea6971a9b8",
+                            SecurityStamp = "d2b085a6-1743-4c63-8d32-46a1cd309458",
                             TwoFactorEnabled = false,
                             UserName = "dani@abv.bg"
                         },
@@ -534,7 +546,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5373f46a-74f7-4a26-a6af-6589f51c2384",
+                            ConcurrencyStamp = "d42ae6bb-3df6-4be2-aebc-ce165371a0ee",
                             Email = "karolina@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Karolina",
@@ -542,9 +554,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KAROLINA@ABV.BG",
                             NormalizedUserName = "KAROLINA@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDgAAeZLpFvZz78m7RM5ydge4BmxIswTljAZ1110peuxUWfVIBNKoVxXvbTcOANcMQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED1eDrmTw+bqd5w9oyKjr6nqj2XZ6s+udn9pZOlLMZAfVb8WW6vEMok8Nvzy5GcHkw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3c8fb8fe-3e9e-454e-abee-b0f83b8c23ed",
+                            SecurityStamp = "a2db4bde-556c-45b4-ba8c-2f1cadccd35b",
                             TwoFactorEnabled = false,
                             UserName = "karolina@abv.bg"
                         });
@@ -612,20 +624,22 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.Navigation("Storage");
                 });
 
+            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.House", b =>
+                {
+                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
+                        .WithMany("Houses")
+                        .HasForeignKey("FamilyId");
+
+                    b.Navigation("Family");
+                });
+
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Member", b =>
                 {
                     b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
                         .WithMany("Members")
                         .HasForeignKey("FamilyId");
 
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.Storage", "Storage")
-                        .WithOne("Member")
-                        .HasForeignKey("WardrobeOrganizer.Infrastructure.Data.Member", "StorageId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("Family");
-
-                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Outerwear", b =>
@@ -652,11 +666,13 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Storage", b =>
                 {
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.Family", "Family")
+                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.House", "House")
                         .WithMany("Storages")
-                        .HasForeignKey("FamilyId");
+                        .HasForeignKey("HouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Family");
+                    b.Navigation("House");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.User", b =>
@@ -671,18 +687,21 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Family", b =>
                 {
+                    b.Navigation("Houses");
+
                     b.Navigation("Members");
 
-                    b.Navigation("Storages");
-
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.House", b =>
+                {
+                    b.Navigation("Storages");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Storage", b =>
                 {
                     b.Navigation("Clothes");
-
-                    b.Navigation("Member");
 
                     b.Navigation("Outerwear");
 

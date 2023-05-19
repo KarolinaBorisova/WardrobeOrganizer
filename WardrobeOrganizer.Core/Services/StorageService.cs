@@ -16,13 +16,13 @@ namespace WardrobeOrganizer.Core.Services
             repo = _repo;
         }
 
-        public async Task<int> AddStorage(AddStorageViewModel model, int familyId)
+        public async Task<int> AddStorage(AddStorageViewModel model, int houseId)
         {
             var storage = new Storage()
             {
                 Name = model.Name,
-                Place = model.Place,
-                FamilyId = familyId,
+                HouseId = houseId,
+                
             };
 
             await repo.AddAsync(storage);
@@ -31,16 +31,21 @@ namespace WardrobeOrganizer.Core.Services
             return storage.Id;
         }
 
-        public async Task<ICollection<AllStoragesViewModel>> AllStorages(int familyId)
+        public async Task<ICollection<AllStoragesViewModel>> AllStorages(int houseId)
         {
             return await repo.AllReadonly<Storage>()
-                .Where(s=>s.FamilyId == familyId )
+                .Where(s => s.HouseId == houseId)
                 .OrderBy(x => x.Name)
                .Select(s => new AllStoragesViewModel
                {
                    Id = s.Id,
                    Name = s.Name,
-                   Place = s.Place,
+                   House = new Models.Houses.AddHouseViewModel()
+                   {
+                       Name = s.House.Name,
+                       FamilyId = s.House.FamilyId,
+                       Address = s.House.Address
+                   }
 
                }).ToListAsync();
         }

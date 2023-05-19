@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WardrobeOrganizer.Core.Models.Houses;
 
-namespace WardrobeOrganizer.Core.Models.Storage
+namespace WardrobeOrganizer.Core.Models.Houses
 {
-    public class AllStoragesViewModel
+    public class AllHousesViewModel
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public AddHouseViewModel House { get; set; }
+        public string Address { get; set; }
 
     }
 }

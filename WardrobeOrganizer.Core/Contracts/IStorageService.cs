@@ -4,8 +4,8 @@ namespace WardrobeOrganizer.Core.Contracts
 {
     public interface IStorageService
     {
-        Task<ICollection<AllStoragesViewModel>> AllStorages(int familyId);
+        Task<ICollection<AllStoragesViewModel>> AllStorages(int houseIs);
 
-        Task<int> AddStorage(AddStorageViewModel storage, int familyId);
+        Task<int> AddStorage(AddStorageViewModel storage, int houseId);
     }
 }

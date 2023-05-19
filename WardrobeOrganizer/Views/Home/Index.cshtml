@@ -51,10 +51,10 @@
         <div class="text-center">
             <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
         </div>
-        @if (Model.Storages.Count == 0)
+        @if (Model.Houses.Count == 0)
         {
             <div class="text-center">
-                <h5 class="display-5">There are no storages yet.</h5>
+                <h5 class="display-5">There are no houses yet.</h5>
             </div>
         }
         else{
@@ -62,12 +62,12 @@
                 @{
                     var count = 0;
                 }
-                @foreach (var storage in @Model.Storages)
+                @foreach (var house in @Model.Houses)
                 {
                     <div class="card">
                         <div class="card-body">
-                            <h4><a class="card-title text-dark" asp-controller="Storage" asp-action="Info">@storage.Name</a></h4>
-                            <p class="card-text">Place: @storage.Place</p>
+                            <h4><a class="card-title text-dark" asp-controller="Storage" asp-action="Info">@house.Name</a></h4>
+                            <p class="card-text">Address: @house.Address</p>
                         </div>
                     </div>
                     count++;
@@ -78,7 +78,7 @@
                 }
             </div>
         }
-        @if (Model.Storages.Count > 3)
+        @if (Model.Houses.Count > 3)
         {
             <div class="text-center">
                 <a class="btn btn-primary" asp-controller="Storage" asp-action="All">Show all family storages</a>

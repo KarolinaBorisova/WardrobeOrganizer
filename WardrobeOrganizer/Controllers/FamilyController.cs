@@ -9,6 +9,7 @@ using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Models.User;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
+using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -37,8 +38,7 @@ namespace WardrobeOrganizer.Controllers
                 Id = family.Id,
                 Name = family.Name,
                 Members = await memberService.AllMembers(family.Id),
-                Storages = await storageService.AllStorages(family.Id)
-
+              //Houses
             };
             
             return View(model);

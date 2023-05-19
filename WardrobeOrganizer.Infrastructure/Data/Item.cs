@@ -19,7 +19,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public string? Description { get; set; }
 
-        public string? Url { get; set; }
+        public string? ImgUrl { get; set; }
 
         public string? Color { get; set; }
 

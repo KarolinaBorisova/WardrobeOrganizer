@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WardrobeOrganizer.Core.Models.Houses;
 
 namespace WardrobeOrganizer.Core.Models.Storage
 {
@@ -14,9 +15,7 @@ namespace WardrobeOrganizer.Core.Models.Storage
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(200)]
-        public string Place { get; set; }
+        public AddHouseViewModel House { get; set; }
 
         public int? FamilyId { get; set; }
 

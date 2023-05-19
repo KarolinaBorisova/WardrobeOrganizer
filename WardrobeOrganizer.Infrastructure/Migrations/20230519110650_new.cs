@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,21 +93,47 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Storages",
+                name: "Houses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Place = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    FamilyId = table.Column<int>(type: "int", nullable: true),
-                    MemberId = table.Column<int>(type: "int", nullable: true)
+                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    FamilyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Storages", x => x.Id);
+                    table.PrimaryKey("PK_Houses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Storages_Families_FamilyId",
+                        name: "FK_Houses_Families_FamilyId",
+                        column: x => x.FamilyId,
+                        principalTable: "Families",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Members",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    ShoeSizeEu = table.Column<int>(type: "int", nullable: false),
+                    FootLengthCm = table.Column<double>(type: "float", nullable: true),
+                    ClothesSize = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    UserHeight = table.Column<double>(type: "float", nullable: true),
+                    FamilyId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Members", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Members_Families_FamilyId",
                         column: x => x.FamilyId,
                         principalTable: "Families",
                         principalColumn: "Id");
@@ -199,6 +225,26 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Storages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HouseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Storages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Storages_Houses_HouseId",
+                        column: x => x.HouseId,
+                        principalTable: "Houses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clothes",
                 columns: table => new
                 {
@@ -206,10 +252,10 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SizeHeight = table.Column<int>(type: "int", nullable: true),
                     Size = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StorageId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -225,40 +271,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Members",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StorageId = table.Column<int>(type: "int", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    ShoeSizeEu = table.Column<int>(type: "int", nullable: false),
-                    FootLengthCm = table.Column<double>(type: "float", nullable: true),
-                    ClothesSize = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    UserHeight = table.Column<double>(type: "float", nullable: true),
-                    FamilyId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Members", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Members_Families_FamilyId",
-                        column: x => x.FamilyId,
-                        principalTable: "Families",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Members_Storages_StorageId",
-                        column: x => x.StorageId,
-                        principalTable: "Storages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Outerwear",
                 columns: table => new
                 {
@@ -269,7 +281,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     CategoryOuterwear = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StorageId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -295,7 +307,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     CategoryShoes = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StorageId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -315,8 +327,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FamilyId", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "eb5951b0-eec0-4b0c-99d4-a3f0f81e95ae", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAECHC05xfi0ac8rm1OLAssUD1fyBYgJc83X8Ry38LEBBXp/pNqm8SofuPDRwwEd8dmg==", null, false, "124c4977-c9df-49de-ba58-91ea6971a9b8", false, "dani@abv.bg" },
-                    { "2", 0, "5373f46a-74f7-4a26-a6af-6589f51c2384", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAEDgAAeZLpFvZz78m7RM5ydge4BmxIswTljAZ1110peuxUWfVIBNKoVxXvbTcOANcMQ==", null, false, "3c8fb8fe-3e9e-454e-abee-b0f83b8c23ed", false, "karolina@abv.bg" }
+                    { "1", 0, "27d10a87-c45b-4007-b84f-462cd6e04c80", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAEGbbo80VMAhtDyOAFHOOQmg3Q/B6sHKpVpLSkPhFlTdiCVA61lvTWFrirDYFXZAU/Q==", null, false, "d2b085a6-1743-4c63-8d32-46a1cd309458", false, "dani@abv.bg" },
+                    { "2", 0, "d42ae6bb-3df6-4be2-aebc-ce165371a0ee", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAED1eDrmTw+bqd5w9oyKjr6nqj2XZ6s+udn9pZOlLMZAfVb8WW6vEMok8Nvzy5GcHkw==", null, false, "a2db4bde-556c-45b4-ba8c-2f1cadccd35b", false, "karolina@abv.bg" }
                 });
 
             migrationBuilder.InsertData(
@@ -330,13 +342,13 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Storages",
-                columns: new[] { "Id", "FamilyId", "MemberId", "Name", "Place" },
-                values: new object[] { 1, null, null, "Дестки гардероб", "В детската стая" });
+                columns: new[] { "Id", "HouseId", "Name" },
+                values: new object[] { 1, 1, "Дестки гардероб" });
 
             migrationBuilder.InsertData(
                 table: "Clothes",
-                columns: new[] { "Id", "Category", "Color", "Description", "Name", "Size", "SizeHeight", "StorageId", "Url" },
-                values: new object[] { 1, "Tshurt", null, null, "Тениска", "М", null, 1, "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg" });
+                columns: new[] { "Id", "Category", "Color", "Description", "ImgUrl", "Name", "Size", "SizeHeight", "StorageId" },
+                values: new object[] { 1, 0, null, null, "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg", "Тениска", "М", null, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -390,16 +402,14 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 column: "StorageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_FamilyId",
-                table: "Members",
+                name: "IX_Houses_FamilyId",
+                table: "Houses",
                 column: "FamilyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_StorageId",
+                name: "IX_Members_FamilyId",
                 table: "Members",
-                column: "StorageId",
-                unique: true,
-                filter: "[StorageId] IS NOT NULL");
+                column: "FamilyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Outerwear_StorageId",
@@ -412,9 +422,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 column: "StorageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Storages_FamilyId",
+                name: "IX_Storages_HouseId",
                 table: "Storages",
-                column: "FamilyId");
+                column: "HouseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -454,6 +464,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Storages");
+
+            migrationBuilder.DropTable(
+                name: "Houses");
 
             migrationBuilder.DropTable(
                 name: "Families");

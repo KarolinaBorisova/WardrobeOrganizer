@@ -1,4 +1,5 @@
-﻿using WardrobeOrganizer.Core.Models.Member;
+﻿using WardrobeOrganizer.Core.Models.Houses;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 
 namespace WardrobeOrganizer.Core.Models.Family
@@ -11,6 +12,6 @@ namespace WardrobeOrganizer.Core.Models.Family
 
         public ICollection<AllMembersViewModel> Members { get; set; } = null!;
 
-        public ICollection<AllStoragesViewModel> Storages { get; set; } = null!;
+        public ICollection<AllHousesViewModel> Houses { get; set; } = null!;
     }
 }

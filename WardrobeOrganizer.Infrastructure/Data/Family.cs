@@ -15,16 +15,15 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-       
+
         public string? UserId { get; set; }  
-        //[ForeignKey(nameof(UserId))]
         public User? User { get; set; }
 
         public ICollection<Member> Members { get; set; } = new List<Member>();
 
-        public ICollection<Storage> Storages { get; set; } = new List<Storage>();
+        public ICollection<House> Houses { get; set; } = new List<House>();
 
     }
 }

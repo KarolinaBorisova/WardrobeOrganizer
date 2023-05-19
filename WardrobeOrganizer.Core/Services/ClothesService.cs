@@ -28,7 +28,7 @@ namespace WardrobeOrganizer.Core.Services
             var clothing = new Clothing()
             {
                 Name = model.Name,
-                Url = model.Url,
+                ImgUrl = model.Url,
                 Color = model.Color,
                 Size = model.Size,
                 SizeHeight = model.SizeHeight,

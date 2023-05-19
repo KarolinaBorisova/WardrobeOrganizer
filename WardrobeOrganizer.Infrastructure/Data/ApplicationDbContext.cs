@@ -18,19 +18,13 @@ namespace WardrobeOrganizer.Infrastructure.Data
             builder.ApplyConfiguration(new StorageConfiguration());
             builder.ApplyConfiguration(new ClothingConfiguration());
             builder.ApplyConfiguration(new FamilyConfiguration());
+            builder.ApplyConfiguration(new HouseConfiguration());
 
             builder.Entity<Family>()
             .HasOne<User>(f=> f.User)
             .WithOne(u =>u.Family)
             .HasForeignKey<User>(u => u.FamilyId)
             .OnDelete(DeleteBehavior.SetNull);
-
-            builder.Entity<Storage>()
-           .HasOne<Member>(m=> m.Member)
-           .WithOne(u => u.Storage)
-           .HasForeignKey<Member>(u => u.StorageId)
-           .OnDelete(DeleteBehavior.SetNull);
-
 
 
             base.OnModelCreating(builder);
@@ -48,8 +42,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public DbSet<Family> Families { get; set; }
 
+        public DbSet<House> Houses { get; set; }
 
-      
 
 
     }
