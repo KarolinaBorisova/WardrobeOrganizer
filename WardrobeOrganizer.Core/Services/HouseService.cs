@@ -30,9 +30,32 @@ namespace WardrobeOrganizer.Core.Services
                {
                    Id = s.Id,
                    Name = s.Name,
-                   Address = s.Address
+                   Address = s.Address,
+                    
 
                }).ToListAsync();
+        }
+
+        public async Task<bool> ExistsById(int houseId)
+        {
+            return await repo.AllReadonly<House>()
+              .AnyAsync(h => h.Id == houseId);
+        }
+
+        public async Task<InfoHouseViewModel> GetHouseById(int houseId)
+        {
+            return await repo.AllReadonly<House>()
+                .Where(h => h.Id == houseId)
+                .Select(h => new InfoHouseViewModel()
+                {
+                    Id = h.Id,
+                    Address = h.Address,
+                    FamilyId = h.FamilyId,
+                    Name = h.Name,
+                    
+
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

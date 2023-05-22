@@ -21,6 +21,6 @@ namespace WardrobeOrganizer.Core.Models.House
 
         public int? FamilyId { get; set; }
 
-        public IList<AllStoragesViewModel> Storages { get; set; }
+        public ICollection<AllStoragesViewModel> Storages { get; set; } = new List<AllStoragesViewModel>();
     }
 }
