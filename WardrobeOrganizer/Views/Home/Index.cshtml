@@ -11,7 +11,7 @@
 }
 
 @if (User.Identity.IsAuthenticated)
-{
+{  
     @if (Model.Family != null)
     {
         <div class="text-center">
@@ -19,10 +19,13 @@
                 <a class="card-title text-dark" asp-controller="Family" asp-action="Info">@Model.Family.Name Family</a>
             </h3>
         </div>
+        <div class="text-center">
+            <h3 class="display-5">Family members</h3>
+        </div>
         @if(Model.Members.Count == 0)
         {
             <div class="text-center">
-                <h5 class="display-5">There are no members yet.</h5>
+                <h5 class="display-8">There are no members yet.</h5>
             </div>
         }
         else{
@@ -42,8 +45,6 @@
                     };
                 }
             </div>
-        }
-        @if (Model.Members.Count > 3){
             <div class="text-center">
                 <a class="btn btn-primary" asp-controller="Member" asp-action="All">Show all family members</a>
             </div>
@@ -51,10 +52,14 @@
         <div class="text-center">
             <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
         </div>
+
+        <div class="text-center">
+            <h5 class="display-5">Family houses</h5>
+        </div>
         @if (Model.Houses.Count == 0)
         {
             <div class="text-center">
-                <h5 class="display-5">There are no houses yet.</h5>
+                <h5 class="display-8">There are no houses yet.</h5>
             </div>
         }
         else{
@@ -66,7 +71,7 @@
                 {
                     <div class="card">
                         <div class="card-body">
-                            <h4><a class="card-title text-dark" asp-controller="Storage" asp-action="Info">@house.Name</a></h4>
+                            <h4><a class="card-title text-dark" asp-controller="House" asp-action="Info">@house.Name</a></h4>
                             <p class="card-text">Address: @house.Address</p>
                         </div>
                     </div>
@@ -77,15 +82,13 @@
                     };
                 }
             </div>
-        }
-        @if (Model.Houses.Count > 3)
-        {
             <div class="text-center">
-                <a class="btn btn-primary" asp-controller="Storage" asp-action="All">Show all family storages</a>
+                <a class="btn btn-primary" asp-controller="House" asp-action="All">Show all family houses</a>
             </div>
         }
+      
         <div class="text-center">
-            <a class="btn btn-primary" asp-controller="Storage" asp-action="Add">Add new storage</a>
+            <a class="btn btn-primary" asp-controller="House" asp-action="Add">Add new house</a>
         </div>
 
     }

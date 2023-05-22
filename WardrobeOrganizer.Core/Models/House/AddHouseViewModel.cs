@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WardrobeOrganizer.Core.Models.Houses
+namespace WardrobeOrganizer.Core.Models.House
 {
     public class AddHouseViewModel
     {

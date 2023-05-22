@@ -327,8 +327,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FamilyId", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "27d10a87-c45b-4007-b84f-462cd6e04c80", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAEGbbo80VMAhtDyOAFHOOQmg3Q/B6sHKpVpLSkPhFlTdiCVA61lvTWFrirDYFXZAU/Q==", null, false, "d2b085a6-1743-4c63-8d32-46a1cd309458", false, "dani@abv.bg" },
-                    { "2", 0, "d42ae6bb-3df6-4be2-aebc-ce165371a0ee", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAED1eDrmTw+bqd5w9oyKjr6nqj2XZ6s+udn9pZOlLMZAfVb8WW6vEMok8Nvzy5GcHkw==", null, false, "a2db4bde-556c-45b4-ba8c-2f1cadccd35b", false, "karolina@abv.bg" }
+                    { "1", 0, "3ba9bbd3-fd9c-4405-9bf2-52252f5c261d", "dani@abv.bg", false, null, "Yordan", "Borisov", false, null, "DANI@ABV.BG", "DANI@ABV.BG", "AQAAAAEAACcQAAAAENxu+NnbnxcjgFhyBusCYdhbvvLlwBl5m6VfaPLIDBy0do5IpKtXCoaqhI+ePw3nBw==", null, false, "f6f43d11-51fe-40cf-aece-d875b8dee6ee", false, "dani@abv.bg" },
+                    { "2", 0, "2f7dfdbe-fa39-4564-b317-52177cf56a45", "karolina@abv.bg", false, null, "Karolina", "Borisova", false, null, "KAROLINA@ABV.BG", "KAROLINA@ABV.BG", "AQAAAAEAACcQAAAAEBkTm632yRu9+KPfmYFxnQK0Q0E1EzmdpDk2nWIkuOHwS5bl4pmDN/BBY9ZhUnLSQw==", null, false, "dfab966a-fbd5-446e-bdbb-b2717b1a05af", false, "karolina@abv.bg" }
                 });
 
             migrationBuilder.InsertData(
@@ -339,6 +339,11 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     { 1, "Borisovi", "1" },
                     { 2, "Popovi", "2" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Houses",
+                columns: new[] { "Id", "Address", "FamilyId", "Name" },
+                values: new object[] { 1, "Simeonsovkso shode 85", 1, "Home" });
 
             migrationBuilder.InsertData(
                 table: "Storages",

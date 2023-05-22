@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WardrobeOrganizer.Core.Models.Member
 {
+ 
     public class AllMembersViewModel
     {
         public int Id { get; set; }
@@ -15,6 +16,5 @@ namespace WardrobeOrganizer.Core.Models.Member
         public string LastName { get; set; }
 
         public string ImgUrl { get; set; }
-
     }
 }

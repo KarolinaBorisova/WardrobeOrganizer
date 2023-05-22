@@ -19,15 +19,18 @@ namespace WardrobeOrganizer.Controllers
         private readonly IFamilyService familyService;
         private readonly IStorageService storageService;
         private readonly IMemberService memberService;
+        private readonly IHouseService houseService;
 
        
         public FamilyController(IFamilyService _familyService,
              IStorageService _storageService,
-             IMemberService _memberService )
+             IMemberService _memberService,
+             IHouseService _houseService)
         {
             familyService = _familyService;
             storageService = _storageService;
             memberService = _memberService;
+            houseService = _houseService;
         }
       
         public async Task<IActionResult> Info()
@@ -38,7 +41,7 @@ namespace WardrobeOrganizer.Controllers
                 Id = family.Id,
                 Name = family.Name,
                 Members = await memberService.AllMembers(family.Id),
-              //Houses
+                Houses = await houseService.AllHouses(family.Id)
             };
             
             return View(model);
