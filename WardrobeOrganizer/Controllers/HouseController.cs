@@ -57,8 +57,8 @@ namespace WardrobeOrganizer.Controllers
       
             int familiId = await familyService.GetFamilyId(User.Id());
       
-            int houdeId = await houseService.AddHouse(model, familiId);
-            return RedirectToAction(nameof(Content), new { houdeId });
+            int houseId = await houseService.AddHouse(model, familiId);
+            return RedirectToAction("Info", "House", new {houseId});
         }
 
         [HttpGet]
