@@ -95,7 +95,9 @@ namespace WardrobeOrganizer.Controllers
                 Address = house.Address,
                 FamilyId = house.FamilyId,
                 Name = house.Name,
-                Storages = await storageService.AllStorages(houseId)
+                Storages = await storageService.AllStorages(houseId),
+                Id = house.Id
+                
 
             };
 

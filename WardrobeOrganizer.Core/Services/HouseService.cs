@@ -72,5 +72,12 @@ namespace WardrobeOrganizer.Core.Services
                 })
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<int> GetHouseId(string userId)
+        {
+            return (await repo.AllReadonly<Family>()
+                   .FirstOrDefaultAsync(f => f.UserId == userId))?.Id ?? 0;
+
+        }
     }
 }

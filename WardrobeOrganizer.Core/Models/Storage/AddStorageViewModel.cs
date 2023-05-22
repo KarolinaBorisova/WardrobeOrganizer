@@ -15,10 +15,8 @@ namespace WardrobeOrganizer.Core.Models.Storage
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public AddHouseViewModel House { get; set; }
+        public int HouseId { get; set; }
 
-        public int? FamilyId { get; set; }
-
-        public int? MemberId { get; set; }
+      
     }
 }

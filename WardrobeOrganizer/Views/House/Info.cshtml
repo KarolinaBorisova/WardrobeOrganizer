@@ -31,5 +31,5 @@ else
 }
 
 <div class="text-center">
-    <a class="btn btn-primary" asp-controller="Storage" asp-action="Add">Add new storage</a>
+    <a class="btn btn-primary" asp-controller="Storage" asp-route-houseId=@Model.Id asp-action="Add">Add new storage</a>
 </div>

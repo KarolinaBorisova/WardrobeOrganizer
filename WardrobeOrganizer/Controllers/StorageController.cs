@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using System.ComponentModel.Design;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Storage;
+using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
 
@@ -15,14 +17,17 @@ namespace WardrobeOrganizer.Controllers
 
         private readonly IStorageService storageService;
         private readonly IFamilyService familyService;
+        private readonly IHouseService houseService;
         
 
 
         public StorageController(IStorageService _storageService,
-            IFamilyService _familyService)
+            IFamilyService _familyService,
+            IHouseService _houseService)
         {
             this.storageService = _storageService;
             this.familyService = _familyService;
+            this.houseService = _houseService;
          
         }
 
@@ -35,9 +40,12 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(int houseId)
         {
-            var model = new AddStorageViewModel();
+            var model = new AddStorageViewModel()
+            {
+                   HouseId = houseId
+            };
             return View(model);
         }
 
@@ -50,10 +58,11 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
 
-            int familiId = await familyService.GetFamilyId(User.Id());
+        
+        //    int houseId = await houseService.GetHouseId(User.Id());
 
-            int storgeId = await storageService.AddStorage(model, familiId);
-            return RedirectToAction(nameof(Content), new { storgeId });
+            int storgeId = await storageService.AddStorage(model, model.HouseId);
+            return RedirectToAction("Info", "House", new { model.HouseId }); //Change to stoargeId
         }
 
         public async Task<IActionResult> Content(int id)
