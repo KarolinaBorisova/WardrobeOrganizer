@@ -21,6 +21,21 @@ namespace WardrobeOrganizer.Core.Services
             repo = _repo;
         }
 
+        public async Task<int> AddHouse(AddHouseViewModel model, int familiId)
+        {
+            var house = new House()
+            {
+                Name = model.Name,
+                Address = model.Address,
+                FamilyId = familiId
+            };
+
+            await repo.AddAsync(house);
+            await repo.SaveChangesAsync();
+
+            return house.Id;
+        }
+
         public async Task<ICollection<AllHousesViewModel>> AllHouses(int familyId)
         {
             return await repo.AllReadonly<House>()

@@ -6,7 +6,7 @@
 <h2 class="text-center">House Name: @Model.Name</h2>
 <h2 class="text-center">Address: @Model.Address</h2>
 <div class="text-center">
-    <h5 class="display-5">Family houses</h5>
+    <h5 class="display-5">@Model.Name storages</h5>
 </div>
 @if (Model.Storages.Count == 0)
 {
@@ -27,9 +27,6 @@ else
             </div>
    
         }
-    </div>
-    <div class="text-center">
-        <a class="btn btn-primary" asp-controller="Storage" asp-action="All">Show all house storages</a>
     </div>
 }
 

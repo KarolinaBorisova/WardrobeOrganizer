@@ -17,5 +17,6 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<InfoHouseViewModel> GetHouseById(int houseId);
 
+        Task<int> AddHouse(AddHouseViewModel model, int familiId);
     }
 }

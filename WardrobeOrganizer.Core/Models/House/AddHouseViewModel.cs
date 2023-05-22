@@ -18,9 +18,6 @@ namespace WardrobeOrganizer.Core.Models.House
         [MaxLength(200)]
         public string Address { get; set; } = null!;
 
-        public int? FamilyId { get; set; }
-
-
     }
 
 

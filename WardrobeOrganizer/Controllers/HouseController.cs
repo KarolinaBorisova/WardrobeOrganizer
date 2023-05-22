@@ -42,24 +42,24 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            var model = new AddStorageViewModel();
+            var model = new AddHouseViewModel();
             return View(model);
         }
 
-      //  [HttpPost]
-      //  public async Task<IActionResult> Add(AddStorageViewModel model)
-      //  {
-      //      if (!ModelState.IsValid)
-      //      {
-      //          TempData[MessageConstant.ErrorMessage] = "Try again";
-      //          return View(model);
-      //      }
-      //
-      //      int familiId = await familyService.GetFamilyId(User.Id());
-      //
-      //      int storgeId = await storageService.AddStorage(model, familiId);
-      //      return RedirectToAction(nameof(Content), new { storgeId });
-      //  }
+        [HttpPost]
+        public async Task<IActionResult> Add(AddHouseViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Try again";
+                return View(model);
+            }
+      
+            int familiId = await familyService.GetFamilyId(User.Id());
+      
+            int houdeId = await houseService.AddHouse(model, familiId);
+            return RedirectToAction(nameof(Content), new { houdeId });
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
