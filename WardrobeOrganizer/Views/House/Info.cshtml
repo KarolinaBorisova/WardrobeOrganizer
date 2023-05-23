@@ -33,3 +33,7 @@ else
 <div class="text-center">
     <a class="btn btn-primary" asp-controller="Storage" asp-route-houseId=@Model.Id asp-action="Add">Add new storage</a>
 </div>
+<div class="card-footer">
+    <a class="btn btn-danger " asp-controller="House" asp-action="Delete">Delete house</a>
+    <a class="btn btn-danger" asp-controller="House" asp-route-id="@Model.Id" asp-action="Edit">Edit house</a>
+</div>

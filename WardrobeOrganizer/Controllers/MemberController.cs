@@ -111,7 +111,7 @@ namespace WardrobeOrganizer.Controllers
 
             }
 
-            await memberService.Edit(model.Id, model);
+            await memberService.Edit( model);
             return RedirectToAction("Info", "Member", new { model.Id });
         }
 

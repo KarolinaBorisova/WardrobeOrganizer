@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.DotNet.Scaffolding.Shared.Project;
 using System.ComponentModel.Design;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
@@ -64,14 +66,43 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new EditStorageViewModel();
+            if (await houseService.ExistsById(id) == false)
+            {
+                ModelState.AddModelError("", "House does not exist");
+                return View();
+            }
+
+
+            var house = await houseService.GetHouseById(id);
+            var model = new InfoHouseViewModel()
+            {
+                Name = house.Name,
+                Address = house.Address,
+                Id = house.Id,
+                FamilyId = house.FamilyId
+
+            };
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditStorageViewModel model)
+        public async Task<IActionResult> Edit(InfoHouseViewModel model)
         {
-           return RedirectToAction(nameof (Content), new { id, model });
+            if (await houseService.ExistsById(model.Id) == false)
+            {
+                ModelState.AddModelError("", "House does not exist");
+                return View();
+            }
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+
+            }
+            var houseId = model.Id;
+            await houseService.Edit(model);
+            return RedirectToAction("Info", "House", new {houseId});
+
         }
 
         [HttpPost]

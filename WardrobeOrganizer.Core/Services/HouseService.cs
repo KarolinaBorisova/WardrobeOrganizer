@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.House;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
@@ -49,6 +50,16 @@ namespace WardrobeOrganizer.Core.Services
                     
 
                }).ToListAsync();
+        }
+
+        public async Task Edit(InfoHouseViewModel model)
+        {
+            var house = await repo.GetByIdAsync<House>(model.Id);
+            house.Name = model.Name;
+            house.Address = model.Address;
+            house.Id = model.Id;
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsById(int houseId)

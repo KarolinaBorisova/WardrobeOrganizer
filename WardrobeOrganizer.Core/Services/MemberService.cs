@@ -107,9 +107,9 @@ namespace WardrobeOrganizer.Core.Services
                 .AnyAsync(m=>m.Id == id);
           }
 
-        public async Task Edit(int memberId, InfoMemberViewModel model)
+        public async Task Edit( InfoMemberViewModel model)
         {
-           var member = await repo.GetByIdAsync<Member>(memberId);
+           var member = await repo.GetByIdAsync<Member>(model.Id);
 
             member.FirstName = model.FirstName;
             member.LastName = model.LastName;
