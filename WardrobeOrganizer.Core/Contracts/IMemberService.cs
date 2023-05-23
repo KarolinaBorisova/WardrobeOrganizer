@@ -19,5 +19,8 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<ICollection<AllMembersViewModel>> AllMembers(int familyId);
 
         Task<InfoMemberViewModel> GetMemberById(int MemberId);
+
+        Task Edit(int memberId, InfoMemberViewModel model);
+
     }
 }

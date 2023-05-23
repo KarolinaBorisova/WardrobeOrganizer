@@ -1,4 +1,5 @@
-﻿using WardrobeOrganizer.Core.Models.Storage;
+﻿using WardrobeOrganizer.Core.Models.Member;
+using WardrobeOrganizer.Core.Models.Storage;
 
 namespace WardrobeOrganizer.Core.Contracts
 {
@@ -6,6 +7,8 @@ namespace WardrobeOrganizer.Core.Contracts
     {
         Task<ICollection<AllStoragesViewModel>> AllStorages(int houseIs);
 
-        Task<int> AddStorage(AddStorageViewModel storage, int houseId);
+        Task<int> AddStorage(AddStorageViewModel storage);
+
+        Task<InfoStorageViewModel> GetStorageById(int storageId);
     }
 }

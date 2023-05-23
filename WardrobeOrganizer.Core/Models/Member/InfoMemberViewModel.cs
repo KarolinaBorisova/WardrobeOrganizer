@@ -17,7 +17,7 @@ namespace WardrobeOrganizer.Core.Models.Member
         public string FirstName { get; set; }
         public string LastName { get; set; }
        
-        public FamilyViewModel Family { get; set; }
+        public FamilyViewModel? Family { get; set; }
 
         public string? ImgUrl { get; set; }
 

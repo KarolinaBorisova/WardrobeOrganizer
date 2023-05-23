@@ -22,7 +22,7 @@ else
         {
             <div class="card">
                 <div class="card-body">
-                    <h4><a class="card-title text-dark" asp-controller="Storage" asp-action="Info">@storage.Name</a></h4>
+                    <h4><a class="card-title text-dark" asp-controller="Storage" asp-route-id="@storage.Id" asp-action="Info">@storage.Name</a></h4>
                 </div>
             </div>
    

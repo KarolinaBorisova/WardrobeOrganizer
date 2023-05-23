@@ -61,8 +61,8 @@ namespace WardrobeOrganizer.Controllers
         
         //    int houseId = await houseService.GetHouseId(User.Id());
 
-            int storgeId = await storageService.AddStorage(model, model.HouseId);
-            return RedirectToAction("Info", "House", new { model.HouseId }); //Change to stoargeId
+            int storgeId = await storageService.AddStorage(model);
+            return RedirectToAction("Info", "Storage", new { storgeId }); //Change to stoargeId
         }
 
         public async Task<IActionResult> Content(int id)
@@ -94,7 +94,8 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Info(int id)
         {
-            var model = new InfoStorageViewModel();
+            var model = await storageService.GetStorageById(id);
+
             return View(model);
         }
 

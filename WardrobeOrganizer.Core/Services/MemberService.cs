@@ -107,7 +107,21 @@ namespace WardrobeOrganizer.Core.Services
                 .AnyAsync(m=>m.Id == id);
           }
 
+        public async Task Edit(int memberId, InfoMemberViewModel model)
+        {
+           var member = await repo.GetByIdAsync<Member>(memberId);
 
-
+            member.FirstName = model.FirstName;
+            member.LastName = model.LastName;
+            member.ImgUrl = model.ImgUrl;
+            member.Birthdate = model.Birthdate;
+            member.Gender = model.Gender;
+            member.ShoeSizeEu = model.ShoeSizeEu;
+            member.FootLengthCm = model.FootLengthCm;
+            member.ClothesSize = model.ClothesSize;
+            member.UserHeight = model.UserHeight;
+            
+           await repo.SaveChangesAsync();
+        }
     }
 }
