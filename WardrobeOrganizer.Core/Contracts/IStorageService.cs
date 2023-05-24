@@ -10,5 +10,9 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<int> AddStorage(AddStorageViewModel storage);
 
         Task<InfoStorageViewModel> GetStorageById(int storageId);
+
+        Task<bool> ExistsById(int id);
+
+        Task Edit(InfoStorageViewModel model);
     }
 }

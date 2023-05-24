@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.Design;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
@@ -61,8 +62,8 @@ namespace WardrobeOrganizer.Controllers
         
         //    int houseId = await houseService.GetHouseId(User.Id());
 
-            int storgeId = await storageService.AddStorage(model);
-            return RedirectToAction("Info", "Storage", new { storgeId }); //Change to stoargeId
+            int id = await storageService.AddStorage(model);
+            return RedirectToAction("Info", "Storage", new { id }); //Change to stoargeId
         }
 
         public async Task<IActionResult> Content(int id)
@@ -74,14 +75,36 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new EditStorageViewModel();
+            if (await storageService.ExistsById(id)==false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+            var storage = await storageService.GetStorageById(id);
+            var model = new InfoStorageViewModel()
+            {
+                Id = id,
+                Name = storage.Name,
+                
+            };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditStorageViewModel model)
+        public async Task<IActionResult> Edit( InfoStorageViewModel model)
         {
-           return RedirectToAction(nameof (Content), new { id, model });
+             if (await storageService.ExistsById(model.Id) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            await storageService.Edit(model);
+            return RedirectToAction("Info", "Storage", new { model.Id });
+
         }
 
         [HttpPost]

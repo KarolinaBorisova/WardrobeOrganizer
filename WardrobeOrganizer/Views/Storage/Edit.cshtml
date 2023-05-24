@@ -1,6 +1,16 @@
-﻿@model EditStorageViewModel
+﻿@model InfoStorageViewModel
 @{
     ViewData["Title"] = "Edit Storage";
 }
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="Name">Storage name</label>
+            <input asp-for="Name" class="form-control" id="Name">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Edit storage</button>
+</form>

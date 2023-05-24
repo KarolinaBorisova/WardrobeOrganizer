@@ -51,19 +51,34 @@ namespace WardrobeOrganizer.Core.Services
                }).ToListAsync();
         }
 
+        public async Task Edit(InfoStorageViewModel model)
+        {
+            var storage = await repo.GetByIdAsync<Storage>(model.Id);
+
+            storage.Name = model.Name;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsById(int id)
+        {
+            return await repo.AllReadonly<Storage>()
+                .AnyAsync(s=>s.Id == id);
+        }
+
         public async Task<InfoStorageViewModel> GetStorageById(int storageId)
         {
             return await repo.AllReadonly<Storage>()
                 .Where(s => s.Id == storageId)
                 .Select(s => new InfoStorageViewModel()
                 {
+                    Id = s.Id,
                     Name = s.Name,
                     House = new Models.House.AddHouseViewModel()
                     {
                         Address=s.House.Address,
                         Name=s.House.Name
                     }
-
                 })
                 .FirstAsync();
         }

@@ -9,8 +9,10 @@ namespace WardrobeOrganizer.Core.Models.Storage
 {
     public class InfoStorageViewModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        public AddHouseViewModel House { get; set; }
+        public AddHouseViewModel? House { get; set; }
     }
 }

@@ -2,9 +2,13 @@
 @{
     ViewData["Title"] = "Storage Info";
 }
-<h2 class="text-center">@ViewData["Title"]</h2>
-<h2 class="text-center">@Model.Name</h2>
-<h2 class="text-center">@Model.House.Name</h2>
+
+<h2 class="text-center">House: @Model.House.Name</h2>
+<h2 class="text-center">Storage: @Model.Name</h2>
+<div class="card-footer">
+    <a class="btn btn-danger " asp-controller="Storage" asp-action="Delete">Delete storage</a>
+    <a class="btn btn-danger" asp-controller="Storage" asp-route-id="@Model.Id" asp-action="Edit">Edit storage</a>
+</div>
 <div class="nav-container">
        <div class="dropdown">
         <button class="dropbtn">Clothes</button>
