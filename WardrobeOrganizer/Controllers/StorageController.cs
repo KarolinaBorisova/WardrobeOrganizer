@@ -94,6 +94,7 @@ namespace WardrobeOrganizer.Controllers
         {
              if (await storageService.ExistsById(model.Id) == false)
             {
+                ModelState.AddModelError("", "Storage does not exist");
                 return RedirectToAction(nameof(All));
             }
 

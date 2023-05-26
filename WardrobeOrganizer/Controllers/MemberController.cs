@@ -30,7 +30,7 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int id)
         {
-              TempData[MessageConstant.SuccessMessage] = "Member added";
+             // TempData[MessageConstant.SuccessMessage] = "Member added";
             int familiId = await familyService.GetFamilyId(User.Id());
             var model = await memberService.AllMembers(familiId);
 
