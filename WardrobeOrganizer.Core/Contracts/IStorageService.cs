@@ -14,5 +14,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<bool> ExistsById(int id);
 
         Task Edit(InfoStorageViewModel model);
+
+        Task Delete(int storageId);
     }
 }

@@ -16,6 +16,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public House House { get; set; } = null!;
         public int HouseId { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         public IList<Clothing> Clothes { get; set; } = new List<Clothing>();
 
         public IList<Shoes> Shoes { get; set; } = new List<Shoes>();

@@ -68,7 +68,12 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var model = await memberService.GetMemberById(id);
-            
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (model.Family.Id != familyId)
+            {
+                return RedirectToAction("Index", "Home");
+            }
        
             return View(model);
         }
@@ -81,6 +86,13 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction(nameof(All));
             }
             var member = await memberService.GetMemberById(id);
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familyId)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var model = new InfoMemberViewModel()
             {
                 Id = id,

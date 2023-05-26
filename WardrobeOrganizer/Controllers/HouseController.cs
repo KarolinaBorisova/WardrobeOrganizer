@@ -72,15 +72,22 @@ namespace WardrobeOrganizer.Controllers
                 return View();
             }
 
-
             var house = await houseService.GetHouseById(id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (house.FamilyId != familiId)
+            {
+                //ModelState.AddModelError("", "Not allowed");
+                return RedirectToAction("Index", "Home");
+            }
+
+
             var model = new InfoHouseViewModel()
             {
                 Name = house.Name,
                 Address = house.Address,
                 Id = house.Id,
                 FamilyId = house.FamilyId
-
             };
 
             return View(model);
@@ -120,6 +127,12 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("All", "Member");
             }
             var house = await houseService.GetHouseById(houseId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (house.Id != familiId)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             var model = new InfoHouseViewModel()
             {

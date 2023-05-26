@@ -36,6 +36,7 @@ namespace WardrobeOrganizer.Core.Services
         {
             return await repo.AllReadonly<Storage>()
                 .Where(s => s.HouseId == houseId)
+                .Where(s=> s.IsActive)
                 .OrderBy(x => x.Name)
                .Select(s => new AllStoragesViewModel
                {
@@ -49,6 +50,11 @@ namespace WardrobeOrganizer.Core.Services
                    }
 
                }).ToListAsync();
+        }
+
+        public Task Delete(int storageId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task Edit(InfoStorageViewModel model)
@@ -70,6 +76,7 @@ namespace WardrobeOrganizer.Core.Services
         {
             return await repo.AllReadonly<Storage>()
                 .Where(s => s.Id == storageId)
+                .Where(s => s.IsActive)
                 .Select(s => new InfoStorageViewModel()
                 {
                     Id = s.Id,
