@@ -129,7 +129,7 @@ namespace WardrobeOrganizer.Controllers
             var house = await houseService.GetHouseById(houseId);
             int familiId = await familyService.GetFamilyId(User.Id());
 
-            if (house.Id != familiId)
+            if (house.FamilyId != familiId)
             {
                 return RedirectToAction("Index", "Home");
             }

@@ -6,7 +6,10 @@
 <h2 class="text-center">House: @Model.House.Name</h2>
 <h2 class="text-center">Storage: @Model.Name</h2>
 <div class="card-footer">
-    <a class="btn btn-danger " asp-controller="Storage" asp-action="Delete">Delete storage</a>
+    <form method="post" asp-controller="Storage" asp-action="Delete" asp-route-id="@Model.Id">
+        <button class="btn btn-danger" type="submit">Delete storage</button>
+    </form>
+   
     <a class="btn btn-danger" asp-controller="Storage" asp-route-id="@Model.Id" asp-action="Edit">Edit storage</a>
 </div>
 <div class="nav-container">

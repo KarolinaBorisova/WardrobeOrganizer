@@ -111,7 +111,17 @@ namespace WardrobeOrganizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            return RedirectToAction(nameof(All));
+            if (await storageService.ExistsById(id) == false)
+            {
+                ModelState.AddModelError("", "Storage does not exist");
+                return RedirectToAction(nameof(All));
+            }
+
+            var storage = await storageService.GetStorageById(id);
+            var houseId = storage.House.Id;
+            await storageService.Delete(id);
+
+            return RedirectToAction("Info", "House", new {houseId});
         }
         
 

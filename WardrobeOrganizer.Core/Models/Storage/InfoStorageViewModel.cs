@@ -13,6 +13,6 @@ namespace WardrobeOrganizer.Core.Models.Storage
 
         public string Name { get; set; }
 
-        public AddHouseViewModel? House { get; set; }
+        public AllHousesViewModel? House { get; set; }
     }
 }

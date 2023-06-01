@@ -48,13 +48,18 @@ namespace WardrobeOrganizer.Core.Services
                        //FamilyId = s.House.FamilyId,
                        Address = s.House.Address
                    }
+                   
 
                }).ToListAsync();
         }
 
-        public Task Delete(int storageId)
+        public async Task Delete(int storageId)
         {
-            throw new NotImplementedException();
+            var storage = await repo.GetByIdAsync<Storage>(storageId);
+
+            storage.IsActive = false;
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task Edit(InfoStorageViewModel model)
@@ -69,7 +74,7 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<bool> ExistsById(int id)
         {
             return await repo.AllReadonly<Storage>()
-                .AnyAsync(s=>s.Id == id);
+                .AnyAsync(s=>s.Id == id && s.IsActive);
         }
 
         public async Task<InfoStorageViewModel> GetStorageById(int storageId)
@@ -81,8 +86,9 @@ namespace WardrobeOrganizer.Core.Services
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    House = new Models.House.AddHouseViewModel()
+                    House = new Models.House.AllHousesViewModel()
                     {
+                        Id = s.House.Id,
                         Address=s.House.Address,
                         Name=s.House.Name
                     }
