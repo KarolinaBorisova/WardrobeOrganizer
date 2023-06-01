@@ -22,5 +22,6 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task Edit( InfoMemberViewModel model);
 
+        Task Delete(int MemberId);
     }
 }

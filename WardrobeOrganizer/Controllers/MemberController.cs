@@ -128,9 +128,18 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            return RedirectToAction("All", "Member");
+            if (await memberService.ExistsById(Id) == false)
+            {
+                ModelState.AddModelError("", "Member does not exist");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            await memberService.Delete(Id);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

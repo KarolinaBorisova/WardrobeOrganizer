@@ -38,7 +38,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public double? UserHeight { get; set; }
 
-       
+        public bool IsActive { get; set; } = true;
+
         [ForeignKey(nameof(FamilyId))]
         public Family? Family { get; set; }
         public int? FamilyId { get; set; }

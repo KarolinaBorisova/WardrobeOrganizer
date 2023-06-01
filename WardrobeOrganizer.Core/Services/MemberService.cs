@@ -47,7 +47,7 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<ICollection<AllMembersViewModel>> AllMembers(int familyId)
         {
             return await repo.AllReadonly<Member>()
-                .Where(f => f.FamilyId == familyId)
+                .Where(f => f.FamilyId == familyId && f.IsActive)
                 .Select(m => new AllMembersViewModel
                 {
                     Id = m.Id,
@@ -122,6 +122,14 @@ namespace WardrobeOrganizer.Core.Services
             member.UserHeight = model.UserHeight;
             
            await repo.SaveChangesAsync();
+        }
+
+        public async Task Delete(int MemberId)
+        {
+            var member = await repo.GetByIdAsync<Member>(MemberId);
+
+            member.IsActive = false;
+            await repo.SaveChangesAsync();
         }
     }
 }

@@ -20,7 +20,9 @@
     
         </div>
         <div class="card-footer">
-            <a class="btn btn-danger " asp-controller="Member" asp-action="Delete">Delete member</a>
+            <form method="post" asp-controller="Member" asp-action="Delete" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Delete member</button>
+            </form>
             <a class="btn btn-danger" asp-controller="Member" asp-route-id="@Model.Id" asp-action="Edit">Edit member</a>
         </div>
     </div>
