@@ -22,5 +22,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<int> GetHouseId(string userId);
 
         Task Edit( InfoHouseViewModel model);
+
+        Task Delete(int houseId);
     }
 }

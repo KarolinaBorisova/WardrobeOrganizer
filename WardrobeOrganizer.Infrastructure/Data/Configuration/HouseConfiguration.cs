@@ -25,7 +25,8 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
                 FamilyId=1,
                 Address = "Simeonsovkso shode 85",
                 Name= "Home",
-                Storages= new List<Storage>()
+                Storages= new List<Storage>(),
+               // IsActive=true,
 
             };
 

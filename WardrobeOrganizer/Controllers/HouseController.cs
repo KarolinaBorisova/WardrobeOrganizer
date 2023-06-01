@@ -113,9 +113,17 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            return RedirectToAction(nameof(All));
+            if (await houseService.ExistsById(Id) == false)
+            {
+                ModelState.AddModelError("", "House does not exist");
+                return RedirectToAction("Index", "Home");
+            }
+
+            await houseService.Delete(Id);
+
+            return RedirectToAction("Index", "Home");
         }
         
 
@@ -141,11 +149,9 @@ namespace WardrobeOrganizer.Controllers
                 Name = house.Name,
                 Storages = await storageService.AllStorages(houseId),
                 Id = house.Id
-                
+
 
             };
-
-
             return View(model);
         }
 

@@ -25,6 +25,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public Family? Family { get; set; }
         public int? FamilyId { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         public IList<Storage> Storages { get; set; } = new List<Storage>();
 
     }

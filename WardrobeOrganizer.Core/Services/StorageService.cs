@@ -22,8 +22,7 @@ namespace WardrobeOrganizer.Core.Services
             {
                 Name = model.Name,
                 HouseId = model.HouseId,
-                
-                
+                   
             };
 
             await repo.AddAsync(storage);

@@ -40,7 +40,7 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<ICollection<AllHousesViewModel>> AllHouses(int familyId)
         {
             return await repo.AllReadonly<House>()
-                .Where(h => h.FamilyId == familyId)
+                .Where(h => h.FamilyId == familyId && h.IsActive)
                 .OrderBy(x => x.Name)
                .Select(s => new AllHousesViewModel
                {
@@ -50,6 +50,15 @@ namespace WardrobeOrganizer.Core.Services
                     
 
                }).ToListAsync();
+        }
+
+        public async Task Delete(int houseId)
+        {
+            var house = await repo.GetByIdAsync<House>(houseId);
+
+            house.IsActive = false;
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task Edit(InfoHouseViewModel model)
@@ -71,15 +80,13 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<InfoHouseViewModel> GetHouseById(int houseId)
         {
             return await repo.AllReadonly<House>()
-                .Where(h => h.Id == houseId)
+                .Where(h => h.Id == houseId )
                 .Select(h => new InfoHouseViewModel()
                 {
                     Id = h.Id,
                     Address = h.Address,
                     FamilyId = h.FamilyId,
                     Name = h.Name,
-                    
-
                 })
                 .FirstOrDefaultAsync();
         }
