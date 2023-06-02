@@ -16,7 +16,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         {
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new StorageConfiguration());
-            builder.ApplyConfiguration(new ClothingConfiguration());
+            builder.ApplyConfiguration(new ClothesConfiguration());
             builder.ApplyConfiguration(new FamilyConfiguration());
             builder.ApplyConfiguration(new HouseConfiguration());
 
@@ -32,7 +32,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public DbSet<Storage> Storages { get; set; }
 
-        public DbSet<Clothing> Clothes { get; set; }
+        public DbSet<Clothes> Clothes { get; set; }
 
         public DbSet<Shoes> Shoes { get; set; }
 

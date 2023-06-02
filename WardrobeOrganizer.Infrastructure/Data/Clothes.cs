@@ -9,7 +9,7 @@ using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Infrastructure.Data
 {
-    public class Clothing : Item
+    public class Clothes : Item
     {
         public int? SizeHeight { get; set; }
 
@@ -18,7 +18,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public string Size { get; set; } = null!;
 
         
-        public CategoryClothing Category { get; set; }
+        public CategoryClothes Category { get; set; }
 
 
     }

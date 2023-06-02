@@ -23,18 +23,18 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task<int> AddClothes(AddClothesViewModel model, int familyId)
+        public async Task<int> AddClothes(AddClothesViewModel model)
         {
-            var clothing = new Clothing()
+            var clothing = new Clothes()
             {
                 Name = model.Name,
-                ImgUrl = model.Url,
+                ImgUrl = model.ImgUrl,
                 Color = model.Color,
                 Size = model.Size,
                 SizeHeight = model.SizeHeight,
                 Description = model.Description,
                 Category = model.Category,
-                StorageId = 1
+                StorageId = model.StorageId,
             };
 
             await repo.AddAsync(clothing);
@@ -48,6 +48,21 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<IEnumerable<AddClothesViewModel>> AllCategories()
         {
             return null;
+        }
+
+        public async Task<ICollection<AllClothesViewModel>> AllClothes(int storageId)
+        {
+            return await repo.AllReadonly<Clothes>()
+             //   .Where(c=>c.StorageId==storageId)
+                .Select(c => new AllClothesViewModel()
+                {
+                    Id=c.Id,
+                    Name=c.Name,
+                    ImgUrl=c.ImgUrl,
+                    Size = c.Size,
+
+                })
+                .ToListAsync();
         }
     }
 }

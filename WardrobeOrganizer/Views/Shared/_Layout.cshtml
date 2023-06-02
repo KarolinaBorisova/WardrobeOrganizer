@@ -23,22 +23,22 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
                         @if (this.User?.Identity != null & this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Storage" asp-action="All">All Storages</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Houses</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Storage" asp-action="Add">Add Storage</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="All">All Members</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Add">Add Member</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Family</a>
                             </li>
+                        }
+                        else
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Clothes" asp-action="Add">Add Clothes</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                         }
                     </ul>

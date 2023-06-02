@@ -31,7 +31,7 @@ namespace WardrobeOrganizer.Controllers
             this.houseService = _houseService;
          
         }
-
+        //All Storages in DB
         public async Task<IActionResult> All()
         {
             int familiId = await familyService.GetFamilyId(User.Id());

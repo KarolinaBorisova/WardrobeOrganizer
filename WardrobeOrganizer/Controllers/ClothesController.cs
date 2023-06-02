@@ -22,14 +22,17 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> All()
         {
-            var model = new AllClothesViewModel();
+            var model = await clothesService.AllClothes(1040);
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(int storageId)
         {
-            var model = new AddClothesViewModel();
+            var model = new AddClothesViewModel()
+            {
+                StorageId = storageId
+            };
             return View(model);
         }
 
@@ -41,10 +44,9 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return View(model);
             }
-            int familiId = await familyService.GetFamilyId(User.Id());
-
-            int id = await clothesService.AddClothes(model, familiId);
-            return RedirectToAction("All", "Member", new { id });
+            var storageId = model.StorageId;
+            int id = await clothesService.AddClothes(model);
+            return RedirectToAction("All", "Clothes", new { storageId });
         }
 
         public async Task<IActionResult> Details(int id)

@@ -1,6 +1,6 @@
 ﻿namespace WardrobeOrganizer.Infrastructure.Data.Enums
 {
-    public enum CategoryClothing
+    public enum CategoryClothes
     {
         Tshirt,
         Longsleeve,

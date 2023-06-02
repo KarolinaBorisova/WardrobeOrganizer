@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Core.Models.Clothes
@@ -13,7 +14,7 @@ namespace WardrobeOrganizer.Core.Models.Clothes
 
         public string Description { get; set; }
 
-        public string Url { get; set; }
+        public string ImgUrl { get; set; }
 
         public string Color { get; set; }
 
@@ -23,8 +24,10 @@ namespace WardrobeOrganizer.Core.Models.Clothes
 
         public int? MemberId { get; set; }
 
-        public CategoryClothing Category { get; set; }
+       // public  IEnumerable<MemberViewModel> Members{ get; set; }
 
-        public int? StorageId { get; set; }
+        public CategoryClothes Category { get; set; }
+
+        public int StorageId { get; set; }
     }
 }

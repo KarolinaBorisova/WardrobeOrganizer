@@ -4,23 +4,23 @@ using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Infrastructure.Data.Configuration
 {
-    internal class ClothingConfiguration : IEntityTypeConfiguration<Clothing>
+    internal class ClothesConfiguration : IEntityTypeConfiguration<Clothes>
     {
-        public void Configure(EntityTypeBuilder<Clothing> builder)
+        public void Configure(EntityTypeBuilder<Clothes> builder)
         {
             builder.HasData(CreateClothing());
         }
 
 
-        private List<Clothing> CreateClothing()
+        private List<Clothes> CreateClothing()
         {
-            var clothes = new List<Clothing>();
+            var clothes = new List<Clothes>();
 
-            var clothing = new Clothing()
+            var clothing = new Clothes()
             {
                 Id = 1,
                 Name = "Тениска",
-                Category = CategoryClothing.Tshirt,
+                Category = CategoryClothes.Tshirt,
                 Size = "М",
                 StorageId = 1,
                 ImgUrl = "http://unblast.com/wp-content/uploads/2019/04/Kids-T-Shirt-Mockup-1.jpg"
