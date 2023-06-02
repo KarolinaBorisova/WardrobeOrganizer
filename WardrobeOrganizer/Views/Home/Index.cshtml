@@ -15,9 +15,7 @@
     @if (Model.Family != null)
     {
         <div class="text-center">
-            <h3 class="display-3">
-                <a class="card-title text-dark" asp-controller="Family" asp-action="Info">@Model.Family.Name Family</a>
-            </h3>
+                <h3 class="display-3">@Model.Family.Name Family</h3>
         </div>
         <div class="text-center">
             <h3 class="display-5">Family members</h3>

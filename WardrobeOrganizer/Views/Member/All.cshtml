@@ -6,6 +6,9 @@
 
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr/>
+<div class="text-center">
+    <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
+</div>
 <div class="card-group">
    
     @foreach (var member in Model)
