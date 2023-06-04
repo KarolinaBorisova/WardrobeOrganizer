@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WardrobeOrganizer.Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WardrobeOrganizer.Core", "WardrobeOrganizer.Core\WardrobeOrganizer.Core.csproj", "{9DCDEC53-2A71-4619-B9F4-390FF2C80AF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WardrobeOrganizer.UnitTests", "WardrobeOrganizer.UnitTests\WardrobeOrganizer.UnitTests.csproj", "{D94650A7-B61F-4311-BED5-58D3B66D36FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9DCDEC53-2A71-4619-B9F4-390FF2C80AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DCDEC53-2A71-4619-B9F4-390FF2C80AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DCDEC53-2A71-4619-B9F4-390FF2C80AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D94650A7-B61F-4311-BED5-58D3B66D36FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D94650A7-B61F-4311-BED5-58D3B66D36FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D94650A7-B61F-4311-BED5-58D3B66D36FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D94650A7-B61F-4311-BED5-58D3B66D36FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
