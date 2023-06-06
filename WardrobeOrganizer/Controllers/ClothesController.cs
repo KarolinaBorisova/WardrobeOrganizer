@@ -22,6 +22,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> All()
         {
+            //find strageId
             var model = await clothesService.AllClothes(1040);
             return View(model);
         }
