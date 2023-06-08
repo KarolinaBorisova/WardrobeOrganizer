@@ -10,9 +10,9 @@ using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Infrastructure.Data;
 
-namespace WardrobeOrganizer.Controllers
+namespace WardrobeOrganizer.Api
 {
-    [Route("api/houses")]
+    
     [ApiController]
     public class HouseApiController : Controller
     {
@@ -36,8 +36,9 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(AllHousesViewModel))]
-        [ProducesResponseType(500)]
-        public async Task<IActionResult> GetHouses()
+
+        [Route("Member/Info/api/house/houses/get")]
+        public async Task<IActionResult> Houses()
         {
            // int familiId = await familyService.GetFamilyId(User.Id());
             var model = await houseService.AllHouses(1);

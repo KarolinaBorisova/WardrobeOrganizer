@@ -6,7 +6,7 @@ using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Services;
 
 
-namespace WardrobeOrganizer.WebApi.Controllers
+namespace WardrobeOrganizer.Api
 {
     [Route("api/[controller]")]
     [ApiController]

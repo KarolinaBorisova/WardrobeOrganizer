@@ -9,6 +9,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddWardrobeOrganizerDbContext(builder.Configuration);
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -22,6 +23,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(builder => builder.WithOrigins("https://localhost:7120")
+.AllowAnyHeader()
+.AllowAnyMethod());
 
 app.MapControllers();
 

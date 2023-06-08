@@ -27,6 +27,34 @@
         </div>
     </div>
 </div>
+<div class="card">
+    <ul id="list-container"></ul>
+        <p class="card-text" id="houseName"><span></span></p>
+</div>
+<button class="btn btn-primary" id="apitest">Show Houses ApiTest</button>
+    <script>
+      
+
+        document.getElementById("apitest").addEventListener("click", function () {
+        fetch('api/house/houses/get')
+        .then(res=>{
+            return res.json();
+        })
+        .then(data=> {
+                console.log(data)
+            data.forEach(house => {
+                
+                const markup = `<li>${house.name}</li>`;
+                    console.log(document.getElementById("list-container"))
+                    document.getElementById("list-container").insertAdjacentHTML('beforeend', markup);
+            });
+
+        });
+            
+
+        
+        });
+    </script>
 
 
 
