@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,14 @@ namespace WardrobeOrganizer.Core.Services
     public class MemberService : IMemberService
     {
         private readonly IRepository repo;
+        private readonly ILogger logger;
+
         
-        public MemberService(IRepository _repo)
+        public MemberService(IRepository _repo,
+            ILogger<MemberService> _logger)
         {
             this.repo = _repo;
+            this.logger = _logger;
         }
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId)
@@ -38,8 +43,19 @@ namespace WardrobeOrganizer.Core.Services
                 
             };
 
-            await repo.AddAsync(member);
-            await repo.SaveChangesAsync();
+            try
+            {
+                await repo.AddAsync(member);
+                await repo.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(AddMember), ex);
+                throw new ApplicationException("Database failed to save info", ex);
+            }
+
+            
 
             return member.Id;
         }

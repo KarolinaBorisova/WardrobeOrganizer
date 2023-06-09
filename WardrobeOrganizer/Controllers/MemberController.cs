@@ -19,12 +19,15 @@ namespace WardrobeOrganizer.Controllers
     {
         private readonly IMemberService memberService;
         private readonly IFamilyService familyService;
+        private readonly ILogger logger;
 
         public MemberController(IMemberService _memberService,
-            IFamilyService _familyService)
+            IFamilyService _familyService,
+            ILogger<MemberController> _logger)
         {
             this.memberService = _memberService;
             this.familyService = _familyService;
+            this.logger = _logger;
         }
 
         [HttpGet]
@@ -64,6 +67,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if(await memberService.ExistsById(id) == false)
             {
+                logger.LogInformation("Member with id {0} not exist", id);
                 return RedirectToAction("All", "Member");
             }
 
