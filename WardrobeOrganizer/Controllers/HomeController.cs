@@ -10,23 +10,24 @@ namespace WardrobeOrganizer.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IStorageService storageService;
         private readonly IMemberService memberService;
         private readonly IFamilyService familyService;
         private readonly IHouseService houseService;
+        private readonly ILogger logger;
 
-        public HomeController(ILogger<HomeController> logger,
-           IStorageService _storageService,
+        public HomeController(IStorageService _storageService,
            IMemberService _memberService,
            IFamilyService _familyService,
-           IHouseService _houseService)
+           IHouseService _houseService,
+           ILogger<HomeController> _logger)
         {
-            _logger = logger;
+            
             storageService = _storageService;
             memberService = _memberService;
             familyService = _familyService;
             houseService = _houseService;
+            logger= _logger;
         }
 
         public async Task<IActionResult> Index()

@@ -20,16 +20,19 @@ namespace WardrobeOrganizer.Controllers
         private readonly IHouseService houseService;
         private readonly IFamilyService familyService;
         private readonly IStorageService storageService;
+        private readonly ILogger logger;
         
 
 
         public HouseController(IHouseService _houseService,
             IFamilyService _familyService,
-            IStorageService _storageService)
+            IStorageService _storageService,
+            ILogger<HouseController> _logger)
         {
             this.houseService = _houseService;
             this.familyService = _familyService;
             this.storageService = _storageService;
+            this.logger = _logger;
          
         }
 

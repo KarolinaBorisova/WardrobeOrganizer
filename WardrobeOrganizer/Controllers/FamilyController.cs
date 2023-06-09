@@ -20,17 +20,20 @@ namespace WardrobeOrganizer.Controllers
         private readonly IStorageService storageService;
         private readonly IMemberService memberService;
         private readonly IHouseService houseService;
+        private readonly ILogger logger;
 
-       
+
         public FamilyController(IFamilyService _familyService,
              IStorageService _storageService,
              IMemberService _memberService,
-             IHouseService _houseService)
+             IHouseService _houseService,
+             ILogger<FamilyController> _logger)
         {
             familyService = _familyService;
             storageService = _storageService;
             memberService = _memberService;
             houseService = _houseService;
+            logger = _logger;
         }
       
         public async Task<IActionResult> Info()

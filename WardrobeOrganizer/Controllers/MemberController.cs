@@ -55,10 +55,22 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return View(model);
             }
-            int familiId = await familyService.GetFamilyId(User.Id());
 
-            int id =  await  memberService.AddMember(model,familiId);
-            return RedirectToAction("All", "Member", new {id} );
+            int memberId;
+
+            try
+            {
+                int familiId = await familyService.GetFamilyId(User.Id());
+                memberId = await memberService.AddMember(model, familiId);
+                TempData[MessageConstant.SuccessMessage] = "Member added";
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(Add), ex);
+                throw new ApplicationException("Database failed to add member", ex);
+            }
+           
+            return RedirectToAction("All", "Member", new { memberId } );
         }
 
 
@@ -71,11 +83,23 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("All", "Member");
             }
 
-            var model = await memberService.GetMemberById(id);
-            var familyId = await familyService.GetFamilyId(User.Id());
+            InfoMemberViewModel model;
+            int familyId;
+            try
+            {
+                model = await memberService.GetMemberById(id);
+                familyId = await familyService.GetFamilyId(User.Id());
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(Info), ex);
+                throw new ApplicationException("Database failed to show member information", ex);
+            }
+           
 
             if (model.Family.Id != familyId)
             {
+                logger.LogInformation("Family with id {0} attempted to open other family house", familyId);
                 return RedirectToAction("Index", "Home");
             }
        
@@ -87,6 +111,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await memberService.ExistsById(id) ==false)
             {
+                logger.LogInformation("Member with id {0} not exist", id);
                 return RedirectToAction(nameof(All));
             }
             var member = await memberService.GetMemberById(id);
@@ -94,6 +119,7 @@ namespace WardrobeOrganizer.Controllers
 
             if (member.Family.Id != familyId)
             {
+                logger.LogInformation("Family with id {0} attempted to edit other family house", familyId);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -118,6 +144,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await memberService.ExistsById(model.Id) == false)
             {
+                logger.LogInformation("Member with id {0} not exist", model.Id);
                 ModelState.AddModelError("", "Member does not exist");
                 return View();
             }
@@ -127,7 +154,17 @@ namespace WardrobeOrganizer.Controllers
 
             }
 
-            await memberService.Edit( model);
+            try
+            {
+                await memberService.Edit(model);
+                TempData[MessageConstant.SuccessMessage] = "Member edited";
+            }
+            catch (Exception )
+            {
+                logger.LogInformation("Failed to edit member with id {0}", model.Id);
+                
+            }
+            
             return RedirectToAction("Info", "Member", new { model.Id });
         }
 
@@ -136,12 +173,23 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await memberService.ExistsById(Id) == false)
             {
+                logger.LogInformation("Member with id {0} not exist", Id);
                 ModelState.AddModelError("", "Member does not exist");
 
                 return RedirectToAction("Index", "Home");
             }
 
-            await memberService.Delete(Id);
+            try
+            {
+                await memberService.Delete(Id);
+                TempData[MessageConstant.ErrorMessage] = "Member deleted";
+            }
+            catch (Exception)
+            {
+                logger.LogInformation("Can not delete member with id {0}", Id);
+                
+            }
+            
 
             return RedirectToAction("Index", "Home");
         }

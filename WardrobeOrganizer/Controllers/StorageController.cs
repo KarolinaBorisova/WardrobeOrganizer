@@ -19,16 +19,19 @@ namespace WardrobeOrganizer.Controllers
         private readonly IStorageService storageService;
         private readonly IFamilyService familyService;
         private readonly IHouseService houseService;
+        private readonly ILogger logger;
         
 
 
         public StorageController(IStorageService _storageService,
             IFamilyService _familyService,
-            IHouseService _houseService)
+            IHouseService _houseService,
+            ILogger<StorageController> _logger)
         {
             this.storageService = _storageService;
             this.familyService = _familyService;
             this.houseService = _houseService;
+            this.logger = _logger;
          
         }
         //All Storages in DB

@@ -12,12 +12,15 @@ namespace WardrobeOrganizer.Controllers
     {
         private readonly IClothesService clothesService;
         private readonly IFamilyService familyService;
+        private readonly ILogger logger;
 
         public ClothesController(IClothesService _clothesService,
-        IFamilyService _familyService)
+        IFamilyService _familyService,
+        ILogger<ClothesController> _logger)
         {
             this.clothesService = _clothesService;
             this.familyService = _familyService;
+            this.logger = _logger;
         }
 
         public async Task<IActionResult> All()

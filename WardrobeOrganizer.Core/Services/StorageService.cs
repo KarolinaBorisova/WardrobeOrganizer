@@ -24,36 +24,55 @@ namespace WardrobeOrganizer.Core.Services
                 HouseId = model.HouseId,
                    
             };
+            try
+            {
+                await repo.AddAsync(storage);
+                await repo.SaveChangesAsync();
 
-            await repo.AddAsync(storage);
-            await repo.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
 
+                throw new InvalidOperationException(e.Message);
+            }
+
+           
             return storage.Id;
         }
 
         public async Task<ICollection<AllStoragesViewModel>> AllStorages(int houseId)
         {
-            return await repo.AllReadonly<Storage>()
-                .Where(s => s.HouseId == houseId)
-                .Where(s=> s.IsActive)
-                .OrderBy(x => x.Name)
-               .Select(s => new AllStoragesViewModel
-               {
-                   Id = s.Id,
-                   Name = s.Name,
-                   House = new Models.House.AddHouseViewModel()
-                   {
-                       Name = s.House.Name,
-                       //FamilyId = s.House.FamilyId,
-                       Address = s.House.Address
-                   }
-                   
+            try
+            {
+                return await repo.AllReadonly<Storage>()
+               .Where(s => s.HouseId == houseId)
+               .Where(s => s.IsActive)
+               .OrderBy(x => x.Name)
+              .Select(s => new AllStoragesViewModel
+              {
+                  Id = s.Id,
+                  Name = s.Name,
+                  House = new Models.House.AddHouseViewModel()
+                  {
+                      Name = s.House.Name,
+                      //FamilyId = s.House.FamilyId,
+                      Address = s.House.Address
+                  }
 
-               }).ToListAsync();
+
+              }).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw new InvalidOperationException(e.Message);
+            }
+           
         }
 
         public async Task Delete(int storageId)
         {
+            //Exseption?
             var storage = await repo.GetByIdAsync<Storage>(storageId);
 
             storage.IsActive = false;
@@ -63,6 +82,7 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Edit(InfoStorageViewModel model)
         {
+            //Exseption?
             var storage = await repo.GetByIdAsync<Storage>(model.Id);
 
             storage.Name = model.Name;

@@ -17,7 +17,7 @@
             <p class="card-text">Clothes size: @Model.ClothesSize</p>
             <p class="card-text">Shoes size: @Model.ShoeSizeEu</p>
             <p class="card-text">Foot length in cm: @Model.FootLengthCm</p>
-    
+
         </div>
         <div class="card-footer">
             <form method="post" asp-controller="Member" asp-action="Delete" asp-route-id="@Model.Id">
@@ -29,32 +29,28 @@
 </div>
 <div class="card">
     <ul id="list-container"></ul>
-        <p class="card-text" id="houseName"><span></span></p>
+    <p class="card-text" id="houseName"><span></span></p>
 </div>
 <button class="btn btn-primary" id="apitest">Show Houses ApiTest</button>
-    <script>
-      
+<script>
 
-        document.getElementById("apitest").addEventListener("click", function () {
+    document.getElementById("apitest").addEventListener("click", function () {
         fetch('api/house/houses/get')
-        .then(res=>{
-            return res.json();
-        })
-        .then(data=> {
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
                 console.log(data)
-            data.forEach(house => {
-                
-                const markup = `<li>${house.name}</li>`;
+                data.forEach(house => {
+
+                    const markup = `<li>${house.name}</li>`;
                     console.log(document.getElementById("list-container"))
                     document.getElementById("list-container").insertAdjacentHTML('beforeend', markup);
+                });
+
             });
-
-        });
-            
-
-        
-        });
-    </script>
+    });
+</script>
 
 
 
