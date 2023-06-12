@@ -33,7 +33,7 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public IActionResult Add(int storageId)
         {
-            var model = new AddOuterwearViewModel()
+            var model = new AddClothesViewModel()
             {
                 StorageId = storageId
             };
@@ -41,7 +41,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddOuterwearViewModel model)
+        public async Task<IActionResult> Add(AddClothesViewModel model)
         {
             if(!ModelState.IsValid)
             {

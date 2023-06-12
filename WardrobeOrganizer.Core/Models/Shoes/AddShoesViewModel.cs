@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,15 +19,13 @@ namespace WardrobeOrganizer.Core.Models.Shoes
 
         public string Color { get; set; }
 
-        public string Size { get; set; }
+        public int SizeEu { get; set; }
 
-        public int? SizeHeight { get; set; }
+        public int Centimetres { get; set; }
 
         public int? MemberId { get; set; }
 
-       // public  IEnumerable<MemberViewModel> Members{ get; set; }
-
-        public CategoryClothes Category { get; set; }
+        public CategoryShoes Category { get; set; }
 
         public int StorageId { get; set; }
     }
