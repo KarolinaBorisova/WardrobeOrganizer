@@ -23,7 +23,7 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task<int> AddClothes(AddClothesViewModel model)
+        public async Task<int> AddClothes(AddOuterwearViewModel model)
         {
             var clothing = new Clothes()
             {
@@ -45,7 +45,7 @@ namespace WardrobeOrganizer.Core.Services
 
    
 
-        public async Task<IEnumerable<AddClothesViewModel>> AllCategories()
+        public async Task<IEnumerable<AddOuterwearViewModel>> AllCategories()
         {
             return null;
         }
