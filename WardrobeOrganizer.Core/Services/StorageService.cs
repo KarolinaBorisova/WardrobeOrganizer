@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Infrastructure.Data;
@@ -72,22 +73,39 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Delete(int storageId)
         {
-            //Exseption?
-            var storage = await repo.GetByIdAsync<Storage>(storageId);
+            
+            try
+            {
+                var storage = await repo.GetByIdAsync<Storage>(storageId);
 
-            storage.IsActive = false;
+                storage.IsActive = false;
 
-            await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception e )
+            {
+                
+                throw new InvalidOperationException(e.Message);
+            }
+         
         }
 
         public async Task Edit(InfoStorageViewModel model)
         {
-            //Exseption?
-            var storage = await repo.GetByIdAsync<Storage>(model.Id);
+            try
+            {
+                var storage = await repo.GetByIdAsync<Storage>(model.Id);
 
-            storage.Name = model.Name;
+                storage.Name = model.Name;
 
-            await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw new InvalidOperationException(e.Message); ;
+            }
+            
         }
 
         public async Task<bool> ExistsById(int id)

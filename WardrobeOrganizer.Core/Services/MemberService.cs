@@ -15,14 +15,12 @@ namespace WardrobeOrganizer.Core.Services
     public class MemberService : IMemberService
     {
         private readonly IRepository repo;
-        private readonly ILogger logger;
+      
 
         
-        public MemberService(IRepository _repo,
-            ILogger<MemberService> _logger)
+        public MemberService(IRepository _repo)
         {
             this.repo = _repo;
-            this.logger = _logger;
         }
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId)
@@ -47,11 +45,9 @@ namespace WardrobeOrganizer.Core.Services
             {
                 await repo.AddAsync(member);
                 await repo.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {
-                logger.LogError(nameof(AddMember), ex);
                 throw new ApplicationException("Database failed to save info", ex);
             }
 
@@ -125,27 +121,45 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Edit( InfoMemberViewModel model)
         {
-           var member = await repo.GetByIdAsync<Member>(model.Id);
+            try
+            {
+                var member = await repo.GetByIdAsync<Member>(model.Id);
 
-            member.FirstName = model.FirstName;
-            member.LastName = model.LastName;
-            member.ImgUrl = model.ImgUrl;
-            member.Birthdate = model.Birthdate;
-            member.Gender = model.Gender;
-            member.ShoeSizeEu = model.ShoeSizeEu;
-            member.FootLengthCm = model.FootLengthCm;
-            member.ClothesSize = model.ClothesSize;
-            member.UserHeight = model.UserHeight;
-            
-           await repo.SaveChangesAsync();
+                member.FirstName = model.FirstName;
+                member.LastName = model.LastName;
+                member.ImgUrl = model.ImgUrl;
+                member.Birthdate = model.Birthdate;
+                member.Gender = model.Gender;
+                member.ShoeSizeEu = model.ShoeSizeEu;
+                member.FootLengthCm = model.FootLengthCm;
+                member.ClothesSize = model.ClothesSize;
+                member.UserHeight = model.UserHeight;
+
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
         public async Task Delete(int MemberId)
         {
-            var member = await repo.GetByIdAsync<Member>(MemberId);
+            try
+            {
+                var member = await repo.GetByIdAsync<Member>(MemberId);
 
-            member.IsActive = false;
-            await repo.SaveChangesAsync();
+                member.IsActive = false;
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+            
         }
     }
 }

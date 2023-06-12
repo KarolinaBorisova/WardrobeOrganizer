@@ -33,19 +33,29 @@ namespace WardrobeOrganizer.Core.Services
                 UserId = userId,
                 User = user,
             };
-
+            // user e null?
             user.Family = family;
 
+            try
+            {
+                await repo.AddAsync(family);
+                await repo.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
 
 
-            await repo.AddAsync(family);
-            await repo.SaveChangesAsync();
-
+          
             return family.Id;
         }
 
         public async Task<FamilyViewModel> GetFamilyByUserId(string userId)
         {
+            
             return await repo.AllReadonly<Family>()
                 .Include(f=>f.User)
                 .Where(f => f.UserId== userId)
@@ -75,8 +85,7 @@ namespace WardrobeOrganizer.Core.Services
             if (user?.Family == null)
             {
                 return false;
-            }
-        
+            }    
                 return true;
         }
     }

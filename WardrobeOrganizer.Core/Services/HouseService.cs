@@ -31,8 +31,18 @@ namespace WardrobeOrganizer.Core.Services
                 FamilyId = familiId
             };
 
-            await repo.AddAsync(house);
-            await repo.SaveChangesAsync();
+            try
+            {
+                await repo.AddAsync(house);
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+
+          
 
             return house.Id;
         }
@@ -54,21 +64,45 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Delete(int houseId)
         {
+            if (houseId == null)
+            {
+                //nqma kushta
+            }
             var house = await repo.GetByIdAsync<House>(houseId);
+
+            if (house == null)
+            {
+                //nqma kushta
+            }
 
             house.IsActive = false;
 
-            await repo.SaveChangesAsync();
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
         public async Task Edit(InfoHouseViewModel model)
         {
-            var house = await repo.GetByIdAsync<House>(model.Id);
-            house.Name = model.Name;
-            house.Address = model.Address;
-            house.Id = model.Id;
+            try
+            {
+                var house = await repo.GetByIdAsync<House>(model.Id);
+                house.Name = model.Name;
+                house.Address = model.Address;
+                house.Id = model.Id;
 
-            await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
         public async Task<bool> ExistsById(int houseId)
@@ -77,18 +111,33 @@ namespace WardrobeOrganizer.Core.Services
               .AnyAsync(h => h.Id == houseId);
         }
 
-        public async Task<InfoHouseViewModel> GetHouseById(int houseId)
+        public async Task<InfoHouseViewModel?> GetHouseById(int houseId)
         {
-            return await repo.AllReadonly<House>()
-                .Where(h => h.Id == houseId )
-                .Select(h => new InfoHouseViewModel()
-                {
-                    Id = h.Id,
-                    Address = h.Address,
-                    FamilyId = h.FamilyId,
-                    Name = h.Name,
-                })
-                .FirstOrDefaultAsync();
+            if (houseId == null)
+            {
+
+            }
+            try
+            {
+                return await repo.AllReadonly<House>()
+               .Where(h => h.Id == houseId)
+               .Select(h => new InfoHouseViewModel()
+               {
+                   Id = h.Id,
+                   Address = h.Address,
+                   FamilyId = h.FamilyId,
+                   Name = h.Name,
+               })
+               .FirstOrDefaultAsync();
+
+            }
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException();
+            }
+         
+            
         }
 
 

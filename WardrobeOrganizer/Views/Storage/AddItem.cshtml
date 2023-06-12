@@ -1,0 +1,55 @@
+﻿@model InfoStorageViewModel
+@{
+    ViewData["Title"] = "Add Item";
+}
+
+<div class="nav-container">
+    <div class="dropdown">
+        <button class="dropbtn">Clothes</button>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Tshirt" asp-action="Add">Tshirts</a>
+            <a class="btn btn-info" asp-controller="Longsleeve" asp-action="Add">Longsleeves</a>
+            <a class="btn btn-info" asp-controller="Blouse" asp-action="Add">Blouses</a>
+            <a class="btn btn-info" asp-controller="Sweatshirt" asp-action="Add">Sweatshirts</a>
+            <a class="btn btn-info" asp-controller="Cardigan" asp-action="Add">Cardigans</a>
+            <a class="btn btn-info" asp-controller="Jean" asp-action="Add">Jeans</a>
+            <a class="btn btn-info" asp-controller="Legging" asp-action="Add">Leggings</a>
+            <a class="btn btn-info" asp-controller="Trouser" asp-action="Add">Trousers</a>
+            <a class="btn btn-info" asp-controller="Shorts" asp-action="ddl">Shorts</a>
+            <a class="btn btn-info" asp-controller="Set" asp-action="Add">Sets</a>
+            <a class="btn btn-info" asp-controller="Dress" asp-action="Add">Dresses</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Outerwear</button>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="WinterJacket" asp-action="Add">WinterJacket</a>
+            <a class="btn btn-info" asp-controller="RainJacket" asp-action="Add">RainJacket</a>
+            <a class="btn btn-info" asp-controller="Jacket" asp-action="Add">Jacket</a>
+            <a class="btn btn-info" asp-controller="Vest" asp-action="Add">Vest</a>
+            <a class="btn btn-info" asp-controller="Coat" asp-action="Add">Coat</a>
+            <a class="btn btn-info" asp-controller="Snowsuit" asp-action="Add">Snowsuit</a>
+            <a class="btn btn-info" asp-controller="WinterTrousers" asp-action="Add">WinterTrousers</a>
+            <a class="btn btn-info" asp-controller="RainTrousers" asp-action="Add">RainTrousers</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Shoes</button>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Boots" asp-action="Add">Boots</a>
+            <a class="btn btn-info" asp-controller="Trainers" asp-action="Add">Trainers</a>
+            <a class="btn btn-info" asp-controller="Sandals" asp-action="Add">Sandals</a>
+            <a class="btn btn-info" asp-controller="RainBoots" asp-action="Add">RainBoots</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Accessories</button>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Hat" asp-action="Add">Hats</a>
+            <a class="btn btn-info" asp-controller="Glove" asp-action="Add">Gloves</a>
+            <a class="btn btn-info" asp-controller="Scarve" asp-action="Add">Scarves</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-action="Add">Hair accessories</a>
+            <a class="btn btn-info" asp-controller="Sunglasses" asp-action="Add">Sunglasses</a>
+        </div>
+    </div>
+</div>
