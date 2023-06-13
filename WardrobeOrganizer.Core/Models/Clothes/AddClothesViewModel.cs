@@ -26,7 +26,7 @@ namespace WardrobeOrganizer.Core.Models.Clothes
 
        // public  IEnumerable<MemberViewModel> Members{ get; set; }
 
-        public CategoryClothes Category { get; set; }
+        public string Category { get; set; }
 
         public int StorageId { get; set; }
     }

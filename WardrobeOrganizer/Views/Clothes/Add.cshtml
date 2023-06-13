@@ -1,4 +1,4 @@
-﻿@model AddOuterwearViewModel
+﻿@model AddClothesViewModel
 @{
     ViewData["Title"] = "Add Clothes";
 }
@@ -29,12 +29,8 @@
             <label class="label" asp-for="SizeHeight">Size Height</label>
             <input asp-for="SizeHeight" type="text" class="form-control" id="Size Height">
         </div>
-       <div class="form-row col-md-6">
-            <label class="label" asp-for="Category">Category</label>
-            <select asp-for="Category" asp-items="Html.GetEnumSelectList<CategoryClothes>()">
-            <option selected="selected" value="">Please select</option>
-        </select>     
-    </div>
+        <input type="hidden" asp-for="@Model.Category" />
+       
     @*    <div class="form-group col-md-6">
             <label class="label" asp-for="Members">Member</label>
             <select asp-for="Members" asp-items="@Model.Members">

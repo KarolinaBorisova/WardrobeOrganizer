@@ -7,7 +7,7 @@
     <div class="dropdown">
         <button class="dropbtn">Clothes</button>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="Tshirt" asp-action="Add">Tshirts</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-clothesCategory="Tshirts" asp-route-storageId="@Model.Id" asp-action="Add">Tshirts</a>
             <a class="btn btn-info" asp-controller="Longsleeve" asp-action="Add">Longsleeves</a>
             <a class="btn btn-info" asp-controller="Blouse" asp-action="Add">Blouses</a>
             <a class="btn btn-info" asp-controller="Sweatshirt" asp-action="Add">Sweatshirts</a>

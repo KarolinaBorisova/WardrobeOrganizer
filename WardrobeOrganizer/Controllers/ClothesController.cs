@@ -31,11 +31,13 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int storageId)
+        public IActionResult Add(int storageId, string clothesCategory)
         {
             var model = new AddClothesViewModel()
             {
-                StorageId = storageId
+                StorageId = storageId,
+                Category = clothesCategory
+                
             };
             return View(model);
         }

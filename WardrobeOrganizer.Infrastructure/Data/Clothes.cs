@@ -18,7 +18,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public string Size { get; set; } = null!;
 
         
-        public CategoryClothes Category { get; set; }
+        public string Category { get; set; }
 
 
     }
