@@ -28,7 +28,7 @@ namespace WardrobeOrganizer.Api
 
         [HttpGet]
         [Produces("application/json")]
-        [ProducesResponseType(200, Type = typeof(AllClothesViewModel))]
+        [ProducesResponseType(200, Type = typeof(ClothesViewModel))]
         [ProducesResponseType(500)]
         public async Task<IActionResult> All()
         {

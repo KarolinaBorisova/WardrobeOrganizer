@@ -137,9 +137,9 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddItem(int id)
+        public async Task<IActionResult> AddItem(int storageId)
         {
-            var model = await storageService.GetStorageById(id);
+            var model = await storageService.GetStorageById(storageId);
 
             return View(model);
         }

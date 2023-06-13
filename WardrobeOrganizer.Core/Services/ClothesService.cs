@@ -43,26 +43,31 @@ namespace WardrobeOrganizer.Core.Services
             return clothing.Id;
         }
 
-   
+
 
         public async Task<IEnumerable<AddClothesViewModel>> AllCategories()
         {
             return null;
         }
 
-        public async Task<ICollection<AllClothesViewModel>> AllClothes(int storageId)
+        public async Task<AllClothesViewModel> AllClothes(int storageId)
         {
-            return await repo.AllReadonly<Clothes>()
-             //   .Where(c=>c.StorageId==storageId)
+            return await repo.AllReadonly<Storage>()
+                .Where(c => c.Id == storageId)
                 .Select(c => new AllClothesViewModel()
-                {
-                    Id=c.Id,
-                    Name=c.Name,
-                    ImgUrl=c.ImgUrl,
-                    Size = c.Size,
 
-                })
-                .ToListAsync();
+                {
+                    StorageId = storageId,
+                    Clothes = c.Clothes.Select(cl => new ClothesViewModel
+                    {
+                        Name = cl.Name,
+                        Category = cl.Category,
+                        Id = cl.Id,
+                        Size = cl.Size,
+                        StorageId = cl.StorageId,
+                        ImgUrl = cl.ImgUrl
+                    }).ToList()
+                }).FirstAsync();
         }
     }
 }

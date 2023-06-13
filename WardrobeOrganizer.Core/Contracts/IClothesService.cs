@@ -15,6 +15,6 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<IEnumerable<AddClothesViewModel>> AllCategories();
 
-        Task<ICollection<AllClothesViewModel>> AllClothes(int storageId);
+        Task<AllClothesViewModel> AllClothes(int storageId);
     }
 }

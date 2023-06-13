@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AllClothesViewModel>
+﻿@model AllClothesViewModel
 @{
     ViewData["Title"] = "All Clothes";
 }
@@ -67,11 +67,11 @@
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 <div class="text-center">
-    <a class="btn btn-primary" asp-controller="Clothes" asp-action="Add">Add new clothes</a>
+    <a class="btn btn-primary" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new clothes</a>
 </div>
 <div class="card-group">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Clothes)
     {
         <div class="card">
             <div class="card-body">
