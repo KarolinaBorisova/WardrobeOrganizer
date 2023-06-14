@@ -21,12 +21,18 @@ namespace WardrobeOrganizer.Controllers
             this.clothesService = _clothesService;
             this.familyService = _familyService;
             this.logger = _logger;
-        }
+        }   
 
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int storageId, string clothesCategory)
         {
+            
             //find strageId
-            var model = await clothesService.AllClothes(1040);
+            if (clothesCategory == null)
+            {
+               var mdel = await clothesService.AllClothes(storageId);
+                return View(mdel);
+            }
+             var model = await clothesService.AllClothes(storageId, clothesCategory);
             return View(model);
         }
 

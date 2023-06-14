@@ -33,7 +33,7 @@ namespace WardrobeOrganizer.Api
         public async Task<IActionResult> All()
         {
             //find strageId
-            var model = await clothesService.AllClothes(1040);
+            var model = await clothesService.AllClothes(1040, "Tshirts");
 
             return Ok(model);
         }
