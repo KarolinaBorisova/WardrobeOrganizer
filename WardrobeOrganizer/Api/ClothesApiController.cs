@@ -8,7 +8,7 @@ using WardrobeOrganizer.Core.Services;
 
 namespace WardrobeOrganizer.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/clothes")]
     [ApiController]
     public class ClothesApiController : ControllerBase
     {
@@ -30,14 +30,20 @@ namespace WardrobeOrganizer.Api
         [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(ClothesViewModel))]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int storageId)
         {
             //find strageId
-            var model = await clothesService.AllClothes(1040, "Tshirts");
+            var model = await clothesService.AllClothes(storageId);
 
             return Ok(model);
         }
+        public async Task<IActionResult> ClothesByCategory(int storageId, string category)
+        {
+            //find storageId and category
+            var model = await clothesService.AllClothesByCategory(storageId, category);
+            return Ok(model);
+        }
 
-        
+
     }
 }

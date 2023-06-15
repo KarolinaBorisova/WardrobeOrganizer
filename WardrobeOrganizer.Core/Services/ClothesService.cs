@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
@@ -50,13 +51,14 @@ namespace WardrobeOrganizer.Core.Services
             return null;
         }
 
-        public async Task<AllClothesViewModel> AllClothes(int storageId, string category)
+        public async Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category)
         {
             return await repo.AllReadonly<Storage>()
                 .Where(c => c.Id == storageId)
-                .Select(c => new AllClothesViewModel()
+                .Select(c => new AllClothesByCategoryViewModel()
 
                 {
+                    Category = category,
                     StorageId = storageId,
                     Clothes = c.Clothes.Where(clt=>clt.Category == category)
                     .Select(cl => new ClothesViewModel

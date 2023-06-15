@@ -23,7 +23,7 @@ namespace WardrobeOrganizer.Controllers
             this.logger = _logger;
         }   
 
-        public async Task<IActionResult> All(int storageId)
+        public async Task<IActionResult> All(int storageId) 
         {
             
              var model = await clothesService.AllClothes(storageId);
@@ -33,17 +33,17 @@ namespace WardrobeOrganizer.Controllers
         public async Task<IActionResult> ClothesByCategory(int storageId, string category)
         {
 
-            var model = await clothesService.AllClothes(storageId, category);
+            var model = await clothesService.AllClothesByCategory(storageId, category);
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Add(int storageId, string clothesCategory)
+        public IActionResult Add(int storageId, string category)
         {
             var model = new AddClothesViewModel()
             {
                 StorageId = storageId,
-                Category = clothesCategory
+                Category = category
                 
             };
             return View(model);
