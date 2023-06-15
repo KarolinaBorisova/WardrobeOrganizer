@@ -14,7 +14,7 @@
     <a class="btn btn-warning" asp-controller="Storage" asp-route-storageId="@Model.Id" asp-action="AddItem">Add Item</a>
 </div>
 <div class="nav-container">
-       <div class="dropdown">
+    <div class="dropdown">
         <a class="dropbtn" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-action="All">Clothes</a>
   <div class="dropdown-content">
             <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-route-category="Tshirts" asp-action="ClothesByCategory">Tshirts</a>
@@ -31,35 +31,35 @@
   </div>
 </div>
     <div class="dropdown">
-        <button class="dropbtn">Outerwear</button>
+        <a class="dropbtn" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-action="All">Outerwear</a>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="WinterJacket" asp-action="All">WinterJacket</a>
-            <a class="btn btn-info" asp-controller="RainJacket" asp-action="All">RainJacket</a>
-            <a class="btn btn-info" asp-controller="Jacket" asp-action="All">Jacket</a>
-            <a class="btn btn-info" asp-controller="Vest" asp-action="All">Vest</a>
-            <a class="btn btn-info" asp-controller="Coat" asp-action="All">Coat</a>
-            <a class="btn btn-info" asp-controller="Snowsuit" asp-action="All">Snowsuit</a>
-            <a class="btn btn-info" asp-controller="WinterTrousers" asp-action="All">WinterTrousers</a>
-            <a class="btn btn-info" asp-controller="RainTrousers" asp-action="All">RainTrousers</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="WinterJacket" asp-action="OuterwearByCategory">WinterJacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="RainJacket" asp-action="OuterwearByCategory">RainJacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="Jacket" asp-action="OuterwearByCategory">Jacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="Vest" asp-action="OuterwearByCategory">Vest</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="Coat" asp-action="OuterwearByCategory">Coat</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="Snowsuit" asp-action="OuterwearByCategory">Snowsuit</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="WinterTrousers" asp-action="OuterwearByCategory">WinterTrousers</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-route-category="RainTrousers" asp-action="OuterwearByCategory">RainTrousers</a>
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbtn">Shoes</button>
+        <a class="dropbtn" asp-controller="Shoes" asp-route-storageId="@Model.Id" asp-action="All">Shoes</a>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="Boots" asp-action="All">Boots</a>
-            <a class="btn btn-info" asp-controller="Trainers" asp-action="All">Trainers</a>
-            <a class="btn btn-info" asp-controller="Sandals" asp-action="All">Sandals</a>
-            <a class="btn btn-info" asp-controller="RainBoots" asp-action="All">RainBoots</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-storageId="@Model.Id" asp-route-category="Boots" asp-action="ShoesByCategory">Boots</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-storageId="@Model.Id" asp-route-category="Trainers" asp-action="ShoesByCategory">Trainers</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-storageId="@Model.Id" asp-route-category="Sandals" asp-action="ShoesByCategory">Sandals</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-storageId="@Model.Id" asp-route-category="RainBoots" asp-action="ShoesByCategory">RainBoots</a>
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbtn">Accessories</button>
+        <a class="dropbtn" asp-controller="Accessories" asp-route-storageId="@Model.Id" asp-action="All">Accessories</a>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="Hat" asp-action="All">Hats</a>
-            <a class="btn btn-info" asp-controller="Glove" asp-action="All">Gloves</a>
-            <a class="btn btn-info" asp-controller="Scarve" asp-action="All">Scarves</a>
-            <a class="btn btn-info" asp-controller="Accessories" asp-action="All">Hair accessories</a>
-            <a class="btn btn-info" asp-controller="Sunglasses" asp-action="All">Sunglasses</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.Id" asp-route-category="Hats" asp-action="AccessoriesByCategory">Hats</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.Id" asp-route-category="Gloves" asp-action="AccessoriesByCategory">Gloves</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.Id" asp-route-category="Scarves" asp-action="AccessoriesByCategory">Scarves</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.Id" asp-route-category="Hair accessories" asp-action="AccessoriesByCategory">Hair accessories</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.Id" asp-route-category="Sunglasses" asp-action="AccessoriesByCategory">Sunglasses</a>
         </div>
     </div>
 </div>
