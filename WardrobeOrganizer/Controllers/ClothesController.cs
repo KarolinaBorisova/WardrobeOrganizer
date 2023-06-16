@@ -62,9 +62,9 @@ namespace WardrobeOrganizer.Controllers
             return RedirectToAction("ClothesByCategory", "Clothes", new { storageId , model.Category});
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int clothingId)
         {
-            var model = new DetailsClothesViewModel();
+            var model = await clothesService.DetailsClothes(clothingId);
             return View(model);
         }
 

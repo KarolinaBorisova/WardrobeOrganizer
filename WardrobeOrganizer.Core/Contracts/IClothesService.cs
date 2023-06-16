@@ -18,5 +18,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category);
 
         Task<AllClothesViewModel> AllClothes(int storageId);
+
+        Task<DetailsClothesViewModel> DetailsClothes(int clothingId);
     }
 }
