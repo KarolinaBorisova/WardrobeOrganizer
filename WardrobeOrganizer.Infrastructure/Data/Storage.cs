@@ -24,5 +24,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public IList<Outerwear> Outerwear { get; set; } = new List<Outerwear>();
 
+        public IList<Accessories> Accessories { get; set; } = new List<Accessories>();
+
     }
 }
