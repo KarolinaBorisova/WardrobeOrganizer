@@ -55,5 +55,11 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Details(int shoesId)
+        {
+            var model = await shoesService.DetailsShoes(shoesId);
+            return View(model);
+        }
+
     }
 }
