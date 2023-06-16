@@ -17,16 +17,13 @@ namespace WardrobeOrganizer.Controllers
             this.shoesService = _shoesService;
         } 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
         [HttpGet]
-        public IActionResult Add(int storageId)
+        public IActionResult Add(int storageId, string category)
         {
             var model = new AddShoesViewModel()
             {
-                StorageId = storageId
+                StorageId = storageId,
+                Category = category
             };
             return View(model);
         }
@@ -41,7 +38,21 @@ namespace WardrobeOrganizer.Controllers
             }
             var storageId = model.StorageId;
             int id = await shoesService.AddShoes(model);
-            return RedirectToAction("Storage", "Info", new { storageId });
+            return RedirectToAction("ShoesByCategory", "Shoes", new { storageId, model.Category });
+        }
+
+        public async Task<IActionResult> ShoesByCategory(int storageId, string category)
+        {
+            var model = await shoesService.AllShoesByCategory(storageId, category);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> All(int storageId)
+        {
+            var model = await shoesService.AllShoes(storageId);
+
+            return View(model);
         }
 
     }
