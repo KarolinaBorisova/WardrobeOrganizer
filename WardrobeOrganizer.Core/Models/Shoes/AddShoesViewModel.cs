@@ -25,7 +25,7 @@ namespace WardrobeOrganizer.Core.Models.Shoes
 
         public int? MemberId { get; set; }
 
-        public CategoryShoes Category { get; set; }
+        public string Category { get; set; }
 
         public int StorageId { get; set; }
     }

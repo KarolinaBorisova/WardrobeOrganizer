@@ -1,6 +1,6 @@
-﻿@model AllClothesByCategoryViewModel
+﻿@model AllOuterwearViewModel
 @{
-    ViewData["Title"] = $"All {@Model.Category}";
+    ViewData["Title"] = $"All Outerwear";
 }
 @*<h2 class="text-center">House: @Model.House.Name</h2>
 <h2 class="text-center">Storage: @Model.Name</h2>
@@ -32,12 +32,12 @@
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-action="All">Outerwear</a>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJackets" asp-action="OuterwearByCategory">WinterJackets</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJackets" asp-action="OuterwearByCategory">RainJackets</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jackets" asp-action="OuterwearByCategory">Jackets</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vesst" asp-action="OuterwearByCategory">Vests</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coats" asp-action="OuterwearByCategory">Coats</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuits" asp-action="OuterwearByCategory">Snowsuits</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJacket" asp-action="OuterwearByCategory">WinterJacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJacket" asp-action="OuterwearByCategory">RainJacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jacket" asp-action="OuterwearByCategory">Jacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vest" asp-action="OuterwearByCategory">Vest</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coat" asp-action="OuterwearByCategory">Coat</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuit" asp-action="OuterwearByCategory">Snowsuit</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterTrousers" asp-action="OuterwearByCategory">WinterTrousers</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainTrousers" asp-action="OuterwearByCategory">RainTrousers</a>
         </div>
@@ -66,11 +66,11 @@
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 <div class="text-center">
-    <a class="btn btn-primary" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
+    <a class="btn btn-primary" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
 </div>
 <div class="card-group">
 
-    @foreach (var item in Model.Clothes)
+    @foreach (var item in Model.Outerwear)
     {
         <div class="card">
             <div class="card-body">

@@ -1,4 +1,4 @@
-﻿@model AllClothesByCategoryViewModel
+﻿@model AllOuterwearByCategoryViewModel
 @{
     ViewData["Title"] = $"All {@Model.Category}";
 }
@@ -35,7 +35,7 @@
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJackets" asp-action="OuterwearByCategory">WinterJackets</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJackets" asp-action="OuterwearByCategory">RainJackets</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jackets" asp-action="OuterwearByCategory">Jackets</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vesst" asp-action="OuterwearByCategory">Vests</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vests" asp-action="OuterwearByCategory">Vests</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coats" asp-action="OuterwearByCategory">Coats</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuits" asp-action="OuterwearByCategory">Snowsuits</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterTrousers" asp-action="OuterwearByCategory">WinterTrousers</a>
@@ -66,11 +66,11 @@
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 <div class="text-center">
-    <a class="btn btn-primary" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
+    <a class="btn btn-primary" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
 </div>
 <div class="card-group">
 
-    @foreach (var item in Model.Clothes)
+    @foreach (var item in Model.Outerwear)
     {
         <div class="card">
             <div class="card-body">

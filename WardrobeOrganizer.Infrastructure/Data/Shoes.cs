@@ -16,8 +16,5 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public int Centimetres { get; set; }
 
-        [Required]
-        public CategoryShoes CategoryShoes { get; set; }
-   
     }
 }

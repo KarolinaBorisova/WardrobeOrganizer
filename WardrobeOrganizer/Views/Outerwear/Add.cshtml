@@ -1,6 +1,6 @@
-﻿@model AddClothesViewModel
+﻿@model AddOuterwearViewModel
 @{
-    ViewData["Title"] = "Add Clothes";
+    ViewData["Title"] = $"Add {Model.Category}";
 }
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
@@ -29,12 +29,7 @@
             <label class="label" asp-for="SizeHeight">Size Height</label>
             <input asp-for="SizeHeight" type="text" class="form-control" id="Size Height">
         </div>
-       <div class="form-row col-md-6">
-            <label class="label" asp-for="Category">Category</label>
-            <select asp-for="Category" asp-items="Html.GetEnumSelectList<CategoryClothes>()">
-            <option selected="selected" value="">Please select</option>
-        </select>     
-    </div>
+        <input type="hidden" asp-for="@Model.Category">
     @*    <div class="form-group col-md-6">
             <label class="label" asp-for="Members">Member</label>
             <select asp-for="Members" asp-items="@Model.Members">
@@ -45,5 +40,5 @@
         <label class="label" asp-for="Description">Description</label>
         <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
     </div>
-    <button type="submit" class="btn btn-primary">Add clothing</button>
+    <button type="submit" class="btn btn-primary">Add @Model.Category</button>
 </form>

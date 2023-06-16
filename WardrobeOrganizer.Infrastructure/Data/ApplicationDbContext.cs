@@ -44,6 +44,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public DbSet<House> Houses { get; set; }
 
+        public DbSet<Accessories> Accessories { get; set; }
+
 
 
     }

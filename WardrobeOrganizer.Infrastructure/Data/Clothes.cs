@@ -17,9 +17,5 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [MaxLength(5)]
         public string Size { get; set; } = null!;
 
-        
-        public string Category { get; set; }
-
-
     }
 }

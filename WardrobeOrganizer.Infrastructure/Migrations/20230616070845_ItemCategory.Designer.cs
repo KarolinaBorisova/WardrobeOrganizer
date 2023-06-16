@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WardrobeOrganizer.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using WardrobeOrganizer.Infrastructure.Data;
 namespace WardrobeOrganizer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230616070845_ItemCategory")]
+    partial class ItemCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,45 +159,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Accessories", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImgUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("SizeAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StorageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StorageId");
-
-                    b.ToTable("Accessories");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Clothes", b =>
@@ -391,9 +354,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryOuterwear")
+                        .HasColumnType("int");
 
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
@@ -435,9 +397,8 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryShoes")
+                        .HasColumnType("int");
 
                     b.Property<int>("Centimetres")
                         .HasColumnType("int");
@@ -588,7 +549,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2784e605-87de-4e3f-9dac-454830457740",
+                            ConcurrencyStamp = "cbb01daa-38e9-4c7b-989d-e7f20022b6ee",
                             Email = "dani@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -596,9 +557,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "DANI@ABV.BG",
                             NormalizedUserName = "DANI@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMYNKHRVBi3HIo4uEb7zS0eoKDgwAwKgdLlC73Hynp2SYPdcIYMwCW+ONfZ8zAjndw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHUbMa/lRkXLfTjQoWyIiANKCOiwRC1tD8+sOg0lVJQOimXxulWsVn+GbiX7GUBbKw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "682714d5-ee77-4b59-a941-a8c59fe247e5",
+                            SecurityStamp = "ac640f7b-86ac-4b95-b30a-ad7e44dcb639",
                             TwoFactorEnabled = false,
                             UserName = "dani@abv.bg"
                         },
@@ -606,7 +567,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17b51276-a5b2-4ebf-a68a-8b307220cad3",
+                            ConcurrencyStamp = "bf57b95c-1401-420e-84fa-01a70b8e0f27",
                             Email = "karolina@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Karolina",
@@ -614,9 +575,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KAROLINA@ABV.BG",
                             NormalizedUserName = "KAROLINA@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHsvd6vFavKf81dUO583Y6T7LhRAIPLRpNObmIhWEUE9BCd5kBF2/d+wUqti96RQjw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL0zOBhNm5Dxw8ErW8bgOh7iQFXXkZhF+N5QN/XWeUojDIV3wqLzLJAoYfcMb/dziQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5c2ef82e-e6c8-427b-8d9d-53e08786956b",
+                            SecurityStamp = "41d8a0f7-de92-4cb2-93ae-ff7819facbc5",
                             TwoFactorEnabled = false,
                             UserName = "karolina@abv.bg"
                         });
@@ -671,17 +632,6 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Accessories", b =>
-                {
-                    b.HasOne("WardrobeOrganizer.Infrastructure.Data.Storage", "Storage")
-                        .WithMany()
-                        .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("WardrobeOrganizer.Infrastructure.Data.Clothes", b =>

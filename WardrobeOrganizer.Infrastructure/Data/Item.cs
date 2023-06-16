@@ -23,6 +23,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public string? Color { get; set; }
 
+        [Required]
+        public string Category { get; set; }
+
         public int StorageId { get; set; }
 
         [Required]
