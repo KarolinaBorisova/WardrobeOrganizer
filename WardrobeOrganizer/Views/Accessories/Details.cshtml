@@ -1,0 +1,27 @@
+﻿@model DetailsAccessoriesViewModel
+@{
+    ViewBag.Title = $"{Model.Name} details";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@Model.Name details:</h1>
+</div>
+<div>
+    <div class="card">
+        <div class="card-body">
+            <img src="@Model.ImgUrl" alt="Avatar" style="width:100%">
+            <h4>@Model.Name</h4>
+            <p class="card-text">Category: @Model.Category</p>
+            <p class="card-text">Size: @Model.SizeAge</p>
+            <p class="card-text">Color: @Model.Color</p>
+            <p class="card-text">Description: @Model.Description</p>
+
+        </div>
+        <div class="card-footer">
+            <form method="post" asp-controller="Clothes" asp-action="Delete" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
+            </form>
+            <a class="btn btn-danger" asp-controller="Clothes" asp-route-id="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
+        </div>
+    </div>
+</div>

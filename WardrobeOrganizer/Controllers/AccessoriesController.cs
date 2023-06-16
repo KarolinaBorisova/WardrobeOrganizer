@@ -54,5 +54,11 @@ namespace WardrobeOrganizer.Controllers
             var model = await accessoriesService.AllAccessoriesByCategory(storageId, category);
             return View(model);
         }
+
+        public async Task<IActionResult> Details(int accessoriesId)
+        {
+            var model = await accessoriesService.DetailsAccessories(accessoriesId);
+            return View(model);
+        }
     }
 }

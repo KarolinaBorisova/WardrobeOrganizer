@@ -81,5 +81,22 @@ namespace WardrobeOrganizer.Core.Services
                     }).ToList()
                 }).FirstAsync();
         }
+
+        public async Task<DetailsAccessoriesViewModel> DetailsAccessories(int accessoriesId)
+        {
+            return await repo.AllReadonly<Accessories>()
+                 .Where(a => a.Id == accessoriesId)
+                 .Select(a => new DetailsAccessoriesViewModel()
+                 {
+                     Id = a.Id,
+                     Name = a.Name,
+                     Category = a.Category,
+                     Description = a.Description,
+                     Color = a.Color,
+                     SizeAge = a.SizeAge,
+                     StorageId = a.StorageId,
+                     ImgUrl = a.ImgUrl
+                 }).FirstAsync();
+        }
     }
 }
