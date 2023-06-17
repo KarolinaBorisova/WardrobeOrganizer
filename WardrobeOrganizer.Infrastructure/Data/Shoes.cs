@@ -16,5 +16,6 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public int Centimetres { get; set; }
 
+
     }
 }

@@ -32,5 +32,7 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [ForeignKey(nameof(StorageId))]
         public Storage Storage { get; set; } = null!;
 
+        public bool IsActive { get; set; } = true;
+
     }
 }

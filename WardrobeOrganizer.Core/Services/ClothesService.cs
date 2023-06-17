@@ -54,13 +54,13 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category)
         {
             return await repo.AllReadonly<Storage>()
-                .Where(c => c.Id == storageId)
+                .Where(c => c.Id == storageId && c.IsActive)
                 .Select(c => new AllClothesByCategoryViewModel()
 
                 {
                     Category = category,
                     StorageId = storageId,
-                    Clothes = c.Clothes.Where(clt=>clt.Category == category)
+                    Clothes = c.Clothes.Where(clt=>clt.Category == category && clt.IsActive)
                     .Select(cl => new ClothesViewModel
                     {
                         Name = cl.Name,
@@ -76,12 +76,13 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<AllClothesViewModel> AllClothes(int storageId)
         {
             return await repo.AllReadonly<Storage>()
-                .Where(c => c.Id == storageId)
+                .Where(c => c.Id == storageId && c.IsActive)
                 .Select(c => new AllClothesViewModel()
 
                 {
                     StorageId = storageId,
                     Clothes = c.Clothes
+                    .Where(c=>c.IsActive)
                     .Select(cl => new ClothesViewModel
                     {
                         Name = cl.Name,
@@ -94,10 +95,10 @@ namespace WardrobeOrganizer.Core.Services
                 }).FirstAsync();
         }
 
-        public async Task<DetailsClothesViewModel> DetailsClothes(int clothingId)
+        public async Task<DetailsClothesViewModel> GetClothingById(int clothingId)
         {
             return await repo.AllReadonly<Clothes>()
-                .Where(c => c.Id == clothingId)
+                .Where(c => c.Id == clothingId && c.IsActive)
                 .Select(c => new DetailsClothesViewModel()
                 {
                     Id = c.Id,
@@ -111,6 +112,37 @@ namespace WardrobeOrganizer.Core.Services
                     ImgUrl = c.ImgUrl
 
                 }).FirstAsync();
+        }
+
+        public async Task<bool> ExistsById(int clothingId)
+        {
+            return await repo.AllReadonly<Clothes>()
+                .AnyAsync(c => c.Id == clothingId && c.IsActive);
+        }
+
+        public async Task DeleteById(int clothingId)
+        {
+            if (clothingId == null)
+            {
+                //nqma dreha
+            }
+            var clothing = await repo.GetByIdAsync<Clothes>(clothingId);
+
+            if (clothing == null)
+            {
+                //nqma dreaha
+            }
+
+            clothing.IsActive = false;
+
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
     }
 }

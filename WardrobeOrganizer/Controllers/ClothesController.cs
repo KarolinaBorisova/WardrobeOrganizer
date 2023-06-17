@@ -64,7 +64,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int clothingId)
         {
-            var model = await clothesService.DetailsClothes(clothingId);
+            var model = await clothesService.GetClothingById(clothingId);
             return View(model);
         }
 
@@ -82,9 +82,16 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int clothingId)
         {
-            return RedirectToAction(nameof(All));
+            if (await clothesService.ExistsById(clothingId) == false)
+            {
+                ModelState.AddModelError("", "Clothing does not exist");
+                return RedirectToAction("Clothes", "All");
+            }
+            var clothing = await clothesService.GetClothingById(clothingId);
+            await clothesService.DeleteById(clothingId);
+            return RedirectToAction(nameof(All), new {clothing.StorageId});
         }
     }
 }

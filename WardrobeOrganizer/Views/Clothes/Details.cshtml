@@ -18,7 +18,7 @@
 
         </div>
         <div class="card-footer">
-            <form method="post" asp-controller="Clothes" asp-action="Delete" asp-route-id="@Model.Id">
+            <form method="post" asp-controller="Clothes" asp-action="Delete" asp-route-clothingId="@Model.Id">
                 <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
             </form>
             <a class="btn btn-danger" asp-controller="Clothes" asp-route-id="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
