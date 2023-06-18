@@ -48,6 +48,7 @@ namespace WardrobeOrganizer.Core.Services
                 {
                     StorageId = storageId,
                     Accessories = s.Accessories
+                    .Where(a=> a.IsActive == true)
                     .Select(a => new AccessoriesViewModel()
                     {
                         Id = a.Id,
@@ -69,7 +70,7 @@ namespace WardrobeOrganizer.Core.Services
                     Category = category,
                     StorageId = storageId,
                     Accessories = s.Accessories
-                    .Where(a=>a.Category == category)
+                    .Where(a=>a.Category == category && a.IsActive == true)
                     .Select(a => new AccessoriesViewModel()
                     {
                         Id = a.Id,
@@ -82,14 +83,35 @@ namespace WardrobeOrganizer.Core.Services
                 }).FirstAsync();
         }
 
-        public Task DeleteById(int accessoriesId)
+        public async Task DeleteById(int accessoriesId)
         {
-            throw new NotImplementedException();
+            if (accessoriesId == null)
+            {
+                //nqma dreha
+            }
+            var accessories = await repo.GetByIdAsync<Accessories>(accessoriesId);
+
+            if (accessories == null)
+            {
+                //nqma dreaha
+            }
+
+            accessories.IsActive = false;
+
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
-        public Task<bool> ExistsById(int accessoriesId)
+        public async Task<bool> ExistsById(int accessoriesId)
         {
-            throw new NotImplementedException();
+            return await repo.AllReadonly<Accessories>()
+                .AnyAsync(a=>a.Id == accessoriesId && a.IsActive == true);
         }
 
         public async Task<DetailsAccessoriesViewModel> GetAccessoriesById(int accessoriesId)

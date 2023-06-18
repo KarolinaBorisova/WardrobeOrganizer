@@ -48,7 +48,9 @@ namespace WardrobeOrganizer.Core.Services
                 .Select(s => new AllShoesViewModel()
                 {
                     StorageId = storageId,
-                    Shoes = s.Shoes.Select(sh => new ShoesViewModel()
+                    Shoes = s.Shoes
+                    .Where(sh=>sh.IsActive == true)
+                    .Select(sh => new ShoesViewModel()
                     {
                         Id = sh.Id,
                         Name = sh.Name,
@@ -70,7 +72,7 @@ namespace WardrobeOrganizer.Core.Services
                 {
                     StorageId = storageId,
                     Category = category,
-                    Shoes = s.Shoes.Where(sh => sh.Category == category)
+                    Shoes = s.Shoes.Where(sh => sh.Category == category && sh.IsActive == true)
                     .Select(sh => new ShoesViewModel()
                     {
                         Id = sh.Id,
@@ -84,14 +86,34 @@ namespace WardrobeOrganizer.Core.Services
                 }).FirstAsync();
         }
 
-        public Task DeleteById(int shoesId)
+        public async Task DeleteById(int shoesId)
         {
-            throw new NotImplementedException();
+            if (shoesId == null)
+            {
+
+            }
+            var shoes = await repo.GetByIdAsync<Shoes>(shoesId);
+
+            if (shoes == null)
+            {
+
+            }
+
+            shoes.IsActive = false;
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
-        public Task<bool> ExistsById(int shoesId)
+        public async Task<bool> ExistsById(int shoesId)
         {
-            throw new NotImplementedException();
+            return await repo.AllReadonly<Shoes>()
+                .AnyAsync(sh => sh.Id == shoesId && sh.IsActive == true);
         }
 
         public async Task<DetailsShoesViewModel> GetShoesById(int shoesId)

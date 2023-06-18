@@ -60,5 +60,17 @@ namespace WardrobeOrganizer.Controllers
             var model = await accessoriesService.GetAccessoriesById(accessoriesId);
             return View(model);
         }
+
+        public async Task<IActionResult> Delete(int accessoriesId)
+        {
+            if (await accessoriesService.ExistsById(accessoriesId) == false)
+            {
+                ModelState.AddModelError("", "Accessorie does not exist");
+                return RedirectToAction("Accessories", "All");
+            }
+            var accessorie = await accessoriesService.GetAccessoriesById(accessoriesId);
+            await accessoriesService.DeleteById(accessoriesId);
+            return RedirectToAction(nameof(All), new { accessorie.StorageId });
+        }
     }
 }

@@ -4,6 +4,7 @@ using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Shoes;
 using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -59,6 +60,19 @@ namespace WardrobeOrganizer.Controllers
         {
             var model = await shoesService.GetShoesById(shoesId);
             return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int shoesId)
+        {
+            if (await shoesService.ExistsById(shoesId) == false)
+            {
+                ModelState.AddModelError("", "Shoes does not exist");
+                return RedirectToAction("Shoes", "All"); //Error page
+            }
+            var shoes = await shoesService.GetShoesById(shoesId);
+            await shoesService.DeleteById(shoesId);
+            return RedirectToAction(nameof(All), new { shoes.StorageId });
+
         }
 
     }
