@@ -82,7 +82,17 @@ namespace WardrobeOrganizer.Core.Services
                 }).FirstAsync();
         }
 
-        public async Task<DetailsAccessoriesViewModel> DetailsAccessories(int accessoriesId)
+        public Task DeleteById(int accessoriesId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExistsById(int accessoriesId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<DetailsAccessoriesViewModel> GetAccessoriesById(int accessoriesId)
         {
             return await repo.AllReadonly<Accessories>()
                  .Where(a => a.Id == accessoriesId)

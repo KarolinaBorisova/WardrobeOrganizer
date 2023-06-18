@@ -3,6 +3,7 @@ using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -57,8 +58,20 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int outerwearId)
         {
-            var model = await outerwearService.DetailsOuterwear(outerwearId);
+            var model = await outerwearService.GetOuterwearById(outerwearId);
             return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int outerwearId)
+        {
+            if (await outerwearService.ExistsById(outerwearId) == false)
+            {
+                ModelState.AddModelError("", "Outerwear does not exist");
+                return RedirectToAction("Outerwear", "All"); //Error page
+            }
+            var outerwear = await outerwearService.GetOuterwearById(outerwearId);
+            await outerwearService.DeleteById(outerwearId);
+            return RedirectToAction(nameof(All), new { outerwear.StorageId });
         }
     }
 }

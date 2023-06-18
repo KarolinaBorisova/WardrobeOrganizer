@@ -48,7 +48,9 @@ namespace WardrobeOrganizer.Core.Services
                  .Select(ow => new AllOuterwearViewModel()
                  {
                      StorageId = storageId,
-                     Outerwear = ow.Outerwear.Select(o => new OuterwearViewModel()
+                     Outerwear = ow.Outerwear
+                     .Where(o=>o.IsActive == true)
+                     .Select(o => new OuterwearViewModel()
                      {
                          Id = o.Id,
                          Name = o.Name,
@@ -69,7 +71,7 @@ namespace WardrobeOrganizer.Core.Services
                 {
                     StorageId = storageId,
                     Category = category,
-                    Outerwear = s.Outerwear.Where(ow => ow.Category == category)
+                    Outerwear = s.Outerwear.Where(ow => ow.Category == category && ow.IsActive == true)
                     .Select(o => new OuterwearViewModel()
                     {
                         Id = o.Id,
@@ -83,7 +85,7 @@ namespace WardrobeOrganizer.Core.Services
                 }).FirstAsync();
         }
 
-        public async Task<DetailsOuterwearViewModel> DetailsOuterwear(int outerwearId)
+        public async Task<DetailsOuterwearViewModel> GetOuterwearById(int outerwearId)
         {
             return await repo.AllReadonly<Outerwear>()
                 .Where(o => o.Id == outerwearId)
@@ -99,6 +101,38 @@ namespace WardrobeOrganizer.Core.Services
                     StorageId = o.StorageId,
                     Color = o.Color
                 }).FirstAsync();
+        }
+
+        public async Task<bool> ExistsById(int outerwearId)
+        {
+            return await repo.AllReadonly<Outerwear>()
+                .AnyAsync(o => o.Id == outerwearId && o.IsActive);
+        }
+
+        public async Task DeleteById(int outerwearId)
+        {
+            if (outerwearId == null)
+            {
+
+            }
+
+            var outerwear = await repo.GetByIdAsync<Outerwear>(outerwearId);
+
+            if (outerwear == null)
+            {
+
+            }
+
+            outerwear.IsActive = false;
+
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
     }
 }

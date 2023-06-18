@@ -16,6 +16,10 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<AllOuterwearViewModel> AllOutwear(int storageId);
 
-        Task<DetailsOuterwearViewModel> DetailsOuterwear(int outerwearId);
+        Task<DetailsOuterwearViewModel> GetOuterwearById(int outerwearId);
+
+        Task<bool> ExistsById(int outerwearId);
+
+        Task DeleteById(int outerwearId);
     }
 }

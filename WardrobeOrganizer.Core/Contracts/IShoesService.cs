@@ -16,7 +16,11 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<AllShoesViewModel> AllShoes(int storageId);
 
-        Task<DetailsShoesViewModel> DetailsShoes(int shoesId);
+        Task<DetailsShoesViewModel> GetShoesById(int shoesId);
+
+        Task<bool> ExistsById(int shoesId);
+
+        Task DeleteById(int shoesId);
 
     }
 }
