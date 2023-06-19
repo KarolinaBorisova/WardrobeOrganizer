@@ -22,5 +22,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task DeleteById(int shoesId);
 
+        Task Edit(DetailsShoesViewModel model);
+
     }
 }

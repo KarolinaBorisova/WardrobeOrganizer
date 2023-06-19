@@ -22,5 +22,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<bool> ExistsById(int accessoriesId);
 
         Task DeleteById(int accessoriesId);
+
+        Task Edit(DetailsAccessoriesViewModel model);
     }
 }

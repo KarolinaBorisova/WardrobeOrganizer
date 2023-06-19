@@ -110,6 +110,38 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
+        public async Task Edit(DetailsShoesViewModel model)
+        {
+            if (model == null)
+            {
+
+            }
+            var shoes = await repo.GetByIdAsync<Shoes>(model.Id);
+            if (shoes == null)
+            {
+
+            }
+            shoes.Name = model.Name;
+            shoes.Centimetres = model.Centimetres;
+            shoes.SizeEu = model.SizeEu;
+            shoes.Description = model.Description;
+            shoes.Category = model.Category;
+            shoes.Color = model.Color;
+            shoes.StorageId = model.StorageId;
+            shoes.ImgUrl = model.ImgUrl;
+
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public async Task<bool> ExistsById(int shoesId)
         {
             return await repo.AllReadonly<Shoes>()

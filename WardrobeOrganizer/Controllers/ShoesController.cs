@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
@@ -75,5 +76,61 @@ namespace WardrobeOrganizer.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int shoesId)
+        {
+            if (await shoesService.ExistsById(shoesId)==false)
+            {
+
+            }
+            var shoes = await shoesService.GetShoesById(shoesId);
+
+            if (shoes == null)
+            {
+
+            }
+            var model = new DetailsShoesViewModel()
+            {
+                Id = shoes.Id,
+                Name = shoes.Name,
+                Description = shoes.Description,
+                SizeEu = shoes.SizeEu,
+                Centimetres = shoes.Centimetres,
+                StorageId = shoes.StorageId,
+                Category = shoes.Category,
+                Color = shoes.Color,
+                ImgUrl = shoes.ImgUrl
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(DetailsShoesViewModel model)
+        {
+            if (await shoesService.ExistsById(model.Id) == false)
+            {
+
+            }
+            if (!ModelState.IsValid)
+            {
+
+            }
+
+            try
+            {
+                await shoesService.Edit(model);
+                TempData[MessageConstant.SuccessMessage] = "Shoes edited";
+            }
+            catch (Exception)
+            {
+                // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+
+            }
+            var shoesId = model.Id;
+            //  return RedirectToAction("Info", "Member", new { model.Id });
+            return RedirectToAction("Details", "Shoes", new { shoesId });
+
+        }
     }
 }

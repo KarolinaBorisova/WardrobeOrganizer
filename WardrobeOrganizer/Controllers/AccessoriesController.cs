@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Accessories;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -71,6 +73,62 @@ namespace WardrobeOrganizer.Controllers
             var accessorie = await accessoriesService.GetAccessoriesById(accessoriesId);
             await accessoriesService.DeleteById(accessoriesId);
             return RedirectToAction(nameof(All), new { accessorie.StorageId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int accessoriesId)
+        {
+            if (await accessoriesService.ExistsById(accessoriesId) == false)
+            {
+                ModelState.AddModelError("", "Accessorie does not exist");
+                return RedirectToAction("Accessories", "All");
+            }
+            var accessorise = await accessoriesService.GetAccessoriesById(accessoriesId);
+
+            if (accessorise == null)
+            {
+
+            }
+            var model = new DetailsAccessoriesViewModel()
+            {
+                Id = accessoriesId,
+                Name = accessorise.Name,
+                Description = accessorise.Description,
+                SizeAge = accessorise.SizeAge,
+                Category = accessorise.Category,
+                Color = accessorise.Color,
+                StorageId = accessorise.StorageId,
+                ImgUrl = accessorise.ImgUrl
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Edit(DetailsAccessoriesViewModel model)
+        {
+            if (await accessoriesService.ExistsById(model.Id)== false)
+            {
+
+            }
+            if (ModelState.IsValid == false)
+            {
+
+            }
+
+
+            try
+            {
+                await accessoriesService.Edit(model);
+                TempData[MessageConstant.SuccessMessage] = "Accessorie edited";
+            }
+            catch (Exception)
+            {
+                // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+
+            }
+            var accessoriesId = model.Id;
+            //  return RedirectToAction("Info", "Member", new { model.Id });
+            return RedirectToAction("Details", "Accessories", new { accessoriesId });
         }
     }
 }
