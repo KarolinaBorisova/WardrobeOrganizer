@@ -6,6 +6,8 @@
 <div class="text-center">
     <h1 class="display-4">@Model.Name details:</h1>
     <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.StorageId" asp-action="Info">Back to storage</a>
+    <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.StorageId" asp-action="All">Back to all Accessories</a>
+    <a class="btn btn-info" asp-controller="Accessories" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="AccessoriesByCategory">Back to all @Model.Category</a>
 </div>
 <div>
     <div class="card">
