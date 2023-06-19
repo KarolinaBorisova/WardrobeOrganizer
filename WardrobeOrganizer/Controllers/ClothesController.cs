@@ -2,6 +2,7 @@
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Clothes;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
@@ -69,16 +70,58 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int clothingId)
         {
-            var model = new EditClothesViewModel();
+            if (await clothesService.ExistsById(clothingId) == false)
+            {
+                logger.LogInformation("Clothing with id {0} not exist", clothingId);
+                return RedirectToAction(nameof(All));
+            }
+            var clothing = await clothesService.GetClothingById(clothingId);
+           
+            var model = new DetailsClothesViewModel()
+            {
+               Id= clothingId,
+               Size =  clothing.Size,
+               SizeHeight = clothing.SizeHeight,
+               StorageId = clothing.StorageId,
+               Category = clothing.Category,
+               Color = clothing.Color,
+               Description = clothing.Description,
+               ImgUrl = clothing.ImgUrl,
+               Name = clothing.Name
+            };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditClothesViewModel model)
+        public async Task<IActionResult> Edit( DetailsClothesViewModel model)
         {
-            return RedirectToAction(nameof(Details), new { id, model });
+            if (await clothesService.ExistsById(model.Id) == false)
+            {
+                logger.LogInformation("Clothing with id {0} not exist", model.Id);
+                ModelState.AddModelError("", "Clothing does not exist");
+                return View();
+            }
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+
+            }
+
+            try
+            {
+                await clothesService.Edit(model);
+                TempData[MessageConstant.SuccessMessage] = "Clothing edited";
+            }
+            catch (Exception)
+            {
+                logger.LogInformation("Failed to edit member with id {0}", model.Id);
+
+            }
+            var clothingId = model.Id;
+            //  return RedirectToAction("Info", "Member", new { model.Id });
+            return RedirectToAction("Details", "Clothes", new { clothingId });
         }
 
         [HttpPost]

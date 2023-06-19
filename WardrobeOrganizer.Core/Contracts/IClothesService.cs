@@ -13,8 +13,6 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<int> AddClothes(AddClothesViewModel model);
 
-        Task<IEnumerable<AddClothesViewModel>> AllCategories();
-
         Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category);
 
         Task<AllClothesViewModel> AllClothes(int storageId);
@@ -24,5 +22,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<bool> ExistsById(int clothingId);
 
         Task DeleteById(int clothingId);
+
+        Task Edit(DetailsClothesViewModel model);
     }
 }

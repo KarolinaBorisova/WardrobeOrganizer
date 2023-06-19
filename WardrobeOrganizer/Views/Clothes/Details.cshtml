@@ -15,13 +15,13 @@
             <p class="card-text">Size: @Model.Size</p>
             <p class="card-text">Color: @Model.Color</p>
             <p class="card-text">Description: @Model.Description</p>
-
+           <input type="hidden" asp-for="@Model.StorageId" >
         </div>
         <div class="card-footer">
             <form method="post" asp-controller="Clothes" asp-action="Delete" asp-route-clothingId="@Model.Id">
                 <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
             </form>
-            <a class="btn btn-danger" asp-controller="Clothes" asp-route-id="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-clothingId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
         </div>
     </div>
 </div>

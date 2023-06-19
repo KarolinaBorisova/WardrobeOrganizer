@@ -44,13 +44,6 @@ namespace WardrobeOrganizer.Core.Services
             return clothing.Id;
         }
 
-
-
-        public async Task<IEnumerable<AddClothesViewModel>> AllCategories()
-        {
-            return null;
-        }
-
         public async Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category)
         {
             return await repo.AllReadonly<Storage>()
@@ -134,6 +127,42 @@ namespace WardrobeOrganizer.Core.Services
             }
 
             clothing.IsActive = false;
+
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        }
+
+        public async Task Edit(DetailsClothesViewModel model)
+        {
+            if (model == null)
+            {
+                //nqma dreha
+            }
+            var clothing = await repo.GetByIdAsync<Clothes>(model.Id);
+
+            if (clothing == null || clothing.IsActive == false)
+            {
+                //nqma dreaha
+            }
+
+
+
+                clothing.Id = model.Id;
+                clothing.Name = model.Name;
+                clothing.ImgUrl = model.ImgUrl;
+                clothing.Category = model.Category;
+                clothing.Color = model.Color;
+                clothing.Description = model.Description;
+                clothing.Size = model.Size;
+                clothing.SizeHeight = model.SizeHeight;
+                clothing.StorageId = model.StorageId;
+            
 
             try
             {
