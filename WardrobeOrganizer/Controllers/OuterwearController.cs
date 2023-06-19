@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Clothes;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Infrastructure.Data;
@@ -72,6 +74,60 @@ namespace WardrobeOrganizer.Controllers
             var outerwear = await outerwearService.GetOuterwearById(outerwearId);
             await outerwearService.DeleteById(outerwearId);
             return RedirectToAction(nameof(All), new { outerwear.StorageId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int outerwearId)
+        {
+            if (await outerwearService.ExistsById(outerwearId) == false)
+            {
+               // logger.LogInformation("Clothing with id {0} not exist", outerwearId);
+                return RedirectToAction(nameof(All));
+            }
+            var clothing = await outerwearService.GetOuterwearById(outerwearId);
+
+            var model = new DetailsOuterwearViewModel()
+            {
+                Id = outerwearId,
+                Size = clothing.Size,
+                SizeHeight = clothing.SizeHeight,
+                StorageId = clothing.StorageId,
+                Category = clothing.Category,
+                Color = clothing.Color,
+                Description = clothing.Description,
+                ImgUrl = clothing.ImgUrl,
+                Name = clothing.Name
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(DetailsOuterwearViewModel model)
+        {
+            if (await outerwearService.ExistsById(model.Id) == false)
+            {
+                //logger.LogInformation("Clothing with id {0} not exist", model.Id);
+                ModelState.AddModelError("", "Outerwear does not exist");
+                return View();
+            }
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await outerwearService.Edit(model);
+                TempData[MessageConstant.SuccessMessage] = "Outerwear edited";
+            }
+            catch (Exception)
+            {
+               // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+
+            }
+            var outerwearId = model.Id;
+            //  return RedirectToAction("Info", "Member", new { model.Id });
+            return RedirectToAction("Details", "Outerwear", new { outerwearId });
         }
     }
 }

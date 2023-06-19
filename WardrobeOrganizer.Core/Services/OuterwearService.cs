@@ -134,5 +134,36 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException(ex.Message);
             }
         }
+
+        public async Task Edit(DetailsOuterwearViewModel model)
+        {
+            if (model == null)
+            {
+
+            }
+            var outerwear = await repo.GetByIdAsync<Outerwear>(model.Id);
+            if (outerwear == null)
+            {
+
+            }
+            outerwear.Name = model.Name;
+            outerwear.ImgUrl = model.ImgUrl;
+            outerwear.SizeHeight = model.SizeHeight;
+            outerwear.Category = model.Category;
+            outerwear.Color = model.Color;
+            outerwear.Description = model.Description;
+            outerwear.StorageId = model.StorageId;
+            outerwear.Size = model.Size;
+
+            try
+            {
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

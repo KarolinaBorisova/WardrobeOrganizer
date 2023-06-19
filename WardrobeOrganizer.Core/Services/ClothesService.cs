@@ -151,8 +151,6 @@ namespace WardrobeOrganizer.Core.Services
                 //nqma dreaha
             }
 
-
-
                 clothing.Id = model.Id;
                 clothing.Name = model.Name;
                 clothing.ImgUrl = model.ImgUrl;
@@ -162,8 +160,6 @@ namespace WardrobeOrganizer.Core.Services
                 clothing.Size = model.Size;
                 clothing.SizeHeight = model.SizeHeight;
                 clothing.StorageId = model.StorageId;
-            
-
             try
             {
                 await repo.SaveChangesAsync();

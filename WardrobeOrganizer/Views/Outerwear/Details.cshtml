@@ -5,6 +5,7 @@
 
 <div class="text-center">
     <h1 class="display-4">@Model.Name details:</h1>
+    <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.StorageId" asp-action="Info">Back to storage</a>
 </div>
 <div>
     <div class="card">
@@ -22,7 +23,7 @@
             <form method="post" asp-controller="Outerwear" asp-action="Delete" asp-route-outerwearId="@Model.Id">
                 <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
             </form>
-            <a class="btn btn-danger" asp-controller="Clothes" asp-route-id="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
+            <a class="btn btn-danger" asp-controller="Outerwear" asp-route-outerwearId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
         </div>
     </div>
 </div>
