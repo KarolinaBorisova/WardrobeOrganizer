@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Models.Shoes;
 using WardrobeOrganizer.Core.Models.Storage;
 
@@ -24,5 +25,8 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task Edit(DetailsShoesViewModel model);
 
+        Task<AllShoesViewModel> AllShoesByMemberId(int memberId);
+
+        Task<AllShoesByCategoryViewModel> AllShoesByCategoryAndMemberId(int memberId, string category);
     }
 }

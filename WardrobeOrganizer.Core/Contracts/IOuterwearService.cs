@@ -24,7 +24,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task Edit(DetailsOuterwearViewModel model);
 
-         Task<AllOuterwearViewModel> AllOuterwearByMemberId(int memberId);
+        Task<AllOuterwearViewModel> AllOuterwearByMemberId(int memberId);
 
         Task<AllOuterwearByCategoryViewModel> AllOuterwearByCategoryAndMemberId(int memberId, string category);
 

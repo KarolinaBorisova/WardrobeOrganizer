@@ -132,5 +132,17 @@ namespace WardrobeOrganizer.Controllers
             return RedirectToAction("Details", "Shoes", new { shoesId });
 
         }
+
+        public async Task<IActionResult> MemberAllShoes(int memberId)
+        {
+            var model = await shoesService.AllShoesByMemberId(memberId);
+            return View(model);
+        }
+
+        public async Task<IActionResult> MemberShoesByCategory(int memberId, string category)
+        {
+            var model = await shoesService.AllShoesByCategoryAndMemberId(memberId, category);
+            return View(model);
+        }
     }
 }
