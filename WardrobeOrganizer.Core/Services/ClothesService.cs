@@ -177,6 +177,7 @@ namespace WardrobeOrganizer.Core.Services
                .Select(c => new AllClothesViewModel()
 
                {
+                   MemberId = memberId,
                    Clothes = c.Clothes
                    .Where(c => c.IsActive)
                    .Select(cl => new ClothesViewModel

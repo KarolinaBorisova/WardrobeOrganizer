@@ -161,9 +161,55 @@ namespace WardrobeOrganizer.Core.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
+        }
+
+        public async Task<AllOuterwearViewModel> AllOuterwearByMemberId(int memberId)
+        {
+            return await repo.AllReadonly<Member>()
+               .Where(m => m.Id == memberId && m.IsActive)
+               .Select(o => new AllOuterwearViewModel()
+
+               {
+                   MemberId = memberId, 
+                   Outerwear = o.Outerwear
+                   .Where(o => o.IsActive)
+                   .Select(cl => new OuterwearViewModel
+                   {
+                       Name = cl.Name,
+                       Category = cl.Category,
+                       Id = cl.Id,
+                       Size = cl.Size,
+                       StorageId = cl.StorageId,
+                       ImgUrl = cl.ImgUrl,
+                       MemberId = memberId
+
+                   }).ToList()
+               }).FirstAsync();
+        }
+
+        public async Task<AllOuterwearByCategoryViewModel> AllOuterwearByCategoryAndMemberId(int memberId, string category)
+        {
+            return await repo.AllReadonly<Member>()
+                .Where(m => m.Id == memberId && m.IsActive)
+                .Select(c => new AllOuterwearByCategoryViewModel()
+
+                {
+                    Category = category,
+                    MemberId = memberId,
+                    Outerwear = c.Outerwear.Where(clt => clt.Category == category && clt.IsActive)
+                    .Select(cl => new OuterwearViewModel
+                    {
+                        Name = cl.Name,
+                        Category = cl.Category,
+                        Id = cl.Id,
+                        Size = cl.Size,
+                        StorageId = cl.StorageId,
+                        ImgUrl = cl.ImgUrl,
+                        MemberId = memberId,
+                    }).ToList()
+                }).FirstAsync();
         }
     }
 }
