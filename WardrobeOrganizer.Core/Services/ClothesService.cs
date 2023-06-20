@@ -169,5 +169,52 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException(ex.Message);
             }
         }
+
+        public async Task<AllClothesViewModel> AllClothesByMemberId(int memberId)
+        {
+            return await repo.AllReadonly<Member>()
+               .Where(m => m.Id == memberId && m.IsActive)
+               .Select(c => new AllClothesViewModel()
+
+               {
+                   Clothes = c.Clothes
+                   .Where(c => c.IsActive)
+                   .Select(cl => new ClothesViewModel
+                   {
+                       Name = cl.Name,
+                       Category = cl.Category,
+                       Id = cl.Id,
+                       Size = cl.Size,
+                       StorageId = cl.StorageId,
+                       ImgUrl = cl.ImgUrl,
+                       MemberId = memberId
+                       
+                   }).ToList()
+               }).FirstAsync();
+        }
+
+        public async Task<AllClothesByCategoryViewModel> AllClothesByCategoryAndMemberId(int memberId, string category)
+        {
+            return await repo.AllReadonly<Member>()
+                .Where(m => m.Id == memberId && m.IsActive)
+                .Select(c => new AllClothesByCategoryViewModel()
+
+                {
+                    Category = category,
+                    MemberId = memberId,
+                    Clothes = c.Clothes.Where(clt => clt.Category == category && clt.IsActive)
+                    .Select(cl => new ClothesViewModel
+                    {
+                        Name = cl.Name,
+                        Category = cl.Category,
+                        Id = cl.Id,
+                        Size = cl.Size,
+                        StorageId = cl.StorageId,
+                        ImgUrl = cl.ImgUrl,
+                        MemberId = memberId,
+
+                    }).ToList()
+                }).FirstAsync();
+        }
     }
 }

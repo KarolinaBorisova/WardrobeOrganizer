@@ -34,5 +34,10 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public bool IsActive { get; set; } = true;
 
+        public int? MemberId { get; set; }
+
+        [ForeignKey(nameof(MemberId))]
+        public Member? Member { get; set; }
+
     }
 }

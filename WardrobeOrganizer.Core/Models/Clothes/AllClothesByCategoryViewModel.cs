@@ -9,6 +9,7 @@ namespace WardrobeOrganizer.Core.Models.Clothes
     public class AllClothesByCategoryViewModel
     {
 
+        public int MemberId { get; set; }
         public int StorageId { get; set; }
         public string Category { get; set; }
         public IEnumerable<ClothesViewModel> Clothes { get; set; }

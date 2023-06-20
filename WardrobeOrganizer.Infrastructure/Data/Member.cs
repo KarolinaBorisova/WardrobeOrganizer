@@ -44,5 +44,13 @@ namespace WardrobeOrganizer.Infrastructure.Data
         public Family? Family { get; set; }
         public int? FamilyId { get; set; }
 
+        public IList<Clothes> Clothes { get; set; } = new List<Clothes>();
+
+        public IList<Shoes> Shoes { get; set; } = new List<Shoes>();
+
+        public IList<Outerwear> Outerwear { get; set; } = new List<Outerwear>();
+
+        public IList<Accessories> Accessories { get; set; } = new List<Accessories>();
+
     }
 }

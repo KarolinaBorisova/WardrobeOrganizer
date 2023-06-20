@@ -16,7 +16,7 @@
 <div class="nav-container">
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-action="All">Clothes</a>
-  <div class="dropdown-content">
+         <div class="dropdown-content">
             <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-route-category="Tshirts" asp-action="ClothesByCategory">Tshirts</a>
             <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-route-category="Longsleeves" asp-action="ClothesByCategory">Longsleeves</a>
             <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-route-category="Blouses" asp-action="ClothesByCategory">Blouses</a>
@@ -29,7 +29,7 @@
             <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-route-category="Sets" asp-action="ClothesByCategory">Sets</a>
             <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-route-category="Dresses" asp-action="ClothesByCategory">Dresses</a>
   </div>
-</div>
+    </div>
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Outerwear" asp-route-storageId="@Model.Id" asp-action="All">Outerwear</a>
         <div class="dropdown-content">

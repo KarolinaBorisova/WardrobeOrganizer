@@ -27,6 +27,57 @@
         </div>
     </div>
 </div>
+<div class="nav-container">
+    <div class="dropdown">
+        <a class="dropbtn" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-action="MemberAllClothes">Clothes</a>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Tshirts" asp-action="MemberClothesByCategory">Tshirts</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Longsleeves" asp-action="MemberClothesByCategory">Longsleeves</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Blouses" asp-action="MemberClothesByCategory">Blouses</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Sweatshirts" asp-action="MemberClothesByCategory">Sweatshirts</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Cardigans" asp-action="MemberClothesByCategory">Cardigans</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Jeans" asp-action="MemberClothesByCategory">Jeans</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Leggings" asp-action="MemberClothesByCategory">Leggings</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Trousers" asp-action="MemberClothesByCategory">Trousers</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Shorts" asp-action="MemberClothesByCategory">Shorts</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Sets" asp-action="MemberClothesByCategory">Sets</a>
+            <a class="btn btn-info" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-route-category="Dresses" asp-action="MemberClothesByCategory">Dresses</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a class="dropbtn" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-action="MemberAllOuterwear">Outerwear</a>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="WinterJackets" asp-action="MemberMemberOuterwearByCategory">WinterJackets</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="RainJackets" asp-action="MemberMemberOuterwearByCategory">RainJackets</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="Jackets" asp-action="MemberMemberOuterwearByCategory">Jackets</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="Vests" asp-action="MemberMemberOuterwearByCategory">Vests</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="Coats" asp-action="MemberMemberOuterwearByCategory">Coats</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="Snowsuits" asp-action="MemberMemberOuterwearByCategory">Snowsuits</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="WinterTrousers" asp-action="MemberMemberOuterwearByCategory">WinterTrousers</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-memberId="@Model.Id" asp-route-category="RainTrousers" asp-action="MemberMemberOuterwearByCategory">RainTrousers</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a class="dropbtn" asp-controller="Shoes" asp-route-memberId="@Model.Id" asp-action="MemberAllShoes">Shoes</a>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-memberId="@Model.Id" asp-route-category="Boots" asp-action="MemberShoesByCategory">Boots</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-memberId="@Model.Id" asp-route-category="Trainers" asp-action="MemberShoesByCategory">Trainers</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-memberId="@Model.Id" asp-route-category="Sandals" asp-action="MemberShoesByCategory">Sandals</a>
+            <a class="btn btn-info" asp-controller="Shoes" asp-route-memberId="@Model.Id" asp-route-category="RainBoots" asp-action="MemberShoesByCategory">RainBoots</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a class="dropbtn" asp-controller="Accessories" asp-route-memberId="@Model.Id" asp-action="MemberAllAccessories">Accessories</a>
+        <div class="dropdown-content">
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-memberId="@Model.Id" asp-route-category="Hats" asp-action="MemberAccessoriesByCategory">Hats</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-memberId="@Model.Id" asp-route-category="Gloves" asp-action="MemberAccessoriesByCategory">Gloves</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-memberId="@Model.Id" asp-route-category="Scarves" asp-action="MemberAccessoriesByCategory">Scarves</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-memberId="@Model.Id" asp-route-category="Hair accessories" asp-action="MemberAccessoriesByCategory">Hair accessories</a>
+            <a class="btn btn-info" asp-controller="Accessories" asp-route-memberId="@Model.Id" asp-route-category="Sunglasses" asp-action="MemberAccessoriesByCategory">Sunglasses</a>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <ul id="list-container"></ul>
     <p class="card-text" id="houseName"><span></span></p>

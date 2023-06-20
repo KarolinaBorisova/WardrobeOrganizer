@@ -24,5 +24,9 @@ namespace WardrobeOrganizer.Core.Contracts
         Task DeleteById(int clothingId);
 
         Task Edit(DetailsClothesViewModel model);
+
+        Task<AllClothesViewModel> AllClothesByMemberId(int memberId);
+
+        Task<AllClothesByCategoryViewModel> AllClothesByCategoryAndMemberId(int memberId, string category);
     }
 }

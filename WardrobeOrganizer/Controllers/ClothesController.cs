@@ -6,6 +6,7 @@ using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
+using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -136,5 +137,17 @@ namespace WardrobeOrganizer.Controllers
             await clothesService.DeleteById(clothingId);
             return RedirectToAction(nameof(All), new {clothing.StorageId});
         }
+
+        public async Task<IActionResult> MemberAllClothes(int memberId)
+        {
+            var model = await clothesService.AllClothesByMemberId(memberId);
+            return View(model);
+        }
+
+        public async Task<IActionResult> MemberClothesByCategory(int memberId, string category)
+        {
+            var model = await clothesService.AllClothesByCategoryAndMemberId(memberId, category);
+            return View(model);
+        }
     }
-}
+} 
