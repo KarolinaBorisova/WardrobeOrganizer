@@ -161,6 +161,8 @@ namespace WardrobeOrganizer.Core.Services
                 clothing.Size = model.Size;
                 clothing.SizeHeight = model.SizeHeight;
                 clothing.StorageId = model.StorageId;
+                clothing.MemberId = model.MemberId;
+
             try
             {
                 await repo.SaveChangesAsync();
