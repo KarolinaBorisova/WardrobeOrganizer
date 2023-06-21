@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Models.Accessories;
+using WardrobeOrganizer.Core.Models.Clothes;
 using WardrobeOrganizer.Core.Models.Outerwear;
 
 namespace WardrobeOrganizer.Core.Contracts
@@ -24,5 +25,9 @@ namespace WardrobeOrganizer.Core.Contracts
         Task DeleteById(int accessoriesId);
 
         Task Edit(DetailsAccessoriesViewModel model);
+
+        Task<AllAccessoriesViewModel> AllAccessoriesByMemberId(int memberId);
+
+        Task<AllAccessoriesByCategoryViewModel> AllAccessoriesByCategoryAndMemberId(int memberId, string category);
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Accessories;
+using WardrobeOrganizer.Core.Models.Clothes;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
@@ -161,6 +162,55 @@ namespace WardrobeOrganizer.Core.Services
                      StorageId = a.StorageId,
                      ImgUrl = a.ImgUrl
                  }).FirstAsync();
+        }
+
+        public async Task<AllAccessoriesViewModel> AllAccessoriesByMemberId(int memberId)
+        {
+            return await repo.AllReadonly<Member>()
+               .Where(m => m.Id == memberId && m.IsActive)
+               .Select(c => new AllAccessoriesViewModel()
+
+               {
+                   MemberId = memberId,
+                   Accessories = c.Accessories
+                   .Where(c => c.IsActive)
+                   .Select(a => new AccessoriesViewModel
+                   {
+                       Name = a.Name,
+                       Category = a.Category,
+                       Id = a.Id,
+                       SizeAge = a.SizeAge,
+                       StorageId = a.StorageId,
+                       ImgUrl = a.ImgUrl,
+                       MemberId = memberId
+
+                   }).ToList()
+               }).FirstAsync();
+        }
+
+        public async Task<AllAccessoriesByCategoryViewModel> AllAccessoriesByCategoryAndMemberId(int memberId, string category)
+        {
+            return await repo.AllReadonly<Member>()
+                .Where(m => m.Id == memberId && m.IsActive)
+                .Select(c => new AllAccessoriesByCategoryViewModel()
+
+                {
+                    Category = category,
+                    MemberId = memberId,
+                    Accessories = c.Accessories
+                    .Where(a => a.Category == category && a.IsActive)
+                    .Select(ac => new AccessoriesViewModel
+                    {
+                        Name = ac.Name,
+                        Category = ac.Category,
+                        Id = ac.Id,
+                        SizeAge=ac.SizeAge,
+                        StorageId = ac.StorageId,
+                        ImgUrl = ac.ImgUrl,
+                        MemberId = memberId,
+
+                    }).ToList()
+                }).FirstAsync();
         }
     }
 }
