@@ -74,6 +74,7 @@ namespace WardrobeOrganizer.Controllers
         public async Task<IActionResult> Details(int clothingId)
         {
             var model = await clothesService.GetClothingById(clothingId);
+
             return View(model);
         }
 

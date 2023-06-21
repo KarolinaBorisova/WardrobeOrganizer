@@ -29,5 +29,9 @@ namespace WardrobeOrganizer.Core.Models.Clothes
         public string Category { get; set; }
 
         public int StorageId { get; set; }
+
+        public string StorageName { get; set; }
+
+        public string  HouseName { get; set; }
     }
 }

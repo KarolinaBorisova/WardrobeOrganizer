@@ -92,6 +92,8 @@ namespace WardrobeOrganizer.Core.Services
         public async Task<DetailsClothesViewModel> GetClothingById(int clothingId)
         {
             return await repo.AllReadonly<Clothes>()
+                .Include(c=>c.Storage)
+                .ThenInclude(s=>s.House)
                 .Where(c => c.Id == clothingId && c.IsActive)
                 .Select(c => new DetailsClothesViewModel()
                 {
@@ -102,7 +104,9 @@ namespace WardrobeOrganizer.Core.Services
                     Color = c.Color,
                     Size = c.Size,
                     SizeHeight = c.SizeHeight,
+                    StorageName = c.Storage.Name,
                     StorageId = c.StorageId,
+                    HouseName = c.Storage.House.Name,
                     ImgUrl = c.ImgUrl
 
                 }).FirstAsync();
