@@ -14,15 +14,19 @@ namespace WardrobeOrganizer.Controllers
     {
         private readonly IClothesService clothesService;
         private readonly IFamilyService familyService;
+        private readonly IMemberService memberService;
         private readonly ILogger logger;
+
 
         public ClothesController(IClothesService _clothesService,
         IFamilyService _familyService,
-        ILogger<ClothesController> _logger)
+        ILogger<ClothesController> _logger,
+        IMemberService _memberService)
         {
             this.clothesService = _clothesService;
             this.familyService = _familyService;
             this.logger = _logger;
+            this.memberService = _memberService;
         }   
 
         public async Task<IActionResult> All(int storageId) 
@@ -40,12 +44,15 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int storageId, string category)
+        public async Task<IActionResult> Add(int storageId, string category)
         {
+            var familyId = await familyService.GetFamilyId(User.Id());
             var model = new AddClothesViewModel()
             {
                 StorageId = storageId,
-                Category = category
+                Category = category,
+                Members = await memberService.AllMembersBasic(familyId)
+                
                 
             };
             return View(model);

@@ -23,5 +23,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task Edit( InfoMemberViewModel model);
 
         Task Delete(int MemberId);
+
+        Task<IEnumerable<KeyValuePair<string, string>>> AllMembersBasic(int familyId);
     }
 }

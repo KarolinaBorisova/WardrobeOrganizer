@@ -70,6 +70,19 @@ namespace WardrobeOrganizer.Core.Services
                 }).ToListAsync();
         }
 
+        public async Task<IEnumerable<KeyValuePair<string, string>>> AllMembersBasic(int familyId)
+        {
+            var members = await repo.AllReadonly<Member>()
+                .Where(f => f.FamilyId == familyId && f.IsActive)
+                .Select(f => new MemberAsKVP()
+                {
+                    Id = f.Id,
+                    FullName = f.FirstName + " " + f.LastName,
+                }).ToListAsync();
+
+                return members.Select(f => new KeyValuePair<string, string>(f.Id.ToString(), f.FullName));
+        }
+
         public async Task<InfoMemberViewModel> GetMemberById(int memberId)
         {
             return await repo.AllReadonly<Member>()

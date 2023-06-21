@@ -1,7 +1,10 @@
 ﻿@model AddClothesViewModel
 @{
     ViewData["Title"] = $"Add {Model.Category}";
+    var members = Model.Members.Select(t => new SelectListItem(t.Value, t.Key));
 }
+
+
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 <form method="post">
@@ -30,12 +33,13 @@
             <input asp-for="SizeHeight" type="text" class="form-control" id="Size Height">
         </div>
         <input type="hidden" asp-for="@Model.Category" asp-route-clothesCategory="Tshirts">
-       
-    @*    <div class="form-group col-md-6">
-            <label class="label" asp-for="Members">Member</label>
-            <select asp-for="Members" asp-items="@Model.Members">   
-            <option selected="selected" value="">Please select</option>
-        </div>*@
+
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="MemberId">Member</label>
+            <select asp-for="MemberId" asp-items="@members">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
     </div>
     <div class="form-group col-md-6">
         <label class="label" asp-for="Description">Description</label>
@@ -43,3 +47,4 @@
     </div>
     <button type="submit" class="btn btn-primary">Add clothing</button>
 </form>
+
