@@ -25,6 +25,8 @@ namespace WardrobeOrganizer.Core.Models.Outerwear
 
         public int? MemberId { get; set; }
 
+        public string MemberName { get; set; }
+
         public IEnumerable<KeyValuePair<string, string>> Members { get; set; } = new List<KeyValuePair<string, string>>();
 
         public string Category { get; set; }

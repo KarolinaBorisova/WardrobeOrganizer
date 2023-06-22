@@ -18,6 +18,7 @@
             <p class="card-text">Size: @Model.SizeAge</p>
             <p class="card-text">Color: @Model.Color</p>
             <p class="card-text">Description: @Model.Description</p>
+            <p class="card-text">Member: @Model.MemberName</p>
             <p class="card-text">House: @Model.HouseName</p>
             <a class="card-text" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-action="All">Storage: @Model.StorageName</a>
             <input type="hidden" asp-for="@Model.StorageId">

@@ -93,8 +93,8 @@ namespace WardrobeOrganizer.Core.Services
         {
             return await repo.AllReadonly<Clothes>()
                 .Include(c=>c.Member)
-                .Include(c=>c.Storage)
-                .ThenInclude(s=>s.House)           
+               // .Include(c=>c.Storage)
+               // .ThenInclude(s=>s.House)           
                 .Where(c => c.Id == clothingId && c.IsActive)
                 .Select(c => new DetailsClothesViewModel()
                 {
