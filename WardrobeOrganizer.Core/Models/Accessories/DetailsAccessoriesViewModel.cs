@@ -22,7 +22,7 @@ namespace WardrobeOrganizer.Core.Models.Accessories
 
         public int? MemberId { get; set; }
 
-        public string MemberName { get; set; }
+        public string? MemberName { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> Members { get; set; } = new List<KeyValuePair<string, string>>();
 
@@ -30,8 +30,8 @@ namespace WardrobeOrganizer.Core.Models.Accessories
 
         public int StorageId { get; set; }
 
-        public string StorageName { get; set; }
+        public string? StorageName { get; set; }
 
-        public string HouseName { get; set; }
+        public string? HouseName { get; set; }
     }
 }

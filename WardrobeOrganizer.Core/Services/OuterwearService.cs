@@ -90,6 +90,8 @@ namespace WardrobeOrganizer.Core.Services
         {
             return await repo.AllReadonly<Outerwear>()
                 .Include(o=>o.Member)
+                .Include(o=>o.Storage)
+                .ThenInclude(s=>s.House)
                 .Where(o => o.Id == outerwearId)
                 .Select(o => new DetailsOuterwearViewModel()
                 {
@@ -102,6 +104,8 @@ namespace WardrobeOrganizer.Core.Services
                     SizeHeight = o.SizeHeight,
                     StorageId = o.StorageId,
                     Color = o.Color,
+                    HouseName = o.Storage.House.Name,
+                    StorageName = o.Storage.Name,
                     MemberName = o.Member.FirstName + " " + o.Member.LastName
                 }).FirstAsync();
         }
