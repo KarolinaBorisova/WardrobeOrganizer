@@ -23,12 +23,16 @@ namespace WardrobeOrganizer.Core.Models.Shoes
 
         public int Centimetres { get; set; }
 
-        // public int? MemberId { get; set; }
+        public int? MemberId { get; set; }
 
-        // public  IEnumerable<MemberViewModel> Members{ get; set; }
+        public IEnumerable<KeyValuePair<string, string>> Members { get; set; } = new List<KeyValuePair<string, string>>();
 
         public string Category { get; set; }
 
         public int StorageId { get; set; }
+
+        public string StorageName { get; set; }
+
+        public string HouseName { get; set; }
     }
 }

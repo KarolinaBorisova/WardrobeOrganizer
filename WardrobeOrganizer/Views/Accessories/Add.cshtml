@@ -1,6 +1,7 @@
 ﻿@model AddAccessoriesViewModel
 @{
     ViewData["Title"] = $"Add {Model.Category}";
+    var members = Model.Members.Select(t => new SelectListItem(t.Value, t.Key));
 }
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
@@ -25,12 +26,13 @@
         </div>
     </div>
     <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="MemberId">Member</label>
+            <select asp-for="MemberId" asp-items="@members">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
         <input type="hidden" asp-for="@Model.Category">
-    @*    <div class="form-group col-md-6">
-            <label class="label" asp-for="Members">Member</label>
-            <select asp-for="Members" asp-items="@Model.Members">
-            <option selected="selected" value="">Please select</option>
-        </div>*@
     </div>
     <div class="form-group col-md-6">
         <label class="label" asp-for="Description">Description</label>

@@ -15,17 +15,14 @@ namespace WardrobeOrganizer.Controllers
         private readonly IClothesService clothesService;
         private readonly IFamilyService familyService;
         private readonly IMemberService memberService;
-        private readonly ILogger logger;
-
+  
 
         public ClothesController(IClothesService _clothesService,
         IFamilyService _familyService,
-        ILogger<ClothesController> _logger,
         IMemberService _memberService)
         {
             this.clothesService = _clothesService;
             this.familyService = _familyService;
-            this.logger = _logger;
             this.memberService = _memberService;
         }   
 
@@ -74,7 +71,6 @@ namespace WardrobeOrganizer.Controllers
         public async Task<IActionResult> Details(int clothingId)
         {
             var model = await clothesService.GetClothingById(clothingId);
-
             return View(model);
         }
 
@@ -83,7 +79,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await clothesService.ExistsById(clothingId) == false)
             {
-                logger.LogInformation("Clothing with id {0} not exist", clothingId);
+                //logger.LogInformation("Clothing with id {0} not exist", clothingId);
                 return RedirectToAction(nameof(All));
             }
             var clothing = await clothesService.GetClothingById(clothingId);
@@ -110,7 +106,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await clothesService.ExistsById(model.Id) == false)
             {
-                logger.LogInformation("Clothing with id {0} not exist", model.Id);
+              //  logger.LogInformation("Clothing with id {0} not exist", model.Id);
                 ModelState.AddModelError("", "Clothing does not exist");
                 return View();
             }
@@ -127,7 +123,7 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-                logger.LogInformation("Failed to edit member with id {0}", model.Id);
+               // logger.LogInformation("Failed to edit member with id {0}", model.Id);
 
             }
             var clothingId = model.Id;

@@ -32,7 +32,8 @@ namespace WardrobeOrganizer.Core.Services
                 Category = model.Category,
                 Color = model.Color,
                 Description = model.Description,
-                ImgUrl = model.ImgUrl
+                ImgUrl = model.ImgUrl,
+                MemberId = model.MemberId
             };
 
             await repo.AddAsync(accessories);

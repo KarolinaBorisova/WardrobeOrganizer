@@ -38,5 +38,7 @@ namespace WardrobeOrganizer.Core.Models.Outerwear
 
         [Required]
         public int StorageId { get; set; }
+
+        public IEnumerable<KeyValuePair<string, string>> Members { get; set; } = new List<KeyValuePair<string, string>>();
     }
 }

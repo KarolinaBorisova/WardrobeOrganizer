@@ -33,6 +33,7 @@ namespace WardrobeOrganizer.Core.Services
                 Category = model.Category,
                 Color = model.Color,
                 StorageId = model.StorageId,
+                MemberId = model.MemberId
 
             };
             await repo.AddAsync(outerwear);

@@ -5,6 +5,7 @@ using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Clothes;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
@@ -13,10 +14,16 @@ namespace WardrobeOrganizer.Controllers
     {
 
         private readonly IOuterwearService outerwearService;
+        private readonly IFamilyService familyService;
+        private readonly IMemberService memberService;
 
-        public OuterwearController(IOuterwearService outerwearService)
+        public OuterwearController(IOuterwearService _outerwearService,
+            IFamilyService _familyService,
+            IMemberService _memberService)
         {
-            this.outerwearService = outerwearService;
+            this.outerwearService = _outerwearService;
+            this.familyService = _familyService;
+            this.memberService = _memberService;
         }
 
         public async Task<IActionResult> All(int storageId)
@@ -26,12 +33,14 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int storageId, string category)
+        public async Task<IActionResult> Add(int storageId, string category)
         {
+            var familyId = await familyService.GetFamilyId(User.Id());
             var model = new AddOuterwearViewModel()
             {
                 StorageId=  storageId,
-                Category=category
+                Category=category,
+                Members = await memberService.AllMembersBasic(familyId)
             };
             return View(model);
         }
