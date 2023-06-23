@@ -36,13 +36,36 @@ namespace WardrobeOrganizer.Core.Services
                 Description = model.Description,
                 Category = model.Category,
                 StorageId = model.StorageId,
-                MemberId = model.MemberId,
+                MemberId = model.MemberId,               
             };
 
             await repo.AddAsync(clothing);
             await repo.SaveChangesAsync();
 
             return clothing.Id;
+        }
+
+        public async Task<AllClothesViewModel> AllClothes(int storageId)
+        {
+            return await repo.AllReadonly<Storage>()
+                .Where(c => c.Id == storageId && c.IsActive)
+                .Select(c => new AllClothesViewModel()
+
+                {
+                    StorageId = storageId,
+                    Clothes = c.Clothes
+                    .Where(c => c.IsActive)
+                    .Select(cl => new ClothesViewModel
+                    {
+                        Name = cl.Name,
+                        Category = cl.Category,
+                        Id = cl.Id,
+                        Size = cl.Size,
+                        StorageId = cl.StorageId,
+                        ImgUrl = cl.ImgUrl,
+                        MemberId = cl.MemberId
+                    }).ToList()
+                }).FirstAsync();
         }
 
         public async Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category)
@@ -62,40 +85,20 @@ namespace WardrobeOrganizer.Core.Services
                         Id = cl.Id,
                         Size = cl.Size,
                         StorageId = cl.StorageId,
-                        ImgUrl = cl.ImgUrl
-                    }).ToList()
-                }).FirstAsync();
-        }
-
-        public async Task<AllClothesViewModel> AllClothes(int storageId)
-        {
-            return await repo.AllReadonly<Storage>()
-                .Where(c => c.Id == storageId && c.IsActive)
-                .Select(c => new AllClothesViewModel()
-
-                {
-                    StorageId = storageId,
-                    Clothes = c.Clothes
-                    .Where(c=>c.IsActive)
-                    .Select(cl => new ClothesViewModel
-                    {
-                        Name = cl.Name,
-                        Category = cl.Category,
-                        Id = cl.Id,
-                        Size = cl.Size,
-                        StorageId = cl.StorageId,
                         ImgUrl = cl.ImgUrl,
                         MemberId = cl.MemberId
+
                     }).ToList()
                 }).FirstAsync();
         }
 
-        public async Task<DetailsClothesViewModel> GetClothingById(int clothingId)
+
+        public async Task<DetailsClothesViewModel> GetClothesDetailsModelById(int clothingId)
         {
             return await repo.AllReadonly<Clothes>()
                 .Include(c=>c.Member)
-               // .Include(c=>c.Storage)
-               // .ThenInclude(s=>s.House)           
+                .Include(c=>c.Storage)
+                .ThenInclude(s=>s.House)           
                 .Where(c => c.Id == clothingId && c.IsActive)
                 .Select(c => new DetailsClothesViewModel()
                 {
@@ -147,7 +150,7 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task Edit(DetailsClothesViewModel model)
+        public async Task Edit(EditClothesViewModel model)
         {
             if (model == null)
             {
@@ -163,12 +166,10 @@ namespace WardrobeOrganizer.Core.Services
                 clothing.Id = model.Id;
                 clothing.Name = model.Name;
                 clothing.ImgUrl = model.ImgUrl;
-                clothing.Category = model.Category;
                 clothing.Color = model.Color;
                 clothing.Description = model.Description;
                 clothing.Size = model.Size;
                 clothing.SizeHeight = model.SizeHeight;
-                clothing.StorageId = model.StorageId;
                 clothing.MemberId = model.MemberId;
 
             try
@@ -205,11 +206,11 @@ namespace WardrobeOrganizer.Core.Services
                }).FirstAsync();
         }
 
-        public async Task<AllClothesByCategoryViewModel> AllClothesByCategoryAndMemberId(int memberId, string category)
+        public async Task<AllMemberClothesByCategoryViewModel> AllClothesByCategoryAndMemberId(int memberId, string category)
         {
             return await repo.AllReadonly<Member>()
                 .Where(m => m.Id == memberId && m.IsActive)
-                .Select(c => new AllClothesByCategoryViewModel()
+                .Select(c => new AllMemberClothesByCategoryViewModel()
 
                 {
                     Category = category,
@@ -227,6 +228,25 @@ namespace WardrobeOrganizer.Core.Services
 
                     }).ToList()
                 }).FirstAsync();
+        }
+
+        public async Task<EditClothesViewModel> GetClothesEditModelById(int clothingId)
+        {
+            return await repo.AllReadonly<Clothes>()
+                  .Include(c => c.Member)
+                  .Where(c => c.Id == clothingId && c.IsActive)
+                  .Select(c => new EditClothesViewModel()
+                  {
+                      Id = clothingId,
+                      Name = c.Name,
+                      Description = c.Description,                 
+                      Color = c.Color,
+                      Size = c.Size,
+                      SizeHeight = c.SizeHeight,     
+                      ImgUrl = c.ImgUrl,
+                      MemberId = c.MemberId,
+                
+                  }).FirstAsync();
         }
     }
 }

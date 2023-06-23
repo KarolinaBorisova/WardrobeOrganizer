@@ -28,7 +28,6 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> All(int storageId) 
         {
-            
              var model = await clothesService.AllClothes(storageId);
             return View(model);
         }
@@ -48,8 +47,7 @@ namespace WardrobeOrganizer.Controllers
             {
                 StorageId = storageId,
                 Category = category,
-                Members = await memberService.AllMembersBasic(familyId)
-                
+                Members = await memberService.AllMembersBasic(familyId)  
                 
             };
             return View(model);
@@ -70,7 +68,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int clothingId)
         {
-            var model = await clothesService.GetClothingById(clothingId);
+            var model = await clothesService.GetClothesDetailsModelById(clothingId);
             return View(model);
         }
 
@@ -82,27 +80,26 @@ namespace WardrobeOrganizer.Controllers
                 //logger.LogInformation("Clothing with id {0} not exist", clothingId);
                 return RedirectToAction(nameof(All));
             }
-            var clothing = await clothesService.GetClothingById(clothingId);
+            var clothing = await clothesService.GetClothesEditModelById(clothingId);
             var familyId = await familyService.GetFamilyId(User.Id());
 
-            var model = new DetailsClothesViewModel()
+            var model = new EditClothesViewModel()
             {
                Id= clothingId,
                Size =  clothing.Size,
                SizeHeight = clothing.SizeHeight,
-               StorageId = clothing.StorageId,
-               Category = clothing.Category,
                Color = clothing.Color,
                Description = clothing.Description,
                ImgUrl = clothing.ImgUrl,
                Name = clothing.Name,
-               Members = await memberService.AllMembersBasic(familyId)
+               Members = await memberService.AllMembersBasic(familyId),
+               MemberId = clothing.MemberId
             };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit( DetailsClothesViewModel model)
+        public async Task<IActionResult> Edit( EditClothesViewModel model)
         {
             if (await clothesService.ExistsById(model.Id) == false)
             {
@@ -139,7 +136,7 @@ namespace WardrobeOrganizer.Controllers
                 ModelState.AddModelError("", "Clothing does not exist");
                 return RedirectToAction("Clothes", "All");
             }
-            var clothing = await clothesService.GetClothingById(clothingId);
+            var clothing = await clothesService.GetClothesDetailsModelById(clothingId);
             await clothesService.DeleteById(clothingId);
             return RedirectToAction(nameof(All), new {clothing.StorageId});
         }
