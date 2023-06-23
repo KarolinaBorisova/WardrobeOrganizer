@@ -10,17 +10,12 @@
     <a class="btn btn-primary" asp-controller="House" asp-action="Add">Add new house</a>
 </div>
 <div class="card-group">
-   
     @foreach (var house in Model)
     {
         <div class="card">
             <div class="card-body">
                 <h4><a class="card-title text-dark" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">@house.Name</a></h4>
                 <p class="card-text">Address: @house.Address</p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-danger " asp-controller="House" asp-action="Delete">Delete house</a>
-                <a class="btn btn-danger" asp-controller="House" asp-route-id="@house.Id" asp-action="Edit">Edit house</a>
             </div>
         </div>
     }

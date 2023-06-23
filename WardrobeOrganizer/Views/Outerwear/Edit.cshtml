@@ -1,6 +1,6 @@
-﻿@model DetailsOuterwearViewModel
+﻿@model EditOuterwearViewModel
 @{
-    ViewData["Title"] = $"Edit {Model.Category}";
+    ViewData["Title"] = "Edit Outerwear";
     var members = Model.Members.Select(t => new SelectListItem(t.Value, t.Key));
 }
 <h2 class="text-center">@ViewData["Title"]</h2>
@@ -30,9 +30,7 @@
             <label class="label" asp-for="SizeHeight">Size Height</label>
             <input asp-for="SizeHeight" type="text" class="form-control" id="Size Height">
         </div>
-        <input type="hidden" asp-for="@Model.Category" asp-route-clothesCategory="Tshirts">
         <input type="hidden" asp-for="@Model.Id" asp-route-clothesCategory="Tshirts">
-        <input type="hidden" asp-for="@Model.StorageId" asp-route-clothesCategory="Tshirts">
         <div class="form-group col-md-6">
             <label class="label" asp-for="MemberId">Member</label>
             <select asp-for="MemberId" asp-items="@members">
@@ -44,5 +42,5 @@
         <label class="label" asp-for="Description">Description</label>
         <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
     </div>
-    <button type="submit" class="btn btn-primary">Edit clothing</button>
+    <button type="submit" class="btn btn-primary">Edit outerwear</button>
 </form>

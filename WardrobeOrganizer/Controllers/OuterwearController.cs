@@ -57,7 +57,6 @@ namespace WardrobeOrganizer.Controllers
             var storageId = model.StorageId;
             int id = await outerwearService.AddOuterWear(model);
             return RedirectToAction("OuterwearByCategory", "Outerwear", new { storageId, model.Category });
-
         }
 
         [HttpGet]
@@ -69,7 +68,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int outerwearId)
         {
-            var model = await outerwearService.GetOuterwearById(outerwearId);
+            var model = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
             return View(model);
         }
 
@@ -80,7 +79,7 @@ namespace WardrobeOrganizer.Controllers
                 ModelState.AddModelError("", "Outerwear does not exist");
                 return RedirectToAction("Outerwear", "All"); //Error page
             }
-            var outerwear = await outerwearService.GetOuterwearById(outerwearId);
+            var outerwear = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
             await outerwearService.DeleteById(outerwearId);
             return RedirectToAction(nameof(All), new { outerwear.StorageId });
         }
@@ -93,27 +92,26 @@ namespace WardrobeOrganizer.Controllers
                // logger.LogInformation("Clothing with id {0} not exist", outerwearId);
                 return RedirectToAction(nameof(All));
             }
-            var clothing = await outerwearService.GetOuterwearById(outerwearId);
+            var outerwear = await outerwearService.GetOuterwearEditModelById(outerwearId);
             var familyId = await familyService.GetFamilyId(User.Id());
 
-            var model = new DetailsOuterwearViewModel()
+            var model = new EditOuterwearViewModel()
             {
                 Id = outerwearId,
-                Size = clothing.Size,
-                SizeHeight = clothing.SizeHeight,
-                StorageId = clothing.StorageId,
-                Category = clothing.Category,
-                Color = clothing.Color,
-                Description = clothing.Description,
-                ImgUrl = clothing.ImgUrl,
-                Name = clothing.Name,
+                Size = outerwear.Size,
+                SizeHeight = outerwear.SizeHeight,
+                Color = outerwear.Color,
+                Description = outerwear.Description,
+                ImgUrl = outerwear.ImgUrl,
+                Name = outerwear.Name,
+                MemberId = outerwear.MemberId,
                 Members = await memberService.AllMembersBasic(familyId)
             };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(DetailsOuterwearViewModel model)
+        public async Task<IActionResult> Edit(EditOuterwearViewModel model)
         {
             if (await outerwearService.ExistsById(model.Id) == false)
             {

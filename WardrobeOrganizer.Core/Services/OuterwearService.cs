@@ -60,6 +60,8 @@ namespace WardrobeOrganizer.Core.Services
                          Size = o.Size,
                          SizeHeight = o.SizeHeight,
                          Category = o.Category,
+                         MemberId= o.MemberId
+
                      }).ToList()
                  }).FirstAsync();
         }
@@ -81,12 +83,13 @@ namespace WardrobeOrganizer.Core.Services
                         StorageId = o.StorageId,
                         Category = category,
                         ImgUrl = o.ImgUrl,
-                        Name = o.Name
+                        Name = o.Name,
+                        
                     }).ToList()
                 }).FirstAsync();
         }                   
 
-        public async Task<DetailsOuterwearViewModel> GetOuterwearById(int outerwearId)
+        public async Task<DetailsOuterwearViewModel> GetOuterwearDetailsModelById(int outerwearId)
         {
             return await repo.AllReadonly<Outerwear>()
                 .Include(o=>o.Member)
@@ -107,8 +110,31 @@ namespace WardrobeOrganizer.Core.Services
                     HouseName = o.Storage.House.Name,
                     StorageName = o.Storage.Name,
                     MemberName = o.Member.FirstName + " " + o.Member.LastName
+                    
                 }).FirstAsync();
         }
+
+        public async Task<EditOuterwearViewModel> GetOuterwearEditModelById(int outerwearId)
+        {
+            return await repo.AllReadonly<Outerwear>()
+                .Include(o => o.Member)
+                .Include(o => o.Storage)
+                .ThenInclude(s => s.House)
+                .Where(o => o.Id == outerwearId)
+                .Select(o => new EditOuterwearViewModel()
+                {
+                    Id = o.Id,
+                    Name = o.Name,
+                    ImgUrl = o.ImgUrl,
+                    Description = o.Description,
+                    Size = o.Size,
+                    SizeHeight = o.SizeHeight,
+                    Color = o.Color,
+                    MemberId = o.MemberId
+
+                }).FirstAsync();
+        }
+
 
         public async Task<bool> ExistsById(int outerwearId)
         {
@@ -142,7 +168,7 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task Edit(DetailsOuterwearViewModel model)
+        public async Task Edit(EditOuterwearViewModel model)
         {
             if (model == null)
             {
@@ -156,12 +182,12 @@ namespace WardrobeOrganizer.Core.Services
             outerwear.Name = model.Name;
             outerwear.ImgUrl = model.ImgUrl;
             outerwear.SizeHeight = model.SizeHeight;
-            outerwear.Category = model.Category;
+            outerwear.Size = model.Size;
             outerwear.Color = model.Color;
             outerwear.Description = model.Description;
-            outerwear.StorageId = model.StorageId;
-            outerwear.Size = model.Size;
-
+            outerwear.MemberId = model.MemberId;
+          
+   
             try
             {
                 await repo.SaveChangesAsync();
@@ -172,11 +198,11 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task<AllOuterwearViewModel> AllOuterwearByMemberId(int memberId)
+        public async Task<AllMemberOuterwearViewModel> AllOuterwearByMemberId(int memberId)
         {
             return await repo.AllReadonly<Member>()
                .Where(m => m.Id == memberId && m.IsActive)
-               .Select(o => new AllOuterwearViewModel()
+               .Select(o => new AllMemberOuterwearViewModel()
 
                {
                    MemberId = memberId, 
@@ -188,19 +214,20 @@ namespace WardrobeOrganizer.Core.Services
                        Category = cl.Category,
                        Id = cl.Id,
                        Size = cl.Size,
+                       SizeHeight = cl.SizeHeight,
                        StorageId = cl.StorageId,
                        ImgUrl = cl.ImgUrl,
-                       MemberId = memberId
+                       MemberId = memberId,
 
                    }).ToList()
                }).FirstAsync();
         }
 
-        public async Task<AllOuterwearByCategoryViewModel> AllOuterwearByCategoryAndMemberId(int memberId, string category)
+        public async Task<AllMemberOutwearByCategoryViewModel> AllOuterwearByCategoryAndMemberId(int memberId, string category)
         {
             return await repo.AllReadonly<Member>()
                 .Where(m => m.Id == memberId && m.IsActive)
-                .Select(c => new AllOuterwearByCategoryViewModel()
+                .Select(c => new AllMemberOutwearByCategoryViewModel()
 
                 {
                     Category = category,
@@ -212,9 +239,11 @@ namespace WardrobeOrganizer.Core.Services
                         Category = cl.Category,
                         Id = cl.Id,
                         Size = cl.Size,
+                        SizeHeight = cl.SizeHeight,
                         StorageId = cl.StorageId,
                         ImgUrl = cl.ImgUrl,
                         MemberId = memberId,
+                        
                     }).ToList()
                 }).FirstAsync();
         }

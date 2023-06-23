@@ -20,7 +20,7 @@ namespace WardrobeOrganizer.Core.Models.Clothes
 
         public string Size { get; set; }
 
-        //public int? SizeHeight { get; set; }
+        public int? SizeHeight { get; set; }
 
         public int? MemberId { get; set; }
 

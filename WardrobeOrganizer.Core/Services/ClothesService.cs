@@ -57,13 +57,15 @@ namespace WardrobeOrganizer.Core.Services
                     .Where(c => c.IsActive)
                     .Select(cl => new ClothesViewModel
                     {
-                        Name = cl.Name,
-                        Category = cl.Category,
                         Id = cl.Id,
-                        Size = cl.Size,
-                        StorageId = cl.StorageId,
+                        Name = cl.Name,
                         ImgUrl = cl.ImgUrl,
+                        Category = cl.Category,
+                        Size = cl.Size,
+                        SizeHeight = cl.SizeHeight,
+                        StorageId = cl.StorageId,  
                         MemberId = cl.MemberId
+
                     }).ToList()
                 }).FirstAsync();
         }
