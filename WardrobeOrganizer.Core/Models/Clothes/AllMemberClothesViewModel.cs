@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace WardrobeOrganizer.Core.Models.Clothes
 {
-    public class AllClothesViewModel
+    public class AllMemberClothesViewModel
     {
-        public int StorageId { get; set; }
-        public IEnumerable<ClothesViewModel> Clothes{ get; set; }
-
+        public int MemberId { get; set; }
+        public IEnumerable<ClothesViewModel> Clothes { get; set; }
     }
 }

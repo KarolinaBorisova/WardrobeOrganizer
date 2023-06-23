@@ -84,7 +84,8 @@ namespace WardrobeOrganizer.Core.Services
                         Id = cl.Id,
                         Size = cl.Size,
                         StorageId = cl.StorageId,
-                        ImgUrl = cl.ImgUrl
+                        ImgUrl = cl.ImgUrl,
+                        MemberId = cl.MemberId
                     }).ToList()
                 }).FirstAsync();
         }
@@ -180,11 +181,11 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task<AllClothesViewModel> AllClothesByMemberId(int memberId)
+        public async Task<AllMemberClothesViewModel> AllClothesByMemberId(int memberId)
         {
             return await repo.AllReadonly<Member>()
                .Where(m => m.Id == memberId && m.IsActive)
-               .Select(c => new AllClothesViewModel()
+               .Select(c => new AllMemberClothesViewModel()
 
                {
                    MemberId = memberId,

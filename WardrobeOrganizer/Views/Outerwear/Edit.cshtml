@@ -1,6 +1,7 @@
 ﻿@model DetailsOuterwearViewModel
 @{
     ViewData["Title"] = $"Edit {Model.Category}";
+    var members = Model.Members.Select(t => new SelectListItem(t.Value, t.Key));
 }
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
@@ -32,12 +33,12 @@
         <input type="hidden" asp-for="@Model.Category" asp-route-clothesCategory="Tshirts">
         <input type="hidden" asp-for="@Model.Id" asp-route-clothesCategory="Tshirts">
         <input type="hidden" asp-for="@Model.StorageId" asp-route-clothesCategory="Tshirts">
-
-        @*    <div class="form-group col-md-6">
-        <label class="label" asp-for="Members">Member</label>
-        <select asp-for="Members" asp-items="@Model.Members">
-        <option selected="selected" value="">Please select</option>
-        </div>*@
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="MemberId">Member</label>
+            <select asp-for="MemberId" asp-items="@members">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
     </div>
     <div class="form-group col-md-6">
         <label class="label" asp-for="Description">Description</label>

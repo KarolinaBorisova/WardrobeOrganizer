@@ -94,6 +94,7 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction(nameof(All));
             }
             var clothing = await outerwearService.GetOuterwearById(outerwearId);
+            var familyId = await familyService.GetFamilyId(User.Id());
 
             var model = new DetailsOuterwearViewModel()
             {
@@ -105,7 +106,8 @@ namespace WardrobeOrganizer.Controllers
                 Color = clothing.Color,
                 Description = clothing.Description,
                 ImgUrl = clothing.ImgUrl,
-                Name = clothing.Name
+                Name = clothing.Name,
+                Members = await memberService.AllMembersBasic(familyId)
             };
             return View(model);
         }

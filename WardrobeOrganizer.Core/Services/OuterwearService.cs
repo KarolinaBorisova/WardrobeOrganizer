@@ -84,7 +84,7 @@ namespace WardrobeOrganizer.Core.Services
                         Name = o.Name
                     }).ToList()
                 }).FirstAsync();
-        }
+        }                   
 
         public async Task<DetailsOuterwearViewModel> GetOuterwearById(int outerwearId)
         {

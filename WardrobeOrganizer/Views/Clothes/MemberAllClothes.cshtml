@@ -1,4 +1,4 @@
-﻿@model AllClothesViewModel
+﻿@model AllMemberClothesViewModel
 @{
     ViewData["Title"] = "All Member Clothes";
 }
@@ -65,10 +65,6 @@
 
 
 <h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
-<div class="text-center">
-    <a class="btn btn-primary" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
-</div>
 <div class="card-group">
 
     @foreach (var item in Model.Clothes)
