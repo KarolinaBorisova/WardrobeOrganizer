@@ -9,7 +9,6 @@ namespace WardrobeOrganizer.Core.Models.Accessories
 {
     public class AllAccessoriesViewModel
     {
-        public int MemberId { get; set; }
         public int StorageId { get; set; }
         public IEnumerable<AccessoriesViewModel> Accessories { get; set; }
     }

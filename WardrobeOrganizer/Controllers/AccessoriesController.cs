@@ -5,6 +5,7 @@ using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Accessories;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
@@ -12,10 +13,17 @@ namespace WardrobeOrganizer.Controllers
     public class AccessoriesController : Controller
     {
         private readonly IAccessoriesService accessoriesService;
+        private readonly IFamilyService familyService;
+        private readonly IMemberService memberService;
 
-        public AccessoriesController(IAccessoriesService _accessoriesService)
+
+        public AccessoriesController(IAccessoriesService _accessoriesService, 
+            IFamilyService _familyService, 
+            IMemberService _memberService)
         {
             this.accessoriesService = _accessoriesService;
+            this.familyService = _familyService;
+            this.memberService = _memberService;
         }
 
         public async Task<IActionResult> All(int storageId)
@@ -25,12 +33,14 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int storageId, string category)
+        public async Task<IActionResult> Add(int storageId, string category)
         {
+            var familyId = await familyService.GetFamilyId(User.Id());
             var model = new AddAccessoriesViewModel()
             {
                 StorageId = storageId,
-                Category = category
+                Category = category,
+                Members = await memberService.AllMembersBasic(familyId)
             };
             return View(model);
         }
@@ -59,7 +69,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int accessoriesId)
         {
-            var model = await accessoriesService.GetAccessoriesById(accessoriesId);
+            var model = await accessoriesService.GetAccessoriesDetailsModelById(accessoriesId);
             return View(model);
         }
 
@@ -70,7 +80,7 @@ namespace WardrobeOrganizer.Controllers
                 ModelState.AddModelError("", "Accessorie does not exist");
                 return RedirectToAction("Accessories", "All");
             }
-            var accessorie = await accessoriesService.GetAccessoriesById(accessoriesId);
+            var accessorie = await accessoriesService.GetAccessoriesDetailsModelById(accessoriesId);
             await accessoriesService.DeleteById(accessoriesId);
             return RedirectToAction(nameof(All), new { accessorie.StorageId });
         }
@@ -83,28 +93,29 @@ namespace WardrobeOrganizer.Controllers
                 ModelState.AddModelError("", "Accessorie does not exist");
                 return RedirectToAction("Accessories", "All");
             }
-            var accessorise = await accessoriesService.GetAccessoriesById(accessoriesId);
+            var accessorise = await accessoriesService.GetAccessoriesEditModelById(accessoriesId);
 
             if (accessorise == null)
             {
 
             }
-            var model = new DetailsAccessoriesViewModel()
+            var familyId = await familyService.GetFamilyId(User.Id());
+            var model = new EditAccessoriesViewModel()
             {
                 Id = accessoriesId,
                 Name = accessorise.Name,
                 Description = accessorise.Description,
                 SizeAge = accessorise.SizeAge,
-                Category = accessorise.Category,
                 Color = accessorise.Color,
-                StorageId = accessorise.StorageId,
-                ImgUrl = accessorise.ImgUrl
+                ImgUrl = accessorise.ImgUrl,
+                MemberId = accessorise.MemberId,
+                Members = await memberService.AllMembersBasic(familyId),
             };
 
             return View(model);
         }
 
-        public async Task<IActionResult> Edit(DetailsAccessoriesViewModel model)
+        public async Task<IActionResult> Edit(EditAccessoriesViewModel model)
         {
             if (await accessoriesService.ExistsById(model.Id)== false)
             {
