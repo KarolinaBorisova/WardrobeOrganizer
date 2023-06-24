@@ -1,6 +1,6 @@
-﻿@model AllShoesByCategoryViewModel
+﻿@model AllMemberShoesByCategoryViewModel
 @{
-    ViewData["Title"] = $"All {@Model.Category}";
+    ViewData["Title"] = $"All Member {@Model.Category}";
 }
 @*<h2 class="text-center">House: @Model.House.Name</h2>
 <h2 class="text-center">Storage: @Model.Name</h2>
@@ -65,9 +65,6 @@
 
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
-<div class="text-center">
-    <a class="btn btn-primary" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
-</div>
 <div class="card-group">
 
     @foreach (var item in Model.Shoes)

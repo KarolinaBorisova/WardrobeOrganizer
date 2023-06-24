@@ -1,6 +1,6 @@
-﻿@model AllShoesViewModel
+﻿@model AllMemberShoesViewModel
 @{
-    ViewData["Title"] = "All Shoes";
+    ViewData["Title"] = "All Member Shoes";
 }
 @*<h2 class="text-center">House: @Model.House.Name</h2>
 <h2 class="text-center">Storage: @Model.Name</h2>
@@ -65,10 +65,6 @@
 
 
 <h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
-<div class="text-center">
-    <a class="btn btn-primary" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
-</div>
 <div class="card-group">
 
     @foreach (var item in Model.Shoes)
@@ -76,7 +72,7 @@
         <div class="card">
             <div class="card-body">
                 <img src="@item.ImgUrl" alt="Avatar" style="width:50%">
-                <h4><a class="card-title text-dark" asp-controller="Outerwear" asp-route-outerwearId="@item.Id" asp-action="Details">@item.Name</a></h4>
+                <h4><a class="card-title text-dark" asp-controller="Shoes" asp-route-shoesId="@item.Id" asp-action="Details">@item.Name</a></h4>
                 <p class="card-text">Size: @item.SizeEu</p>
             </div>
         </div>

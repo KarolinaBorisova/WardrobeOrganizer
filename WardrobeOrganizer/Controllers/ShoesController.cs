@@ -5,6 +5,7 @@ using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Shoes;
 using WardrobeOrganizer.Core.Services;
+using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
@@ -13,19 +14,27 @@ namespace WardrobeOrganizer.Controllers
     {
 
         private readonly IShoesService shoesService;
+        private readonly IMemberService memberService;
+        private readonly IFamilyService familyService;
 
-        public ShoesController(IShoesService _shoesService)
+        public ShoesController(IShoesService _shoesService,
+            IMemberService _memberService,
+            IFamilyService _familyService)
         {
             this.shoesService = _shoesService;
+            this.memberService = _memberService;
+            this.familyService = _familyService;
         } 
 
         [HttpGet]
-        public IActionResult Add(int storageId, string category)
+        public async Task<IActionResult> Add(int storageId, string category)
         {
+            var familyId = await familyService.GetFamilyId(User.Id());
             var model = new AddShoesViewModel()
             {
                 StorageId = storageId,
-                Category = category
+                Category = category,
+                Members = await memberService.AllMembersBasic(familyId)
             };
             return View(model);
         }
@@ -59,7 +68,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int shoesId)
         {
-            var model = await shoesService.GetShoesById(shoesId);
+            var model = await shoesService.GetShoesDetailsModelById(shoesId);
             return View(model);
         }
 
@@ -70,7 +79,7 @@ namespace WardrobeOrganizer.Controllers
                 ModelState.AddModelError("", "Shoes does not exist");
                 return RedirectToAction("Shoes", "All"); //Error page
             }
-            var shoes = await shoesService.GetShoesById(shoesId);
+            var shoes = await shoesService.GetShoesDetailsModelById(shoesId);
             await shoesService.DeleteById(shoesId);
             return RedirectToAction(nameof(All), new { shoes.StorageId });
 
@@ -83,30 +92,32 @@ namespace WardrobeOrganizer.Controllers
             {
 
             }
-            var shoes = await shoesService.GetShoesById(shoesId);
+            var shoes = await shoesService.GetShoesEditModelById(shoesId);
 
             if (shoes == null)
             {
 
             }
-            var model = new DetailsShoesViewModel()
+            var familyId = await familyService.GetFamilyId(User.Id());
+            var model = new EditShoesViewModel()
             {
-                Id = shoes.Id,
+                Id=shoes.Id,
                 Name = shoes.Name,
                 Description = shoes.Description,
                 SizeEu = shoes.SizeEu,
                 Centimetres = shoes.Centimetres,
-                StorageId = shoes.StorageId,
-                Category = shoes.Category,
                 Color = shoes.Color,
-                ImgUrl = shoes.ImgUrl
+                ImgUrl = shoes.ImgUrl,
+                MemberId = shoes.MemberId,
+                Members = await memberService.AllMembersBasic(familyId)
+
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(DetailsShoesViewModel model)
+        public async Task<IActionResult> Edit(EditShoesViewModel model)
         {
             if (await shoesService.ExistsById(model.Id) == false)
             {

@@ -33,7 +33,8 @@ namespace WardrobeOrganizer.Core.Services
                 Color = model.Color,
                 StorageId = model.StorageId,
                 Category = model.Category,
-                MemberId = model.MemberId
+                MemberId = model.MemberId,
+           
             };
 
             await repo.AddAsync(shoes);
@@ -60,7 +61,8 @@ namespace WardrobeOrganizer.Core.Services
                         StorageId = sh.StorageId,
                         Category = sh.Category,
                         Centimetres = sh.Centimetres,
-                        ImgUrl = sh.ImgUrl
+                        ImgUrl = sh.ImgUrl,
+                        MemberId = sh.MemberId
 
                     }).ToList()
                 }).FirstAsync();
@@ -83,7 +85,10 @@ namespace WardrobeOrganizer.Core.Services
                         StorageId = sh.StorageId,
                         Category = sh.Category,
                         Centimetres = sh.Centimetres,
-                        ImgUrl = sh.ImgUrl
+                        ImgUrl = sh.ImgUrl,
+                        MemberId = sh.MemberId,
+                     
+
                     }).ToList()
                 }).FirstAsync();
         }
@@ -112,7 +117,7 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task Edit(DetailsShoesViewModel model)
+        public async Task Edit(EditShoesViewModel model)
         {
             if (model == null)
             {
@@ -127,10 +132,9 @@ namespace WardrobeOrganizer.Core.Services
             shoes.Centimetres = model.Centimetres;
             shoes.SizeEu = model.SizeEu;
             shoes.Description = model.Description;
-            shoes.Category = model.Category;
             shoes.Color = model.Color;
-            shoes.StorageId = model.StorageId;
             shoes.ImgUrl = model.ImgUrl;
+            shoes.MemberId = model.MemberId;
 
             try
             {
@@ -150,10 +154,12 @@ namespace WardrobeOrganizer.Core.Services
                 .AnyAsync(sh => sh.Id == shoesId && sh.IsActive == true);
         }
 
-        public async Task<DetailsShoesViewModel> GetShoesById(int shoesId)
+        public async Task<DetailsShoesViewModel> GetShoesDetailsModelById(int shoesId)
         {
             return await repo.AllReadonly<Shoes>()
                 .Include(s=>s.Member)
+                .Include(c => c.Storage)
+                .ThenInclude(s => s.House)
                 .Where(s => s.Id == shoesId)
                 .Select(s => new DetailsShoesViewModel()
                 {
@@ -166,15 +172,40 @@ namespace WardrobeOrganizer.Core.Services
                     Color = s.Color,
                     StorageId = s.StorageId,
                     ImgUrl = s.ImgUrl,
-                    MemberName = s.Member.FirstName + " " + s.Member.LastName
+                    MemberName = s.Member.FirstName + " " + s.Member.LastName,
+                    StorageName = s.Storage.Name,
+                    HouseName = s.Storage.House.Name,
+                    MemberId = s.MemberId
+
                 }).FirstAsync();
         }
 
-        public async Task<AllShoesViewModel> AllShoesByMemberId(int memberId)
+        public async Task<EditShoesViewModel> GetShoesEditModelById(int shoesId)
+        {
+            return await repo.AllReadonly<Shoes>()
+                .Include(s => s.Member)
+                .Include(c => c.Storage)
+                .ThenInclude(s => s.House)
+                .Where(s => s.Id == shoesId)
+                .Select(s => new EditShoesViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    SizeEu = s.SizeEu,
+                    Centimetres = s.Centimetres,
+                    Description = s.Description,
+                    Color = s.Color,
+                    ImgUrl = s.ImgUrl,
+                    MemberId = s.MemberId
+
+                }).FirstAsync();
+        }
+
+        public async Task<AllMemberShoesViewModel> AllShoesByMemberId(int memberId)
         {
             return await repo.AllReadonly<Member>()
                .Where(m => m.Id == memberId && m.IsActive)
-               .Select(sh => new AllShoesViewModel()
+               .Select(sh => new AllMemberShoesViewModel()
 
                {
                    MemberId = memberId,
@@ -189,21 +220,21 @@ namespace WardrobeOrganizer.Core.Services
                        Centimetres= cl.Centimetres,
                        StorageId = cl.StorageId,
                        ImgUrl = cl.ImgUrl,
-                       MemberId = memberId
+                       MemberId = memberId,                 
 
                    }).ToList()
                }).FirstAsync();
         }
 
-        public async Task<AllShoesByCategoryViewModel> AllShoesByCategoryAndMemberId(int memberId, string category)
+        public async Task<AllMemberShoesByCategoryViewModel> AllShoesByCategoryAndMemberId(int memberId, string category)
         {
             return await repo.AllReadonly<Member>()
                 .Where(m => m.Id == memberId && m.IsActive)
-                .Select(s => new AllShoesByCategoryViewModel()
+                .Select(s => new AllMemberShoesByCategoryViewModel()
 
                 {
-                    Category = category,
                     MemberId = memberId,
+                    Category = category,
                     Shoes = s.Shoes
                     .Where(sh=> sh.Category == category && sh.IsActive)
                     .Select(s => new ShoesViewModel
@@ -216,6 +247,7 @@ namespace WardrobeOrganizer.Core.Services
                         StorageId = s.StorageId,
                         ImgUrl = s.ImgUrl,
                         MemberId = memberId,
+                        
                     }).ToList()
                 }).FirstAsync();
         }

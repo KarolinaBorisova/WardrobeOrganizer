@@ -17,16 +17,18 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<AllShoesViewModel> AllShoes(int storageId);
 
-        Task<DetailsShoesViewModel> GetShoesById(int shoesId);
+        Task<DetailsShoesViewModel> GetShoesDetailsModelById(int shoesId);
+
+        Task<EditShoesViewModel> GetShoesEditModelById(int shoesId);
 
         Task<bool> ExistsById(int shoesId);
 
         Task DeleteById(int shoesId);
 
-        Task Edit(DetailsShoesViewModel model);
+        Task Edit(EditShoesViewModel model);
 
-        Task<AllShoesViewModel> AllShoesByMemberId(int memberId);
+        Task<AllMemberShoesViewModel> AllShoesByMemberId(int memberId);
 
-        Task<AllShoesByCategoryViewModel> AllShoesByCategoryAndMemberId(int memberId, string category);
+        Task<AllMemberShoesByCategoryViewModel> AllShoesByCategoryAndMemberId(int memberId, string category);
     }
 }
