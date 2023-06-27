@@ -23,7 +23,7 @@ namespace WardrobeOrganizer.Core.Models.Member
 
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
 
         [Required]
