@@ -50,8 +50,11 @@ namespace WardrobeOrganizer.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-
-            ModelState.AddModelError(null, "Something went wrong");
+            
+            foreach(var item in result.Errors)
+            {
+                ModelState.AddModelError("", item.Description);
+            }
 
             return View(model);
         }
