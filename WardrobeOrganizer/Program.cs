@@ -31,10 +31,11 @@ namespace WardrobeOrganizer
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-         //  builder.Services.ConfigureApplicationCookie(options =>
-         //  {
-         //      options.LoginPath = "/Account/Login";
-         //  });
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+            });
+
             builder.Services.AddControllersWithViews(
                options =>
                {

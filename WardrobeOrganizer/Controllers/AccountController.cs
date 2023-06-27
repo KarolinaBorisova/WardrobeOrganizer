@@ -60,10 +60,43 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public IActionResult Login(string? returnUrl = null)
         {
-            var model = new RegisterViewModel();
+            var model = new LoginViewModel()
+            {
+                ReturnUrl = returnUrl
+            };
+
             return View(model); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+
+            if (user != null)
+            {
+               var result = await signInManager.PasswordSignInAsync(user, model.Password, false , false);
+
+                if (result.Succeeded)
+                {
+                    if (model.ReturnUrl != null)
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            ModelState.AddModelError("", "Invalid login");
+            return View(model);
         }
 
         [HttpPost]
