@@ -10,14 +10,17 @@ namespace WardrobeOrganizer.Controllers
     public class AccountController : BaseController
     {
         private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager; 
+        private readonly SignInManager<User> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(
             UserManager<User> _userManager
-            ,SignInManager<User> _signInManager)
+            ,SignInManager<User> _signInManager
+            ,RoleManager<IdentityRole> _roleManager)
         {
             userManager = _userManager;
             this.signInManager = _signInManager;
+            this.roleManager = _roleManager;
         }
 
         [AllowAnonymous]

@@ -29,7 +29,9 @@ namespace WardrobeOrganizer
 
                 options.User.RequireUniqueEmail = builder.Configuration.GetValue<bool>("Identity:RequireUniqueEmail"); 
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+              
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
