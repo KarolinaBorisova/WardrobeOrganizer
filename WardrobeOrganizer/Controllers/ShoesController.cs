@@ -10,7 +10,7 @@ using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
-    public class ShoesController : Controller
+    public class ShoesController : BaseController
     {
 
         private readonly IShoesService shoesService;

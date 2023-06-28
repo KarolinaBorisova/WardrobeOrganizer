@@ -13,8 +13,8 @@ using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
-    [Authorize]
-    public class FamilyController : Controller
+  
+    public class FamilyController : BaseController
     {
         private readonly IFamilyService familyService;
         private readonly IStorageService storageService;

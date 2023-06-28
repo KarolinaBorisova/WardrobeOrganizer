@@ -14,8 +14,7 @@ using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Controllers
 {
-    [Authorize]
-    public class MemberController : Controller
+    public class MemberController : BaseController
     {
         private readonly IMemberService memberService;
         private readonly IFamilyService familyService;

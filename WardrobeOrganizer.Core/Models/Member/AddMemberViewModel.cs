@@ -23,7 +23,7 @@ namespace WardrobeOrganizer.Core.Models.Member
 
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date)]    
         public DateTime Birthdate { get; set; }
 
         [Required]
@@ -32,7 +32,7 @@ namespace WardrobeOrganizer.Core.Models.Member
 
         [Required]
         public int ShoeSizeEu { get; set; }
-
+            
 
         public double? FootLengthCm { get; set; }
 

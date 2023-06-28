@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Models;
 
 namespace WardrobeOrganizer.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager; 
@@ -18,6 +19,7 @@ namespace WardrobeOrganizer.Controllers
             this.signInManager = _signInManager;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Register()
         {
@@ -25,6 +27,7 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -43,6 +46,8 @@ namespace WardrobeOrganizer.Controllers
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
+            await userManager
+                .AddClaimAsync(user, new System.Security.Claims.Claim("FirstName", user.FirstName ?? user.Email));
 
             if (result.Succeeded)
             {
@@ -59,6 +64,7 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
@@ -70,6 +76,7 @@ namespace WardrobeOrganizer.Controllers
             return View(model); 
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -78,6 +85,7 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
 
+            
             var user = await userManager.FindByEmailAsync(model.Email);
 
             if (user != null)

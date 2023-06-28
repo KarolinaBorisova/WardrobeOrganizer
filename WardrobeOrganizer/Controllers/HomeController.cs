@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.User;
@@ -8,7 +9,7 @@ using WardrobeOrganizer.Models;
 
 namespace WardrobeOrganizer.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IStorageService storageService;
         private readonly IMemberService memberService;
@@ -30,6 +31,8 @@ namespace WardrobeOrganizer.Controllers
             logger= _logger;
         }
 
+        [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             int familiId = await familyService.GetFamilyId(User.Id());
@@ -44,7 +47,7 @@ namespace WardrobeOrganizer.Controllers
            
         }
 
-
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

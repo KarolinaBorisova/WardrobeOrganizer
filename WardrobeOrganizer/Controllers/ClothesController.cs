@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Clothes;
@@ -10,7 +11,7 @@ using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
-    public class ClothesController : Controller
+    public class ClothesController : BaseController
     {
         private readonly IClothesService clothesService;
         private readonly IFamilyService familyService;

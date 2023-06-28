@@ -12,8 +12,7 @@ using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
-    [Authorize]
-    public class StorageController : Controller
+    public class StorageController : BaseController
     {
 
         private readonly IStorageService storageService;
@@ -62,11 +61,8 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
 
-        
-        //    int houseId = await houseService.GetHouseId(User.Id());
-
             int id = await storageService.AddStorage(model);
-            return RedirectToAction("Info", "Storage", new { id }); //Change to stoargeId
+            return RedirectToAction("Info", "Storage", new { id }); 
         }
 
         public async Task<IActionResult> Content(int id)
