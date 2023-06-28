@@ -12,7 +12,7 @@ namespace WardrobeOrganizer.Controllers
         {
             get
             {
-                string firstName = string.Empty;
+                string firstName = User.Identity.Name;
 
                 if (User?.Identity?.IsAuthenticated ?? false && User != null && User.HasClaim(c=>c.Type == ClaimTypeConstants.FirstName))
                 {
