@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using WardrobeOrganizer.Core.Constants;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -13,10 +14,10 @@ namespace WardrobeOrganizer.Controllers
             {
                 string firstName = string.Empty;
 
-                if (User != null && User.HasClaim(c=>c.Type == "FirstName"))
+                if (User?.Identity?.IsAuthenticated ?? false && User != null && User.HasClaim(c=>c.Type == ClaimTypeConstants.FirstName))
                 {
                     firstName = User.Claims
-                        .FirstOrDefault(c => c.Type == "FirstName")
+                        .FirstOrDefault(c => c.Type == ClaimTypeConstants.FirstName)
                         ?.Value ?? firstName;
                 }
 
@@ -26,8 +27,11 @@ namespace WardrobeOrganizer.Controllers
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            ViewBag.UserFirstName = UserFirstName;
-
+            if (User?.Identity?.IsAuthenticated?? false)
+            {
+                ViewBag.UserFirstName = UserFirstName;
+            }
+           
             base.OnActionExecuted(context);
         }
     }

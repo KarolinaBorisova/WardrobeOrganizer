@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Models;
 
@@ -47,7 +48,7 @@ namespace WardrobeOrganizer.Controllers
 
             var result = await userManager.CreateAsync(user, model.Password);
             await userManager
-                .AddClaimAsync(user, new System.Security.Claims.Claim("FirstName", user.FirstName ?? user.Email));
+                .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
 
             if (result.Succeeded)
             {

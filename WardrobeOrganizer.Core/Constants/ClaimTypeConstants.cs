@@ -8,6 +8,6 @@ namespace WardrobeOrganizer.Core.Constants
 {
     public static class ClaimTypeConstants
     {
-        public const string FirstName = "wordrobeOrganaser:firstName";
+        public const string FirstName = "wardrobeOrganaser:firstName";
     }
 }
