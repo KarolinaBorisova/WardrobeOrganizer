@@ -1,29 +1,34 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.User;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
+using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Models;
 
 namespace WardrobeOrganizer.Controllers
 {
     public class HomeController : BaseController
     {
+        private readonly UserManager<User> userManager;
         private readonly IStorageService storageService;
         private readonly IMemberService memberService;
         private readonly IFamilyService familyService;
         private readonly IHouseService houseService;
         private readonly ILogger logger;
 
-        public HomeController(IStorageService _storageService,
+        public HomeController(UserManager<User> _userManager,
+            IStorageService _storageService,
            IMemberService _memberService,
            IFamilyService _familyService,
            IHouseService _houseService,
            ILogger<HomeController> _logger)
         {
-            
+            userManager = _userManager;
             storageService = _storageService;
             memberService = _memberService;
             familyService = _familyService;
@@ -35,6 +40,13 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var user = await userManager.FindByIdAsync(User.Id());
+
+            if (user != null && await userManager.IsInRoleAsync(user,RoleConstants.Administrator))
+            {
+                return RedirectToAction("Index", "Admin", new { area = "Admin" });
+            }
+           
             int familiId = await familyService.GetFamilyId(User.Id());
             var model = new HomeUserViewModel
             {
