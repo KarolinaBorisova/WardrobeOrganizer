@@ -23,6 +23,20 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
             var users = new List<User>();
             var hasher = new PasswordHasher<User>();
 
+            var admin = new User
+            {
+                Id = "0",
+                UserName = "admin@abv.bg",
+                NormalizedUserName = "ADMIN@ABV.BG",
+                FirstName = "Master",
+                LastName = "Admin",
+                Email = "admin@abv.bg",
+                NormalizedEmail = "ADMIN@ABV.BG",
+
+            };
+            admin.PasswordHash = hasher.HashPassword(admin, "admin@abv.bg");
+            users.Add(admin);
+
             var user = new User()
             {
                 Id = "1",

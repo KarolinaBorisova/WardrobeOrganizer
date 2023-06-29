@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
@@ -41,6 +42,8 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        // only accesseble by user who is in role admin
+        // [Authorize(Roles =$"{RoleConstants.Administrator}")]
         public async Task<IActionResult> Add(int storageId, string category)
         {
             var familyId = await familyService.GetFamilyId(User.Id());

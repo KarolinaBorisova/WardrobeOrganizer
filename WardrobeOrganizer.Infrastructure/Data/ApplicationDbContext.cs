@@ -14,7 +14,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new RolesConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UsersWithRolesConfig());
             builder.ApplyConfiguration(new StorageConfiguration());
             builder.ApplyConfiguration(new ClothesConfiguration());
             builder.ApplyConfiguration(new FamilyConfiguration());
