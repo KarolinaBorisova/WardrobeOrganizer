@@ -103,6 +103,10 @@ namespace WardrobeOrganizer.Controllers
                         return Redirect(model.ReturnUrl);
                     }
 
+                    if (await userManager.IsInRoleAsync(user , "Administrator"))
+                    {
+                        return RedirectToAction("Index", "Admin", new { area = "Admin" });
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -117,24 +121,6 @@ namespace WardrobeOrganizer.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-
-        // create roles 
-        [AllowAnonymous]
-        public async Task<IActionResult> CreateRoles()
-        {
-            await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        //add user to role admin
-        public async Task<IActionResult> AddUsersToRoles()
-        {
-            var user = await userManager.FindByEmailAsync("dani@abv.bg");
-
-            await userManager.AddToRoleAsync(user, RoleConstants.Administrator);
-
-            return RedirectToAction("Index", "Home");
-        }
+        
     }
 }
