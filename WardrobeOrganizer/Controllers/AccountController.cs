@@ -72,6 +72,10 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/Home/Index");
+            }
             var model = new LoginViewModel()
             {
                 ReturnUrl = returnUrl

@@ -23,10 +23,9 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (this.User?.Identity != null & this.User.Identity.IsAuthenticated)
-                        {
+      
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Houses</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Users</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="All">All Members</a>
@@ -34,15 +33,10 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Family</a>
                             </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+                        <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        </form>
                 </div>
             </div>
         </nav>
