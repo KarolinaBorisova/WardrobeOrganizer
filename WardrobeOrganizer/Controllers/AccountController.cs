@@ -27,6 +27,10 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/Home/Index");
+            }
             var model = new RegisterViewModel();
             return View(model);
         }

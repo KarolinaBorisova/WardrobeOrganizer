@@ -42,11 +42,11 @@ namespace WardrobeOrganizer.Controllers
         {
             var user = await userManager.FindByIdAsync(User.Id());
 
-            if (user != null && await userManager.IsInRoleAsync(user,RoleConstants.Administrator))
+            if (user != null && await userManager.IsInRoleAsync(user, RoleConstants.Administrator))
             {
                 return RedirectToAction("Index", "Admin", new { area = "Admin" });
             }
-           
+
             int familiId = await familyService.GetFamilyId(User.Id());
             var model = new HomeUserViewModel
             {
