@@ -113,7 +113,7 @@ namespace WardrobeOrganizer.Controllers
 
                     if (await userManager.IsInRoleAsync(user , "Administrator"))
                     {
-                        return RedirectToAction("Index", "Admin", new { area = "Admin" });
+                        return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
                     }
                     return RedirectToAction("Index", "Home");
                 }

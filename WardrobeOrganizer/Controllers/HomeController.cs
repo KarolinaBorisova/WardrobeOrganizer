@@ -44,7 +44,7 @@ namespace WardrobeOrganizer.Controllers
 
             if (user != null && await userManager.IsInRoleAsync(user, RoleConstants.Administrator))
             {
-                return RedirectToAction("Index", "Admin", new { area = "Admin" });
+                return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
             }
 
             int familiId = await familyService.GetFamilyId(User.Id());
