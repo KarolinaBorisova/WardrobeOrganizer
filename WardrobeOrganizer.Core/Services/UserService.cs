@@ -30,15 +30,50 @@ namespace WardrobeOrganizer.Core.Services
             var users = new AllUsersViewModel();
 
            users.Users = await repo.AllReadonly<User>()
+           .Where(u=> u.LastName != "Admin")
            .Select(c => new UserViewModel()
            {
+               Id = c.Id,
                Email = c.Email,
                FullName = c.FirstName + " " + c.LastName,
+               IsActive = c.IsActive,
            }).ToListAsync();
 
-            repo.SaveChangesAsync();
+            await repo.SaveChangesAsync();
 
             return users;
+        }
+
+        public async Task InActive(string UserId)
+        {
+            try
+            {
+                var user = await repo.GetByIdAsync<User>(UserId);
+
+                user.IsActive = false;
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+        }
+
+        public async Task Active(string UserId)
+        {
+            try
+            {
+                var user = await repo.GetByIdAsync<User>(UserId);
+
+                user.IsActive = true;
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
         }
     }
 }

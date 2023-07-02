@@ -43,6 +43,7 @@ namespace WardrobeOrganizer.Controllers
             {
                 return View(model); 
             }
+
         
             var user = new User()
             {

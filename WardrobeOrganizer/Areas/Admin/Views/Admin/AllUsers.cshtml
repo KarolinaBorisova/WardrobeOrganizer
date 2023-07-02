@@ -16,10 +16,11 @@
             <div class="card-body">
                 <h4>User: @user.Email</h4>
                 <h4>Fullname: @user.FullName</h4>
+                <h4>IsAcitve: @user.IsActive</h4>
             </div>
             <div class="card-footer">
-                <a class="btn btn-danger " asp-controller="Admin" asp-action="Delete">Delete user</a>
-                <a class="btn btn-danger" asp-controller="Admin" asp-action="Edit">Edit user</a>
+                <a class="btn btn-danger " asp-area="Admin" asp-route-id="@user.Id" asp-controller="Admin" asp-action="InActive">Delete user</a>
+                <a class="btn btn-danger" asp-area="Admin" asp-route-id="@user.Id"  asp-controller="Admin" asp-action="Active">Edit user</a>
             </div>
         </div>
     }
