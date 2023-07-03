@@ -103,6 +103,11 @@ namespace WardrobeOrganizer.Controllers
 
             if (user != null)
             {
+                if (user.IsActive == false)
+                {
+                    ModelState.AddModelError("", "This account was blocked");
+                    return View(model);
+                }
                var result = await signInManager.PasswordSignInAsync(user, model.Password, false , false);
 
                 if (result.Succeeded)

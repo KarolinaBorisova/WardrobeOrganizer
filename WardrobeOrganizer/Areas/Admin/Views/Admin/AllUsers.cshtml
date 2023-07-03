@@ -19,8 +19,8 @@
                 <h4>IsAcitve: @user.IsActive</h4>
             </div>
             <div class="card-footer">
-                <a class="btn btn-danger " asp-area="Admin" asp-route-id="@user.Id" asp-controller="Admin" asp-action="InActive">Delete user</a>
-                <a class="btn btn-danger" asp-area="Admin" asp-route-id="@user.Id"  asp-controller="Admin" asp-action="Active">Edit user</a>
+                <a class="btn btn-danger " asp-area="Admin" asp-route-id="@user.Id" asp-controller="Admin" asp-action="InActive">Block user</a>
+                <a class="btn btn-success" asp-area="Admin" asp-route-id="@user.Id"  asp-controller="Admin" asp-action="Active">Unblock user</a>
             </div>
         </div>
     }
