@@ -5,41 +5,53 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">@Model.Name</h1>
-    <h2 class="display-4">Members</h2>
-</div>
-
-<div class="card-group">
-
-    @foreach (var member in Model.Members)
-    {
-        <div class="card">
-            <div class="card-body">
-                <img src="@member.ImgUrl" alt="Avatar" style="width:100%">
-                <h4><a class="card-title text-dark" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a></h4>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-danger " asp-controller="Member" asp-action="Delete">Delete member</a>
-                <a class="btn btn-danger" asp-controller="Member" asp-action="Edit">Edit member</a>
-            </div>
-        </div>
-    }
+    <h3 class="display-3">@Model.Name Family</h3>
 </div>
 <div class="text-center">
-    <h2 class="display-4">Houses</h2>
+    <h3 class="display-5">Family members</h3>
 </div>
-<div class="card-group">
-    @foreach (var house in @Model.Houses)
-    {
-        <div class="card">
-            <div class="card-body">
-                <h4><a class="card-title text-dark" asp-controller="House" asp-action="Info">@house.Name</a></h4>
-                <p class="card-text">Address: @house.Address</p>
+@if (Model.Members.Count == 0)
+{
+    <div class="text-center">
+        <h5 class="display-8">There are no members yet.</h5>
+    </div>
+}
+else
+{
+    <div class="card-group">
+        @foreach (var member in Model.Members)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <img src="@member.ImgUrl" alt="Avatar" style="width:100%">
+                    <h4><a class="card-title text-dark" asp-area="" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a></h4>
+                </div>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-danger " asp-controller="Member" asp-action="Delete">Delete storage</a>
-                <a class="btn btn-danger" asp-controller="Member" asp-action="Edit">Edit storage</a>
-            </div>
-        </div>
-    }
+        }
+    </div>
+
+}
+
+<div class="text-center">
+    <h5 class="display-5">Family houses</h5>
 </div>
+@if (Model.Houses.Count == 0)
+{
+    <div class="text-center">
+        <h5 class="display-8">There are no houses yet.</h5>
+    </div>
+}
+else
+{
+    <div class="card-group">
+        @foreach (var house in Model.Houses)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h4><a class="card-title text-dark" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">@house.Name</a></h4>
+                    <p class="card-text">Address: @house.Address</p>
+                </div>
+            </div>
+        }
+    </div>
+}

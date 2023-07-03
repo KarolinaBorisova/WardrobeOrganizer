@@ -25,12 +25,12 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
 
         public async Task<IActionResult> InActive(string id)
         {
-           // if (await userService.ExistsById(Id) == false)
-           // {
-           //     ModelState.AddModelError("", "Member does not exist");
-           //
-           //     return RedirectToAction("Index", "Home");
-           // }
+            if (await userService.ExistsById(id) == false)
+            {
+                ModelState.AddModelError("", "User does not exist");
+
+                return RedirectToAction("Index", "Home");
+            }
 
             try
             {
@@ -49,12 +49,12 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
 
         public async Task<IActionResult> Active(string id)
         {
-            // if (await userService.ExistsById(Id) == false)
-            // {
-            //     ModelState.AddModelError("", "Member does not exist");
-            //
-            //     return RedirectToAction("Index", "Home");
-            // }
+            if (await userService.ExistsById(id) == false)
+            {
+                ModelState.AddModelError("", "User does not exist");
+
+                return RedirectToAction("Index", "Home");
+            }
 
             try
             {

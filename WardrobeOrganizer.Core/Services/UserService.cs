@@ -75,5 +75,11 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException(ex.Message);
             }
         }
+
+        public async Task<bool> ExistsById(string id)
+        {
+            return await repo.AllReadonly<User>()
+              .AnyAsync(u => u.Id == id);
+        }
     }
 }

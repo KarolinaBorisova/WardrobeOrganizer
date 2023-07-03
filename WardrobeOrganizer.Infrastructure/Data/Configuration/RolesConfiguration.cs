@@ -31,6 +31,16 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
 
             roles.Add(role);
 
+           role = new IdentityRole()
+            {
+                Id = "4070bb9e-78f6-4a73-b170-714f59bbc6e5",
+                Name = "User",
+                NormalizedName = "USER"
+
+            };
+
+            roles.Add(role);
+
             return roles;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,7 @@ using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
+using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Controllers
@@ -19,14 +21,17 @@ namespace WardrobeOrganizer.Controllers
         private readonly IMemberService memberService;
         private readonly IFamilyService familyService;
         private readonly ILogger logger;
+        private readonly UserManager<User> userManager;
 
         public MemberController(IMemberService _memberService,
             IFamilyService _familyService,
-            ILogger<MemberController> _logger)
+            ILogger<MemberController> _logger,
+            UserManager<User> _userManager)
         {
             this.memberService = _memberService;
             this.familyService = _familyService;
             this.logger = _logger;
+            this.userManager = _userManager;
         }
 
         [HttpGet]
@@ -84,10 +89,12 @@ namespace WardrobeOrganizer.Controllers
 
             InfoMemberViewModel model;
             int familyId;
+           
             try
             {
                 model = await memberService.GetMemberById(id);
                 familyId = await familyService.GetFamilyId(User.Id());
+                
             }
             catch (Exception ex)
             {
@@ -95,8 +102,9 @@ namespace WardrobeOrganizer.Controllers
                 throw new ApplicationException("Database failed to show member information", ex);
             }
            
+            var user =await userManager.FindByIdAsync(User.Id());
 
-            if (model.Family.Id != familyId)
+            if (model.Family.Id != familyId && await userManager.IsInRoleAsync(user,RoleConstants.User))
             {
                 logger.LogInformation("Family with id {0} attempted to open other family house", familyId);
                 return RedirectToAction("Index", "Home");

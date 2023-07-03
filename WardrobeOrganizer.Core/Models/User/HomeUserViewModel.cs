@@ -17,5 +17,7 @@ namespace WardrobeOrganizer.Core.Models.User
         public ICollection<AllHousesViewModel> Houses { get; set; }
 
         public ICollection<AllMembersViewModel> Members { get; set; }
+
+
     }
 }

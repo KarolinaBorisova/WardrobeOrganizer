@@ -12,7 +12,11 @@ namespace WardrobeOrganizer.Core.Contracts
     public interface IUserService
     {
         Task<AllUsersViewModel> AllUsers();
+
         Task InActive(string UserId);
+
         Task Active(string UserId);
+
+        Task<bool> ExistsById(string id);
     }
 }

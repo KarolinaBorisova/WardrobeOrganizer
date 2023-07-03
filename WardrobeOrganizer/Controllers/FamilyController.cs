@@ -36,9 +36,14 @@ namespace WardrobeOrganizer.Controllers
             logger = _logger;
         }
       
-        public async Task<IActionResult> Info()
+        public async Task<IActionResult> Info(string userId)
         {
-            var family = await familyService.GetFamilyByUserId(User.Id());
+            var family = await familyService.GetFamilyByUserId(userId);
+            if (family == null)
+            {
+                TempData[MessageConstant.ErrorMessage] = "This user hasn't added family yet.";
+                return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
+            }
             var model = new InfoFamilyViewModel()
             {
                 Id = family.Id,
@@ -57,7 +62,7 @@ namespace WardrobeOrganizer.Controllers
 
             if (await familyService.HasFamily(userId))
             {
-                TempData[MessageConstant.ErrorMessage] = "You are already add a family";
+                TempData[MessageConstant.ErrorMessage] = "You already add a family";
                 return RedirectToAction("Index", "Home");
             }
             var model = new FamilyViewModel();

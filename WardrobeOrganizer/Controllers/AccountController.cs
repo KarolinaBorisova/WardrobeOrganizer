@@ -55,8 +55,10 @@ namespace WardrobeOrganizer.Controllers
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
+            await userManager.AddToRoleAsync(user, RoleConstants.User);
             await userManager
-                .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
+                .AddClaimAsync(user,
+                new System.Security.Claims.Claim(ClaimTypeConstants.FirstName, user.FirstName ?? user.Email));
 
             if (result.Succeeded)
             {
