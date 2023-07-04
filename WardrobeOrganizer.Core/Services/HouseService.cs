@@ -57,6 +57,7 @@ namespace WardrobeOrganizer.Core.Services
                    Id = s.Id,
                    Name = s.Name,
                    Address = s.Address,
+                   FamilyId = familyId
                     
 
                }).ToListAsync();

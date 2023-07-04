@@ -34,8 +34,16 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
 
             try
             {
+                var user = await userService.GetUserById(id);
+
+                if (!user.IsActive)
+                {
+                    TempData[MessageConstant.WarningMessage] = "User is alredy inactive";
+                    return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
+                }
+
                 await userService.InActive(id);
-                TempData[MessageConstant.ErrorMessage] = "User is inactive";
+                TempData[MessageConstant.ErrorMessage] = "User is blocked";
             }
             catch (Exception)
             {
@@ -55,9 +63,18 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+           
 
             try
             {
+                var user = await userService.GetUserById(id);
+
+                if (user.IsActive)
+                {
+                    TempData[MessageConstant.WarningMessage] = "User is alredy active";
+                    return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
+                }
+
                 await userService.Active(id);
                 TempData[MessageConstant.SuccessMessage] = "User is active";
             }

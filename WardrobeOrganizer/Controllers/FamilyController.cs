@@ -56,6 +56,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add()
         {
             var userId = User.Id();     
@@ -70,6 +71,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(FamilyViewModel family)
         {
             var userId = User.Id();
@@ -92,6 +94,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int id)
         {
             var model = new FamilyViewModel();
@@ -100,12 +103,14 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int id, FamilyViewModel model)
         {
             return RedirectToAction("Info", "Family", new { id });
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int id)
         {
             return RedirectToAction("All", "Family");

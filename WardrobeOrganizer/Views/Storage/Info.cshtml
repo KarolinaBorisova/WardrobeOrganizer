@@ -5,14 +5,17 @@
 
 <h2 class="text-center">House: @Model.House.Name</h2>
 <h2 class="text-center">Storage: @Model.Name</h2>
-<div class="card-footer">
-    <form method="post" asp-controller="Storage" asp-action="Delete" asp-route-id="@Model.Id">
-        <button class="btn btn-danger" type="submit">Delete storage</button>
-    </form>
-   
-    <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.Id" asp-action="Edit">Edit storage</a>
-    <a class="btn btn-warning" asp-controller="Storage" asp-route-storageId="@Model.Id" asp-action="AddItem">Add Item</a>
-</div>
+@if (User.IsInRole(RoleConstants.User))
+{
+    <div class="card-footer">
+        <form method="post" asp-controller="Storage" asp-action="Delete" asp-route-id="@Model.Id">
+            <button class="btn btn-danger" type="submit">Delete storage</button>
+        </form>
+
+        <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.Id" asp-action="Edit">Edit storage</a>
+        <a class="btn btn-warning" asp-controller="Storage" asp-route-storageId="@Model.Id" asp-action="AddItem">Add Item</a>
+    </div>
+}
 <div class="nav-container">
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-action="All">Clothes</a>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
@@ -20,19 +21,21 @@ namespace WardrobeOrganizer.Controllers
         private readonly IFamilyService familyService;
         private readonly IStorageService storageService;
         private readonly ILogger logger;
-        
+        private readonly UserManager<User> userManager;
+
 
 
         public HouseController(IHouseService _houseService,
             IFamilyService _familyService,
             IStorageService _storageService,
-            ILogger<HouseController> _logger)
+            ILogger<HouseController> _logger,
+            UserManager<User> _userManager)
         {
             this.houseService = _houseService;
             this.familyService = _familyService;
             this.storageService = _storageService;
             this.logger = _logger;
-         
+            this.userManager = _userManager;
         }
 
         public async Task<IActionResult> All()
@@ -44,6 +47,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public IActionResult Add()
         {
             var model = new AddHouseViewModel();
@@ -51,6 +55,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(AddHouseViewModel model)
         {
             if (!ModelState.IsValid)
@@ -66,6 +71,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int id)
         {
             if (await houseService.ExistsById(id) == false)
@@ -96,6 +102,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(InfoHouseViewModel model)
         {
             if (await houseService.ExistsById(model.Id) == false)
@@ -115,6 +122,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int Id)
         {
             if (await houseService.ExistsById(Id) == false)
@@ -139,7 +147,9 @@ namespace WardrobeOrganizer.Controllers
             var house = await houseService.GetHouseById(houseId);
             int familiId = await familyService.GetFamilyId(User.Id());
 
-            if (house.FamilyId != familiId)
+            var user = await userManager.FindByIdAsync(User.Id());
+
+            if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 return RedirectToAction("Index", "Home");
             }

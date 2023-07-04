@@ -24,11 +24,14 @@
 
            <input type="hidden" asp-for="@Model.StorageId" >
         </div>
-        <div class="card-footer">
-            <form method="post" asp-controller="Clothes" asp-action="Delete" asp-route-clothingId="@Model.Id">
-                <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
-            </form>
-            <a class="btn btn-info" asp-controller="Clothes" asp-route-clothingId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
-        </div>
+        @if (User.IsInRole(RoleConstants.User))
+        {
+            <div class="card-footer">
+                <form method="post" asp-controller="Clothes" asp-action="Delete" asp-route-clothingId="@Model.Id">
+                    <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
+                </form>
+                <a class="btn btn-info" asp-controller="Clothes" asp-route-clothingId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
+            </div>
+        }
     </div>
 </div>

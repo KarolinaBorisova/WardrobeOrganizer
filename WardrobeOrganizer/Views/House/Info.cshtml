@@ -29,13 +29,15 @@ else
         }
     </div>
 }
-
-<div class="text-center">
-    <a class="btn btn-primary" asp-controller="Storage" asp-route-houseId=@Model.Id asp-action="Add">Add new storage</a>
-</div>
-<div class="card-footer">
-    <form method="post" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id">
-        <button class="btn btn-danger" type="submit">Delete house</button>
-    </form>
-    <a class="btn btn-danger" asp-controller="House" asp-route-id="@Model.Id" asp-action="Edit">Edit house</a>
-</div>
+@if (User.IsInRole(RoleConstants.User))
+{
+    <div class="text-center">
+        <a class="btn btn-primary" asp-controller="Storage" asp-route-houseId=@Model.Id asp-action="Add">Add new storage</a>
+    </div>
+    <div class="card-footer">
+        <form method="post" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id">
+            <button class="btn btn-danger" type="submit">Delete house</button>
+        </form>
+        <a class="btn btn-danger" asp-controller="House" asp-route-id="@Model.Id" asp-action="Edit">Edit house</a>
+    </div>
+}

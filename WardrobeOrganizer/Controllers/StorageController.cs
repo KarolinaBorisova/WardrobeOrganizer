@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.Design;
 using WardrobeOrganizer.Core.Constants;
@@ -72,6 +73,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int id)
         {
             if (await storageService.ExistsById(id)==false)
@@ -79,6 +81,14 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction(nameof(All));
             }
             var storage = await storageService.GetStorageById(id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                ModelState.AddModelError("", "Not allowed");
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Index", "Home");
+            }
             var model = new InfoStorageViewModel()
             {
                 Id = id,
@@ -89,6 +99,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit( InfoStorageViewModel model)
         {
              if (await storageService.ExistsById(model.Id) == false)
@@ -108,6 +119,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int id)
         {
             if (await storageService.ExistsById(id) == false)
@@ -133,6 +145,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> AddItem(int storageId)
         {
             var model = await storageService.GetStorageById(storageId);

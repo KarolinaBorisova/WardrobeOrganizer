@@ -113,19 +113,6 @@ namespace WardrobeOrganizer.Core.Services
         }
 
 
-        //  public async Task Create(string userId)
-        //  {
-        //      var member = new Member()
-        //      {
-        //
-        //          UserId = userId,
-        //      };
-        //
-        //      await repo.AddAsync(member);
-        //      await repo.SaveChangesAsync();
-        //  }
-        //
-        //
           public async Task<bool> ExistsById(int id)
          {
               return await repo.AllReadonly<Member>()

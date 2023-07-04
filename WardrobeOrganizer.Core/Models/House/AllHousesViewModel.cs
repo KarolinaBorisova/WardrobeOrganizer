@@ -14,5 +14,7 @@ namespace WardrobeOrganizer.Core.Models.House
 
         public string Address { get; set; }
 
+        public int? FamilyId { get; set; }
+
     }
 }

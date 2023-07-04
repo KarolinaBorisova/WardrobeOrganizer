@@ -37,7 +37,6 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int id)
         {
-             // TempData[MessageConstant.SuccessMessage] = "Member added";
             int familiId = await familyService.GetFamilyId(User.Id());
             var model = await memberService.AllMembers(familiId);
 
@@ -45,6 +44,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public IActionResult Add()
         {
             var model = new AddMemberViewModel();
@@ -52,6 +52,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(AddMemberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -114,6 +115,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int id)
         {
             if (await memberService.ExistsById(id) ==false)
@@ -147,6 +149,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(InfoMemberViewModel model)
         {
             if (await memberService.ExistsById(model.Id) == false)
@@ -176,6 +179,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int Id)
         {
             if (await memberService.ExistsById(Id) == false)
@@ -196,8 +200,6 @@ namespace WardrobeOrganizer.Controllers
                 logger.LogInformation("Can not delete member with id {0}", Id);
                 
             }
-            
-
             return RedirectToAction("Index", "Home");
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Models.Clothes;
+using WardrobeOrganizer.Core.Models.House;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Core.Models.User;
 
@@ -18,5 +19,7 @@ namespace WardrobeOrganizer.Core.Contracts
         Task Active(string UserId);
 
         Task<bool> ExistsById(string id);
+
+        Task<UserViewModel> GetUserById(string id);
     }
 }

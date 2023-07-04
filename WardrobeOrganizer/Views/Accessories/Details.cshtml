@@ -23,11 +23,14 @@
             <a class="card-text" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-action="All">Storage: @Model.StorageName</a>
             <input type="hidden" asp-for="@Model.StorageId">
         </div>
-        <div class="card-footer">
-            <form method="post" asp-controller="Accessories" asp-action="Delete" asp-route-accessoriesId="@Model.Id">
-                <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
-            </form>
-            <a class="btn btn-info" asp-controller="Accessories" asp-route-accessoriesId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
-        </div>
+         @if (User.IsInRole(RoleConstants.User))
+        {
+            <div class="card-footer">
+                <form method="post" asp-controller="Accessories" asp-action="Delete" asp-route-accessoriesId="@Model.Id">
+                    <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
+                </form>
+                <a class="btn btn-info" asp-controller="Accessories" asp-route-accessoriesId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
+            </div>       
+        }
     </div>
 </div>

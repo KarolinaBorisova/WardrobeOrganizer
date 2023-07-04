@@ -23,13 +23,16 @@
             <p class="card-text">House: @Model.HouseName</p>
             <a class="card-text" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-action="All">Storage: @Model.StorageName</a>
             <input type="hidden" asp-for="@Model.StorageId">
-
         </div>
+        @if (User.IsInRole(RoleConstants.User))
+        {
         <div class="card-footer">
             <form method="post" asp-controller="Shoes" asp-action="Delete" asp-route-shoesId="@Model.Id">
                 <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
             </form>
             <a class="btn btn-danger" asp-controller="Shoes" asp-route-shoesId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
         </div>
+        }
+
     </div>
 </div>

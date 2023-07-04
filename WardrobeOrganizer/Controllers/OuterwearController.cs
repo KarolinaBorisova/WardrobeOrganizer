@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Data;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Clothes;
@@ -33,6 +35,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(int storageId, string category)
         {
             var familyId = await familyService.GetFamilyId(User.Id());
@@ -46,6 +49,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(AddOuterwearViewModel model)
         {
             if (!ModelState.IsValid)
@@ -72,6 +76,7 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int outerwearId)
         {
             if (await outerwearService.ExistsById(outerwearId) == false)
@@ -85,6 +90,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int outerwearId)
         {
             if (await outerwearService.ExistsById(outerwearId) == false)
@@ -111,6 +117,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(EditOuterwearViewModel model)
         {
             if (await outerwearService.ExistsById(model.Id) == false)

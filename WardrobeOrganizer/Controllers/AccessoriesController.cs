@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Drawing;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
@@ -33,6 +35,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(int storageId, string category)
         {
             var familyId = await familyService.GetFamilyId(User.Id());
@@ -46,6 +49,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(AddAccessoriesViewModel model)
         {
             if (!ModelState.IsValid)
@@ -73,6 +77,7 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int accessoriesId)
         {
             if (await accessoriesService.ExistsById(accessoriesId) == false)
@@ -86,6 +91,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int accessoriesId)
         {
             if (await accessoriesService.ExistsById(accessoriesId) == false)
@@ -115,6 +121,7 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(EditAccessoriesViewModel model)
         {
             if (await accessoriesService.ExistsById(model.Id)== false)

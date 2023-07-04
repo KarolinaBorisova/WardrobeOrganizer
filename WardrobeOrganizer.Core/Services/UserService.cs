@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Clothes;
+using WardrobeOrganizer.Core.Models.House;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.User;
 using WardrobeOrganizer.Infrastructure.Data;
@@ -80,6 +81,33 @@ namespace WardrobeOrganizer.Core.Services
         {
             return await repo.AllReadonly<User>()
               .AnyAsync(u => u.Id == id);
+        }
+
+        public async Task<UserViewModel> GetUserById(string id)
+        {
+            if (id == null)
+            {
+
+            }
+            try
+            {
+                return await repo.AllReadonly<User>()
+               .Where(u => u.Id == id)
+               .Select(h => new UserViewModel()
+               {
+                   Id = h.Id,
+                   Email = h.Email,
+                   FullName = h.FirstName + " " + h.LastName,
+                   IsActive = h.IsActive,
+               })
+               .FirstAsync();
+
+            }
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException();
+            }
         }
     }
 }

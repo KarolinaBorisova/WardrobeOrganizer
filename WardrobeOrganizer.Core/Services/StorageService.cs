@@ -56,7 +56,7 @@ namespace WardrobeOrganizer.Core.Services
                   House = new Models.House.AddHouseViewModel()
                   {
                       Name = s.House.Name,
-                      //FamilyId = s.House.FamilyId,
+                     // FamilyId = s.House.FamilyId,
                       Address = s.House.Address
                   }
 
@@ -127,7 +127,8 @@ namespace WardrobeOrganizer.Core.Services
                     {
                         Id = s.House.Id,
                         Address=s.House.Address,
-                        Name=s.House.Name
+                        Name=s.House.Name,
+                        FamilyId =s.House.FamilyId,
                     }
                 })
                 .FirstAsync();

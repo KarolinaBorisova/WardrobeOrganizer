@@ -42,8 +42,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        // only accesseble by user who is in role admin
-        // [Authorize(Roles =$"{RoleConstants.Administrator}")]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(int storageId, string category)
         {
             var familyId = await familyService.GetFamilyId(User.Id());
@@ -58,6 +57,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(AddClothesViewModel model)
         {
             if(!ModelState.IsValid)
@@ -77,6 +77,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit(int clothingId)
         {
             if (await clothesService.ExistsById(clothingId) == false)
@@ -103,6 +104,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Edit( EditClothesViewModel model)
         {
             if (await clothesService.ExistsById(model.Id) == false)
@@ -133,6 +135,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Delete(int clothingId)
         {
             if (await clothesService.ExistsById(clothingId) == false)
