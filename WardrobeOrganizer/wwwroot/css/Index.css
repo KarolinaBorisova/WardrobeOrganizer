@@ -1,3 +1,62 @@
-﻿div{
-    background-color: cornflowerblue
+﻿body {
+    background: rgb(255,233,173);
+    background: linear-gradient(36deg, rgba(255,233,173,1) 40%, rgba(255,201,178,1) 100%);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+nav {
+    background: rgb(255,239,196);
+    background: linear-gradient(36deg, rgba(255,239,196,1) 41%, rgba(255,174,140,1) 100%);
+    font-size: 20px;
+}
+.navbar-light .navbar-nav .nav-link {
+    font-size: 20px;
+}
+.navbar-expand-sm .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+}
+.border-bottom {
+    border-bottom: none !important;
+    box-shadow: 0 0.60rem 0.75rem rgba(30, 0, 0, 0.05);
+}
+.navbar-brand {
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 2rem;
+    font-size: 1.25rem;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 30px;
+}
+.nav-item.hi{
+   margin-right: 30px;
+}
+
+main{
+    margin-top: 4rem;
+}
+.basic-info{
+    margin-top: 40px;
+    font-size: 25px;
+    letter-spacing: 1px;
+    line-height:40px;
+}
+.img-container img {
+    margin-top: 25px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 19px -5px rgba(140,94,38,0.75);
+}
+
+input.form-control {
+    margin: 2px;
+    background-color: #fff7df;
+    border-radius: 10px;
+    border:none;
+}
+#login-submit,
+#registerSubmit {
+    margin: 2px;
+    border-radius: 10px;
+    border: none;
+    background-color: #659f9f;
 }

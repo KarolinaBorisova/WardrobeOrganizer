@@ -6,9 +6,8 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-            <p class="nav-link text-dark">Hello @ViewBag.UserFirstName !</p>
-       @* <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name !</a>*@
+    <li class="nav-item hi">
+            Hello @ViewBag.UserFirstName!
     </li>
     <li class="nav-item">
             <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout">

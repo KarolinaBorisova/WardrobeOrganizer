@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="~/WardrobeOrganizer.styles.css" asp-append-version="true" />
     @RenderSection("css", false)
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <partial name="_UserMessages" />
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Wardrobe Organizer</a>
+                <h4 class="navbar-brand">Wardrobe Organizer</h4>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,15 +26,24 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (this.User?.Identity != null & this.User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Houses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="All">All Members</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Family</a>
-                            </li>
+                            @if (User.IsInRole(RoleConstants.Administrator))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="AllUsers">All Users</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Houses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="All">All Members</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Family</a>
+                                </li>
+                            }
                         }
                         else
                         {
