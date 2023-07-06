@@ -1,14 +1,13 @@
 ﻿@model InfoHouseViewModel
 @{
-    ViewData["Title"] = "House Info";
+    ViewData["Title"] = $"{@Model.Name}";
 }
 <div class="text-center">
     <h1 class="page-title">@ViewData["Title"]</h1>
 </div>
-<h2 class="text-center">House Name: @Model.Name</h2>
 <h2 class="text-center">Address: @Model.Address</h2>
 <div class="text-center">
-    <h5 class="display-5">@Model.Name storages</h5>
+    <h2 class="text-center">Storages:</h2>
 </div>
 @if (Model.Storages.Count == 0)
 {
@@ -18,18 +17,18 @@
 }
 else
 {
-    <div class="card-group">
-       
-        @foreach (var storage in @Model.Storages)
-        {
-            <div class="card">
-                <div class="card-body">
-                    <h4><a class="card-title text-dark" asp-controller="Storage" asp-route-id="@storage.Id" asp-action="Info">@storage.Name</a></h4>
+        <div class="card-group">
+            @foreach (var storage in Model.Storages)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="Storage" asp-route-id="@storage.Id" asp-action="Info">
+                            @storage.Name
+                        </a>
+                    </div>
                 </div>
-            </div>
-   
-        }
-    </div>
+            }
+        </div>
 }
 @if (User.IsInRole(RoleConstants.User))
 {
@@ -40,6 +39,7 @@ else
         <form method="post" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id">
             <button class="btn btn-danger" type="submit">Delete house</button>
         </form>
-        <a class="btn btn-danger" asp-controller="House" asp-route-id="@Model.Id" asp-action="Edit">Edit house</a>
+        <a class="btn btn-success" asp-controller="House" asp-route-id="@Model.Id" asp-action="Edit">Edit house</a>
     </div>
 }
+

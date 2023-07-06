@@ -6,13 +6,14 @@
     <h1 class="page-title">@ViewData["Title"]</h1>
 </div>
 <form method="post">
+    <img class="house-background" src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Smiley face">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
+    <div class="input-container">
+        <div class="input-field">
             <label class="label" asp-for="Name">House name</label>
             <input asp-for="Name" class="form-control" id="Name">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Address">Address</label>
             <input asp-for="Address" class="form-control" id="Address">
         </div>

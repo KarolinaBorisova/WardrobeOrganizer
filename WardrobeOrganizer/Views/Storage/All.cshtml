@@ -24,3 +24,23 @@
         </div>
     </div>
 }
+<div class="main-container">
+    <div class="list-group one">
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Storage" asp-action="Add">Add new storage</a>
+        <div class="list-group one">
+            <img class="house-background" src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Smiley face">
+            <div class="card-group">
+                @foreach (var storage in Model)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="Storage" asp-route-id="@storage.Id" asp-action="Content">
+                                @storage.Name
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
