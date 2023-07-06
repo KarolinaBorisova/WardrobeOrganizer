@@ -60,3 +60,95 @@ input.form-control {
     border: none;
     background-color: #659f9f;
 }
+.page-title {
+    margin: 30px auto;
+    font-size: 60px;
+}
+/*Item informatnion in lists*/
+
+.list-title {
+    margin: 35px 0px;
+    font-size: 30px;
+    text-align: center;
+    border: 3px solid #fff3cd;
+    border-radius: 10px;
+    box-shadow: 7px 7px 19px -5px rgba(140,94,38,0.75);
+    padding: 10px 15px;
+}
+.list-group-item-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    font-size: 20px;
+}
+.list-group-item-info {
+    font-size:20px;
+    color: #664d03;
+    background-color: #fff3cd;
+}
+
+.list-group-item-info.btn:hover {
+    transform: scale(1.1);
+    background-color: #ffa07b;
+    color:#fff;
+}
+
+.list-group-item-info.btn {
+    font-weight: bold;
+    margin: 10px auto;
+    box-shadow: 7px 7px 19px -5px rgba(140,94,38,0.75);
+    width: 20rem;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    background-color: #659f9f;
+}
+/* list of cards*/
+.card-group {
+    display: flex;
+    flex-direction: column;
+}
+.list-group {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+.list-group.one{
+    width: 90%;
+}
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 50px 0px;
+}
+
+/* container for card with img*/
+
+.container.card-img {
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-evenly;
+}
+.card-wrapper {
+    font-weight: bold;
+    box-shadow: 7px 7px 19px -5px rgba(140,94,38,0.75);
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    width: 28%;
+    color: #664d03;
+    background-color: #fff3cd;
+    font-size: 20px;
+}
+.card-wrapper:hover{
+    transform: scale(1.1);
+    cursor:pointer;
+}
+.card-wrapper p{
+        height:100%;
+}
+
+
+

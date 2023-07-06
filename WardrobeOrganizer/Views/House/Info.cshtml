@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "House Info";
 }
-<h2 class="text-center">@ViewData["Title"]</h2>
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
 <h2 class="text-center">House Name: @Model.Name</h2>
 <h2 class="text-center">Address: @Model.Address</h2>
 <div class="text-center">
@@ -32,7 +34,7 @@ else
 @if (User.IsInRole(RoleConstants.User))
 {
     <div class="text-center">
-        <a class="btn btn-primary" asp-controller="Storage" asp-route-houseId=@Model.Id asp-action="Add">Add new storage</a>
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Storage" asp-route-houseId=@Model.Id asp-action="Add">Add new storage</a>
     </div>
     <div class="card-footer">
         <form method="post" asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id">

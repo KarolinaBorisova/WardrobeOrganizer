@@ -4,19 +4,29 @@
     ViewData["Title"] = "All Houses";
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
 <div class="text-center">
-    <a class="btn btn-primary" asp-controller="House" asp-action="Add">Add new house</a>
+    <h1 class="page-title">@ViewData["Title"]</h1>
 </div>
-<div class="card-group">
-    @foreach (var house in Model)
-    {
-        <div class="card">
-            <div class="card-body">
-                <h4><a class="card-title text-dark" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">@house.Name</a></h4>
-                <p class="card-text">Address: @house.Address</p>
-            </div>
+<div class="main-container">
+    <div class="list-group one">
+            <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="House" asp-action="Add">Add new house</a>
+        <div class="list-group one">
+            <p class="list-title">
+                Family houses
+            </p>
+                <div class="card-group">
+                    @foreach (var house in Model)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">
+                                    @house.Name
+                                    <p class="list-gruop-item-info">Address: @house.Address</p>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>   
         </div>
-    }
+    </div>
 </div>

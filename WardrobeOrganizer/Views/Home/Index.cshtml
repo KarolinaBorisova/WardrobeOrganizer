@@ -15,84 +15,85 @@
     @if (Model.Family != null)
     {
         <div class="text-center">
-                <h3 class="display-3">@Model.Family.Name Family</h3>
+            <h1 class="page-title">@Model.Family.Name family</h1>
         </div>
-        <div class="text-center">
-            <h3 class="display-5">Family members</h3>
-        </div>
-        @if(Model.Members.Count == 0)
-        {
-            <div class="text-center">
-                <h5 class="display-8">There are no members yet.</h5>
-            </div>
-        }
-        else{
-            <div class="card-group">
-                @{var count = 0;}
-                @foreach (var member in @Model.Members)
+        <div class="main-container">
+         @*   MEMBERS*@
+            <div class="list-group">
+                <p class="list-title">
+                    Family members
+                </p>
+                @if (Model.Members.Count == 0)
                 {
-                    <div class="card">
-                        <div class="card-body">
-                            <h4><a class="card-title text-dark" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a></h4>        
-                        </div>
+                    <div class="text-center">
+                        <h5 class="display-8">There are no members yet.</h5>
                     </div>
-                    count++;
-                    if(count == 3 ){
-                        break;
-                    };
                 }
-            </div>
-            <div class="text-center">
-                <a class="btn btn-primary" asp-controller="Member" asp-action="All">Show all family members</a>
-            </div>
-        }
-        <div class="text-center">
-            <a class="btn btn-primary" asp-controller="Member" asp-action="Add">Add new member</a>
-        </div>
-
-        <div class="text-center">
-            <h5 class="display-5">Family houses</h5>
-        </div>
-        @if (Model.Houses.Count == 0)
-        {
-            <div class="text-center">
-                <h5 class="display-8">There are no houses yet.</h5>
-            </div>
-        }
-        else{
-            <div class="card-group">
-                @{
-                    var count = 0;
-                }
-                @foreach (var house in @Model.Houses)
+                else
                 {
-                    <div class="card">
-                        <div class="card-body">
-                            <h4><a class="card-title text-dark" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">@house.Name</a></h4>
-                            <p class="card-text">Address: @house.Address</p>
-                        </div>
+                    <div class="card-group">
+                        @{
+                            var count = 0;
+                        }
+                        @foreach (var member in @Model.Members)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a>
+                                </div>
+                            </div>
+                            count++;
+                            if (count == 3)
+                            {
+                                break;
+                            };
+                        }
                     </div>
-                    count++;
-                   // if (count == 3)
-                   // {
-                   //     break;
-                   // };
+                }   
+            </div>
+            @*   Houses*@
+            <div class="list-group">
+                <p class="list-title">
+                    Family houses
+                </p>
+                @if (Model.Houses.Count == 0)
+                {
+                    <div class="text-center">
+                        <h5 class="display-8">There are no houses yet.</h5>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-group">
+                        @foreach (var house in @Model.Houses)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">@house.Name
+                                    <p class="list-gruop-item-info">Address: @house.Address</p></a>
+                                </div>
+                            </div>   
+                        }
+                    </div>
                 }
             </div>
-            <div class="text-center">
-                <a class="btn btn-primary" asp-controller="House" asp-action="All">Show all family houses</a>
-            </div>
-        }
-      
-        <div class="text-center">
-            <a class="btn btn-primary" asp-controller="House" asp-action="Add">Add new house</a>
-        </div>
 
+        </div>
+        <div class="main-container">
+            <div class="text-center">
+                <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Member" asp-action="All">All family members</a>
+                <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Member" asp-action="Add">Add new member</a>
+            </div>
+            <div class="text-center">
+                <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="House" asp-action="All">All family houses</a>
+                <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="House" asp-action="Add">Add new house</a>
+            </div>
+        </div>
     }
     else
     {
         <div class="text-center">
-            <h3 class="display-3">First Step:</h3>
+            <h1 class="page-title">First step:</h1>
             <a class="btn btn-primary" asp-controller="Family" asp-action="Add">Add Family</a>
         </div>
 

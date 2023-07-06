@@ -3,8 +3,9 @@
     ViewData["Title"] = "Edit Accessories";
     var members = Model.Members.Select(t => new SelectListItem(t.Value, t.Key));
 }
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-row">

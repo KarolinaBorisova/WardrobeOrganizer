@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "Storage Info";
 }
-
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
 <h2 class="text-center">House: @Model.House.Name</h2>
 <h2 class="text-center">Storage: @Model.Name</h2>
 @if (User.IsInRole(RoleConstants.User))

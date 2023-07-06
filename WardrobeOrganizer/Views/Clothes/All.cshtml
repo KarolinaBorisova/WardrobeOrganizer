@@ -12,6 +12,9 @@
     <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.Id" asp-action="Edit">Edit storage</a>
     <a class="btn btn-warning" asp-controller="Clothes" asp-route-storageId="@Model.Id" asp-action="Add">Add Item</a>
 </div>*@
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
 <div class="nav-container">
     <div class="dropdown">
         <button class="dropbtn">Clothes</button>
@@ -64,8 +67,6 @@
 </div>
 
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
 <div class="text-center">
     <a class="btn btn-primary" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
 </div>

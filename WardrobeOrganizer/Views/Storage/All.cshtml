@@ -2,15 +2,16 @@
 @{
     ViewData["Title"] = "All Storages";
 }
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
 @if (Model.Count() == 0)
 {
     <p class="lead">
         There are no storages in the system.
     </p>
     <h5>
-        <a class="btn btn-primary" asp-controller="Storage" asp-action="Add"> Add new storage</a>
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Storage" asp-action="Add"> Add new storage</a>
     </h5>
 }
 @foreach (var storage in Model)

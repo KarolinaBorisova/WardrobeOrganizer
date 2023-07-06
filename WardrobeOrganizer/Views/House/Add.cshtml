@@ -2,8 +2,9 @@
 @{
     ViewData["Title"] = "Add House";
 }
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-row">
@@ -16,5 +17,5 @@
             <input asp-for="Address" class="form-control" id="Address">
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Add house</button>
+    <button type="submit" class="list-group-item list-group-item-action list-group-item-info btn">Add house</button>
 </form>
