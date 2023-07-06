@@ -14,16 +14,18 @@
     @foreach (var member in Model)
     {
         <div class="card-wrapper">
-            <p class="card-title text-dark" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">
+            <a class="card-title text-dark" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">
                 <div class="card-image">
                     <img src="@member.ImgUrl" alt="profile one">
-                </div>
-                <div class="details">
+                    <div class="details">
                         <h2>@member.FirstName @member.LastName</h2>
                         <br>
+                    </div>
                 </div>
-            </p>
+               
+            </a>
             </div>
+
     }
 </div>
 
