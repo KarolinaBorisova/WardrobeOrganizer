@@ -113,8 +113,9 @@ input.form-control {
     flex-direction: column;
     width: 40%;
 }
-.list-group.one{
+.list-group.one {
     width: 90%;
+    align-items: center;
 }
 .main-container {
     display: flex;
