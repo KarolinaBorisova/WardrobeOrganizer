@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,10 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId)
         {
-            
+            if (model == null)
+            {
+                throw new ArgumentNullException("Member is not valid");
+            }
             var member = new Member()
             {
                 FirstName = model.FirstName,
@@ -45,82 +49,117 @@ namespace WardrobeOrganizer.Core.Services
             {
                 await repo.AddAsync(member);
                 await repo.SaveChangesAsync();
+
+                return member.Id;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Database failed to save info", ex);
+                throw new InvalidOperationException(ex.Message);
             }
-
-            
-
-            return member.Id;
         }
 
         public async Task<ICollection<AllMembersViewModel>> AllMembers(int familyId)
         {
-            return await repo.AllReadonly<Member>()
-                .Where(f => f.FamilyId == familyId && f.IsActive)
-                .Select(m => new AllMembersViewModel
-                {
-                    Id = m.Id,
-                    FirstName = m.FirstName,
-                    LastName = m.LastName,
-                    ImgUrl = m.ImgUrl
+            try
+            {
+                return await repo.AllReadonly<Member>()
+            .Where(f => f.FamilyId == familyId && f.IsActive)
+            .Select(m => new AllMembersViewModel
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                ImgUrl = m.ImgUrl
 
-                }).ToListAsync();
+            }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
         public async Task<IEnumerable<KeyValuePair<string, string>>> AllMembersBasic(int familyId)
         {
-            var members = await repo.AllReadonly<Member>()
-                .Where(f => f.FamilyId == familyId && f.IsActive)
-                .Select(f => new MemberAsKVP()
-                {
-                    Id = f.Id,
-                    FullName = f.FirstName + " " + f.LastName,
-                }).ToListAsync();
+            try
+            {
+                var members = await repo.AllReadonly<Member>()
+               .Where(f => f.FamilyId == familyId && f.IsActive)
+               .Select(f => new MemberAsKVP()
+               {
+                   Id = f.Id,
+                   FullName = f.FirstName + " " + f.LastName,
+               }).ToListAsync();
 
                 return members.Select(f => new KeyValuePair<string, string>(f.Id.ToString(), f.FullName));
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task<InfoMemberViewModel> GetMemberById(int memberId)
         {
-            return await repo.AllReadonly<Member>()
-                .Where(m=>m.Id == memberId)
-                .Select(m => new InfoMemberViewModel()
+            try
+            {
+                return await repo.AllReadonly<Member>()
+            .Where(m => m.Id == memberId)
+            .Select(m => new InfoMemberViewModel()
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                ImgUrl = m.ImgUrl,
+                Birthdate = m.Birthdate,
+                Gender = m.Gender,
+                ShoeSizeEu = m.ShoeSizeEu,
+                FootLengthCm = m.FootLengthCm,
+                ClothesSize = m.ClothesSize,
+                UserHeight = m.UserHeight,
+                Family = new Models.Family.FamilyViewModel()
                 {
-                    Id=m.Id,
-                    FirstName=m.FirstName,
-                    LastName=m.LastName,
-                    ImgUrl=m.ImgUrl,
-                    Birthdate = m.Birthdate,
-                    Gender = m.Gender,
-                    ShoeSizeEu = m.ShoeSizeEu,
-                    FootLengthCm = m.FootLengthCm,
-                    ClothesSize=m.ClothesSize,
-                    UserHeight=m.UserHeight,
-                    Family = new Models.Family.FamilyViewModel()
-                    {
-                        Name = m.Family.Name,
-                        UserId = m.Family.UserId,
-                        Id = m.Family.Id
+                    Name = m.Family.Name,
+                    UserId = m.Family.UserId,
+                    Id = m.Family.Id
 
-                    }
-                    
+                }
 
-                })
-                .FirstAsync();
+
+            })
+            .FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
 
           public async Task<bool> ExistsById(int id)
          {
-              return await repo.AllReadonly<Member>()
-                .AnyAsync(m=>m.Id == id);
+            try
+            {
+                return await repo.AllReadonly<Member>()
+              .AnyAsync(m => m.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+            
           }
 
         public async Task Edit( InfoMemberViewModel model)
         {
+
+            if (model == null)
+            {
+                throw new ArgumentNullException("Member is not valid");
+            }
             try
             {
                 var member = await repo.GetByIdAsync<Member>(model.Id);
@@ -139,7 +178,6 @@ namespace WardrobeOrganizer.Core.Services
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException(ex.Message);
             }
         

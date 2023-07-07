@@ -22,10 +22,19 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> Create(FamilyViewModel model, string userId)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("Family is not valid");
+            }
 
             var user = await repo.All<User>()
             .Where(u => u.Id == userId)
             .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException("User not found");
+            }
 
             var family = new Family()
             {
@@ -33,7 +42,13 @@ namespace WardrobeOrganizer.Core.Services
                 UserId = userId,
                 User = user,
             };
-            // user e null?
+
+            if (family == null)
+            {
+
+                throw new ArgumentNullException("Family not found");
+            }
+
             user.Family = family;
 
             try
@@ -41,32 +56,36 @@ namespace WardrobeOrganizer.Core.Services
                 await repo.AddAsync(family);
                 await repo.SaveChangesAsync();
 
+                return family.Id;
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException(ex.Message);
             }
 
-
-          
-            return family.Id;
         }
 
         public async Task<FamilyViewModel> GetFamilyByUserId(string userId)
         {
-            
-            return await repo.AllReadonly<Family>()
-                .Include(f=>f.User)
-                .Where(f => f.UserId== userId)
-                .Select(f => new FamilyViewModel() 
-                {
-                    Id = f.Id,
-                    Name = f.Name,
+           
+            try
+            {
+                return await repo.AllReadonly<Family>()
+               .Include(f => f.User)
+               .Where(f => f.UserId == userId)
+               .Select(f => new FamilyViewModel()
+               {
+                   Id = f.Id,
+                   Name = f.Name,
                    UserId = userId
-                }).FirstOrDefaultAsync();
-                  
-                
+               }).FirstOrDefaultAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task<int> GetFamilyId(string userId)

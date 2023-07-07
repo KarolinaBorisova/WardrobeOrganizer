@@ -24,6 +24,11 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddAccessories(AddAccessoriesViewModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("Accessorie not found");
+            }
+
             var accessories = new Accessories()
             {
                 Name = model.Name,
@@ -36,69 +41,95 @@ namespace WardrobeOrganizer.Core.Services
                 MemberId = model.MemberId
             };
 
-            await repo.AddAsync(accessories);
-            await repo.SaveChangesAsync();
+            try
+            {
+                await repo.AddAsync(accessories);
+                await repo.SaveChangesAsync();
 
-            return accessories.Id;
+                return accessories.Id;
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
         public async Task<AllAccessoriesViewModel> AllAccessories(int storageId)
         {
-            return await repo.AllReadonly<Storage>()
-                .Where(s => s.Id == storageId)
-                .Select(s => new AllAccessoriesViewModel()
+            try
+            {
+                return await repo.AllReadonly<Storage>()
+            .Where(s => s.Id == storageId)
+            .Select(s => new AllAccessoriesViewModel()
+            {
+                StorageId = storageId,
+                Accessories = s.Accessories
+                .Where(a => a.IsActive == true)
+                .Select(a => new AccessoriesViewModel()
                 {
-                    StorageId = storageId,
-                    Accessories = s.Accessories
-                    .Where(a=> a.IsActive == true)
-                    .Select(a => new AccessoriesViewModel()
-                    {
-                        Id = a.Id,
-                        Name = a.Name,
-                        StorageId = a.StorageId,
-                        SizeAge = a.SizeAge,
-                        Category = a.Category,
-                        ImgUrl = a.ImgUrl,
-                        MemberId = a.MemberId
-                    }).ToList()
-                }).FirstAsync();
+                    Id = a.Id,
+                    Name = a.Name,
+                    StorageId = a.StorageId,
+                    SizeAge = a.SizeAge,
+                    Category = a.Category,
+                    ImgUrl = a.ImgUrl,
+                    MemberId = a.MemberId
+                }).ToList()
+            }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
         public async Task<AllAccessoriesByCategoryViewModel> AllAccessoriesByCategory(int storageId, string category)
         {
-            return await repo.AllReadonly<Storage>()
-                .Where(s => s.Id == storageId)
-                .Select(s => new AllAccessoriesByCategoryViewModel()
-                {
-                    Category = category,
-                    StorageId = storageId,
-                    Accessories = s.Accessories
-                    .Where(a=>a.Category == category && a.IsActive == true)
-                    .Select(a => new AccessoriesViewModel()
-                    {
-                        Id = a.Id,
-                        Name = a.Name,
-                        StorageId = a.StorageId,
-                        SizeAge = a.SizeAge,
-                        Category = a.Category,
-                        ImgUrl = a.ImgUrl,
-                        MemberId = a.MemberId,
+            if ( category == null)
+            {
+                throw new ArgumentNullException("Category not found");
+            }
 
-                    }).ToList()
-                }).FirstAsync();
+            try
+            {
+                return await repo.AllReadonly<Storage>()
+               .Where(s => s.Id == storageId)
+               .Select(s => new AllAccessoriesByCategoryViewModel()
+               {
+                   Category = category,
+                   StorageId = storageId,
+                   Accessories = s.Accessories
+                   .Where(a => a.Category == category && a.IsActive == true)
+                   .Select(a => new AccessoriesViewModel()
+                   {
+                       Id = a.Id,
+                       Name = a.Name,
+                       StorageId = a.StorageId,
+                       SizeAge = a.SizeAge,
+                       Category = a.Category,
+                       ImgUrl = a.ImgUrl,
+                       MemberId = a.MemberId,
+
+                   }).ToList()
+               }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidCastException(ex.Message);
+            }
+           
         }
 
         public async Task DeleteById(int accessoriesId)
         {
-            if (accessoriesId == null)
-            {
-                //nqma dreha
-            }
             var accessories = await repo.GetByIdAsync<Accessories>(accessoriesId);
 
             if (accessories == null)
             {
-                //nqma dreaha
+                throw new ArgumentNullException("Accessorie not found");
             }
 
             accessories.IsActive = false;
@@ -117,13 +148,13 @@ namespace WardrobeOrganizer.Core.Services
         {
             if (model == null)
             {
-
+                throw new ArgumentNullException("Accessorie not found");
             }
             var accessorie = await repo.GetByIdAsync<Accessories>(model.Id);
 
             if (accessorie == null || accessorie.IsActive == false)
             {
-
+                throw new ArgumentNullException("Accessorie not found");
             }
 
             accessorie.Id = model.Id;
@@ -138,106 +169,149 @@ namespace WardrobeOrganizer.Core.Services
             {
                 await repo.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new InvalidOperationException(ex.Message);
             }
         }
 
         public async Task<bool> ExistsById(int accessoriesId)
         {
-            return await repo.AllReadonly<Accessories>()
-                .AnyAsync(a=>a.Id == accessoriesId && a.IsActive == true);
+            try
+            {
+                return await repo.AllReadonly<Accessories>()
+              .AnyAsync(a => a.Id == accessoriesId && a.IsActive == true);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+          
         }
 
         public async Task<DetailsAccessoriesViewModel> GetAccessoriesDetailsModelById(int accessoriesId)
         {
-            return await repo.AllReadonly<Accessories>()
-                .Include(a => a.Member)
-                .Include(a => a.Storage)
-                .ThenInclude(s => s.House)
-                 .Where(a => a.Id == accessoriesId)
-                 .Select(a => new DetailsAccessoriesViewModel()
-                 {
-                     Id = a.Id,
-                     Name = a.Name,
-                     Category = a.Category,
-                     Description = a.Description,
-                     Color = a.Color,
-                     SizeAge = a.SizeAge,
-                     StorageId = a.StorageId,
-                     ImgUrl = a.ImgUrl,
-                     MemberName = a.Member.FirstName + " " + a.Member.LastName,
-                     HouseName = a.Storage.House.Name,
-                     StorageName = a.Storage.Name
-                 }).FirstAsync();
+            try
+            {
+                return await repo.AllReadonly<Accessories>()
+              .Include(a => a.Member)
+              .Include(a => a.Storage)
+              .ThenInclude(s => s.House)
+               .Where(a => a.Id == accessoriesId)
+               .Select(a => new DetailsAccessoriesViewModel()
+               {
+                   Id = a.Id,
+                   Name = a.Name,
+                   Category = a.Category,
+                   Description = a.Description,
+                   Color = a.Color,
+                   SizeAge = a.SizeAge,
+                   StorageId = a.StorageId,
+                   ImgUrl = a.ImgUrl,
+                   MemberName = a.Member.FirstName + " " + a.Member.LastName,
+                   HouseName = a.Storage.House.Name,
+                   StorageName = a.Storage.Name
+               }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+          
         }
         public async Task<EditAccessoriesViewModel> GetAccessoriesEditModelById(int accessoriesId)
         {
-            return await repo.AllReadonly<Accessories>()
-                .Include(a => a.Member)
-                 .Where(a => a.Id == accessoriesId)
-                 .Select(a => new EditAccessoriesViewModel()
-                 {
-                     Id = a.Id,
-                     Name = a.Name,
-                     Description = a.Description,
-                     Color = a.Color,
-                     SizeAge = a.SizeAge,
-                     ImgUrl = a.ImgUrl,
-                     MemberId= a.MemberId
+            try
+            {
+                return await repo.AllReadonly<Accessories>()
+            .Include(a => a.Member)
+             .Where(a => a.Id == accessoriesId)
+             .Select(a => new EditAccessoriesViewModel()
+             {
+                 Id = a.Id,
+                 Name = a.Name,
+                 Description = a.Description,
+                 Color = a.Color,
+                 SizeAge = a.SizeAge,
+                 ImgUrl = a.ImgUrl,
+                 MemberId = a.MemberId
 
-                 }).FirstAsync();
+             }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
         public async Task<AllMemberAccessoriesViewModel> AllAccessoriesByMemberId(int memberId)
         {
-            return await repo.AllReadonly<Member>()
-               .Where(m => m.Id == memberId && m.IsActive)
-               .Select(c => new AllMemberAccessoriesViewModel()
+            try
+            {
+                return await repo.AllReadonly<Member>()
+             .Where(m => m.Id == memberId && m.IsActive)
+             .Select(c => new AllMemberAccessoriesViewModel()
 
-               {
-                   MemberId = memberId,
-                   Accessories = c.Accessories
-                   .Where(c => c.IsActive)
-                   .Select(a => new AccessoriesViewModel
-                   {
-                       Name = a.Name,
-                       Category = a.Category,
-                       Id = a.Id,
-                       SizeAge = a.SizeAge,
-                       StorageId = a.StorageId,
-                       ImgUrl = a.ImgUrl,
-                       MemberId = memberId,
+             {
+                 MemberId = memberId,
+                 Accessories = c.Accessories
+                 .Where(c => c.IsActive)
+                 .Select(a => new AccessoriesViewModel
+                 {
+                     Name = a.Name,
+                     Category = a.Category,
+                     Id = a.Id,
+                     SizeAge = a.SizeAge,
+                     StorageId = a.StorageId,
+                     ImgUrl = a.ImgUrl,
+                     MemberId = memberId,
 
-                   }).ToList()
-               }).FirstAsync();
+                 }).ToList()
+             }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+          
         }
 
         public async Task<AllMemberAccessoriesByCategoryViewModel> AllAccessoriesByCategoryAndMemberId(int memberId, string category)
         {
-            return await repo.AllReadonly<Member>()
-                .Where(m => m.Id == memberId && m.IsActive)
-                .Select(c => new AllMemberAccessoriesByCategoryViewModel()
+            if (category == null)
+            {
+                throw new ArgumentNullException("Category not found");
+            }
 
-                {
-                    Category = category,
-                    MemberId = memberId,
-                    Accessories = c.Accessories
-                    .Where(a => a.Category == category && a.IsActive)
-                    .Select(ac => new AccessoriesViewModel
-                    {
-                        Name = ac.Name,
-                        Category = ac.Category,
-                        Id = ac.Id,
-                        SizeAge=ac.SizeAge,
-                        StorageId = ac.StorageId,
-                        ImgUrl = ac.ImgUrl,
-                        MemberId = memberId,
+            try
+            {
+                return await repo.AllReadonly<Member>()
+              .Where(m => m.Id == memberId && m.IsActive)
+              .Select(c => new AllMemberAccessoriesByCategoryViewModel()
 
-                    }).ToList()
-                }).FirstAsync();
+              {
+                  Category = category,
+                  MemberId = memberId,
+                  Accessories = c.Accessories
+                  .Where(a => a.Category == category && a.IsActive)
+                  .Select(ac => new AccessoriesViewModel
+                  {
+                      Name = ac.Name,
+                      Category = ac.Category,
+                      Id = ac.Id,
+                      SizeAge = ac.SizeAge,
+                      StorageId = ac.StorageId,
+                      ImgUrl = ac.ImgUrl,
+                      MemberId = memberId,
+
+                  }).ToList()
+              }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+          
         }
     }
 }

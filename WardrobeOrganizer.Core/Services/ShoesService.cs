@@ -23,6 +23,10 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddShoes(AddShoesViewModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("Shoes are not valid");
+            }
             var shoes = new Shoes()
             {
                 Name = model.Name,
@@ -37,40 +41,66 @@ namespace WardrobeOrganizer.Core.Services
            
             };
 
-            await repo.AddAsync(shoes);
-            await repo.SaveChangesAsync();
+            try
+            {
+                await repo.AddAsync(shoes);
+                await repo.SaveChangesAsync();
 
-            return shoes.Id;
+                return shoes.Id;
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+          
 
         }
 
         public async Task<AllShoesViewModel> AllShoes(int storageId)
         {
-            return await repo.AllReadonly<Storage>()
-                .Where(s => s.Id == storageId)
-                .Select(s => new AllShoesViewModel()
+            try
+            {
+                return await repo.AllReadonly<Storage>()
+            .Where(s => s.Id == storageId)
+            .Select(s => new AllShoesViewModel()
+            {
+                StorageId = storageId,
+                Shoes = s.Shoes
+                .Where(sh => sh.IsActive == true)
+                .Select(sh => new ShoesViewModel()
                 {
-                    StorageId = storageId,
-                    Shoes = s.Shoes
-                    .Where(sh=>sh.IsActive == true)
-                    .Select(sh => new ShoesViewModel()
-                    {
-                        Id = sh.Id,
-                        Name = sh.Name,
-                        SizeEu = sh.SizeEu,
-                        StorageId = sh.StorageId,
-                        Category = sh.Category,
-                        Centimetres = sh.Centimetres,
-                        ImgUrl = sh.ImgUrl,
-                        MemberId = sh.MemberId
+                    Id = sh.Id,
+                    Name = sh.Name,
+                    SizeEu = sh.SizeEu,
+                    StorageId = sh.StorageId,
+                    Category = sh.Category,
+                    Centimetres = sh.Centimetres,
+                    ImgUrl = sh.ImgUrl,
+                    MemberId = sh.MemberId
 
-                    }).ToList()
-                }).FirstAsync();
+                }).ToList()
+            }).FirstAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
         public async Task<AllShoesByCategoryViewModel> AllShoesByCategory(int storageId, string category)
         {
-           return await repo.AllReadonly<Storage>()
+            if (category== null)
+            {
+                throw new ArgumentNullException("Category not found");
+            }
+
+            try
+            {
+                return await repo.AllReadonly<Storage>()
                 .Where(s => s.Id == storageId)
                 .Select(s => new AllShoesByCategoryViewModel()
                 {
@@ -87,26 +117,30 @@ namespace WardrobeOrganizer.Core.Services
                         Centimetres = sh.Centimetres,
                         ImgUrl = sh.ImgUrl,
                         MemberId = sh.MemberId,
-                     
+
 
                     }).ToList()
                 }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task DeleteById(int shoesId)
         {
-            if (shoesId == null)
-            {
-
-            }
             var shoes = await repo.GetByIdAsync<Shoes>(shoesId);
 
             if (shoes == null)
             {
-
+                throw new ArgumentNullException("Shoes not found");
             }
 
             shoes.IsActive = false;
+
             try
             {
                 await repo.SaveChangesAsync();
@@ -121,12 +155,13 @@ namespace WardrobeOrganizer.Core.Services
         {
             if (model == null)
             {
-
+                throw new ArgumentNullException("Shoes are not valid");
             }
             var shoes = await repo.GetByIdAsync<Shoes>(model.Id);
+
             if (shoes == null)
             {
-
+                throw new ArgumentNullException("Shoes not found");
             }
             shoes.Name = model.Name;
             shoes.Centimetres = model.Centimetres;
@@ -140,116 +175,165 @@ namespace WardrobeOrganizer.Core.Services
             {
                 await repo.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new InvalidOperationException(ex.Message);
             }
 
         }
 
         public async Task<bool> ExistsById(int shoesId)
         {
-            return await repo.AllReadonly<Shoes>()
-                .AnyAsync(sh => sh.Id == shoesId && sh.IsActive == true);
+            try
+            {
+                return await repo.AllReadonly<Shoes>()
+             .AnyAsync(sh => sh.Id == shoesId && sh.IsActive == true);
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+         
         }
 
         public async Task<DetailsShoesViewModel> GetShoesDetailsModelById(int shoesId)
         {
-            return await repo.AllReadonly<Shoes>()
-                .Include(s=>s.Member)
-                .Include(c => c.Storage)
-                .ThenInclude(s => s.House)
-                .Where(s => s.Id == shoesId)
-                .Select(s => new DetailsShoesViewModel()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    SizeEu = s.SizeEu,
-                    Centimetres = s.Centimetres,
-                    Category = s.Category,
-                    Description = s.Description,
-                    Color = s.Color,
-                    StorageId = s.StorageId,
-                    ImgUrl = s.ImgUrl,
-                    MemberName = s.Member.FirstName + " " + s.Member.LastName,
-                    StorageName = s.Storage.Name,
-                    HouseName = s.Storage.House.Name,
-                    MemberId = s.MemberId
+            try
+            {
+                return await repo.AllReadonly<Shoes>()
+               .Include(s => s.Member)
+               .Include(c => c.Storage)
+               .ThenInclude(s => s.House)
+               .Where(s => s.Id == shoesId)
+               .Select(s => new DetailsShoesViewModel()
+               {
+                   Id = s.Id,
+                   Name = s.Name,
+                   SizeEu = s.SizeEu,
+                   Centimetres = s.Centimetres,
+                   Category = s.Category,
+                   Description = s.Description,
+                   Color = s.Color,
+                   StorageId = s.StorageId,
+                   ImgUrl = s.ImgUrl,
+                   MemberName = s.Member.FirstName + " " + s.Member.LastName,
+                   StorageName = s.Storage.Name,
+                   HouseName = s.Storage.House.Name,
+                   MemberId = s.MemberId
 
-                }).FirstAsync();
+               }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task<EditShoesViewModel> GetShoesEditModelById(int shoesId)
         {
-            return await repo.AllReadonly<Shoes>()
-                .Include(s => s.Member)
-                .Include(c => c.Storage)
-                .ThenInclude(s => s.House)
-                .Where(s => s.Id == shoesId)
-                .Select(s => new EditShoesViewModel()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    SizeEu = s.SizeEu,
-                    Centimetres = s.Centimetres,
-                    Description = s.Description,
-                    Color = s.Color,
-                    ImgUrl = s.ImgUrl,
-                    MemberId = s.MemberId
+            try
+            {
+                return await repo.AllReadonly<Shoes>()
+               .Include(s => s.Member)
+               .Include(c => c.Storage)
+               .ThenInclude(s => s.House)
+               .Where(s => s.Id == shoesId)
+               .Select(s => new EditShoesViewModel()
+               {
+                   Id = s.Id,
+                   Name = s.Name,
+                   SizeEu = s.SizeEu,
+                   Centimetres = s.Centimetres,
+                   Description = s.Description,
+                   Color = s.Color,
+                   ImgUrl = s.ImgUrl,
+                   MemberId = s.MemberId
 
-                }).FirstAsync();
+               }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
         public async Task<AllMemberShoesViewModel> AllShoesByMemberId(int memberId)
         {
-            return await repo.AllReadonly<Member>()
-               .Where(m => m.Id == memberId && m.IsActive)
-               .Select(sh => new AllMemberShoesViewModel()
+            try
+            {
+                return await repo.AllReadonly<Member>()
+            .Where(m => m.Id == memberId && m.IsActive)
+            .Select(sh => new AllMemberShoesViewModel()
 
-               {
-                   MemberId = memberId,
-                   Shoes = sh.Shoes
-                   .Where(sh => sh.IsActive)
-                   .Select(cl => new ShoesViewModel
-                   {
-                       Name = cl.Name,
-                       Category = cl.Category,
-                       Id = cl.Id,
-                       SizeEu= cl.SizeEu,
-                       Centimetres= cl.Centimetres,
-                       StorageId = cl.StorageId,
-                       ImgUrl = cl.ImgUrl,
-                       MemberId = memberId,                 
+            {
+                MemberId = memberId,
+                Shoes = sh.Shoes
+                .Where(sh => sh.IsActive)
+                .Select(cl => new ShoesViewModel
+                {
+                    Name = cl.Name,
+                    Category = cl.Category,
+                    Id = cl.Id,
+                    SizeEu = cl.SizeEu,
+                    Centimetres = cl.Centimetres,
+                    StorageId = cl.StorageId,
+                    ImgUrl = cl.ImgUrl,
+                    MemberId = memberId,
 
-                   }).ToList()
-               }).FirstAsync();
+                }).ToList()
+            }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+         
         }
 
         public async Task<AllMemberShoesByCategoryViewModel> AllShoesByCategoryAndMemberId(int memberId, string category)
         {
-            return await repo.AllReadonly<Member>()
-                .Where(m => m.Id == memberId && m.IsActive)
-                .Select(s => new AllMemberShoesByCategoryViewModel()
+            if (category == null)
+            {
+                throw new ArgumentNullException("Category not found");
+            }
 
-                {
-                    MemberId = memberId,
-                    Category = category,
-                    Shoes = s.Shoes
-                    .Where(sh=> sh.Category == category && sh.IsActive)
-                    .Select(s => new ShoesViewModel
-                    {
-                        Name = s.Name,
-                        Category = s.Category,
-                        Id = s.Id,
-                        SizeEu = s.SizeEu,
-                        Centimetres = s.Centimetres,
-                        StorageId = s.StorageId,
-                        ImgUrl = s.ImgUrl,
-                        MemberId = memberId,
-                        
-                    }).ToList()
-                }).FirstAsync();
+            try
+            {
+                return await repo.AllReadonly<Member>()
+           .Where(m => m.Id == memberId && m.IsActive)
+           .Select(s => new AllMemberShoesByCategoryViewModel()
+
+           {
+               MemberId = memberId,
+               Category = category,
+               Shoes = s.Shoes
+               .Where(sh => sh.Category == category && sh.IsActive)
+               .Select(s => new ShoesViewModel
+               {
+                   Name = s.Name,
+                   Category = s.Category,
+                   Id = s.Id,
+                   SizeEu = s.SizeEu,
+                   Centimetres = s.Centimetres,
+                   StorageId = s.StorageId,
+                   ImgUrl = s.ImgUrl,
+                   MemberId = memberId,
+
+               }).ToList()
+           }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+       
         }
     }
 }

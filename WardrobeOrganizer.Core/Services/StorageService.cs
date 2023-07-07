@@ -19,6 +19,10 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddStorage(AddStorageViewModel model)
         {
+            if (model== null)
+            {
+                throw new ArgumentNullException("Storage not valid");
+            }
             var storage = new Storage()
             {
                 Name = model.Name,
@@ -30,15 +34,14 @@ namespace WardrobeOrganizer.Core.Services
                 await repo.AddAsync(storage);
                 await repo.SaveChangesAsync();
 
+
+                return storage.Id;
             }
             catch (Exception e)
             {
-
                 throw new InvalidOperationException(e.Message);
             }
 
-           
-            return storage.Id;
         }
 
         public async Task<ICollection<AllStoragesViewModel>> AllStorages(int houseId)
@@ -92,6 +95,10 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Edit(InfoStorageViewModel model)
         {
+            if (model== null)
+            {
+                throw new ArgumentNullException("Storage not valid");
+            }
             try
             {
                 var storage = await repo.GetByIdAsync<Storage>(model.Id);
@@ -102,7 +109,6 @@ namespace WardrobeOrganizer.Core.Services
             }
             catch (Exception e)
             {
-
                 throw new InvalidOperationException(e.Message); ;
             }
             
@@ -110,13 +116,23 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<bool> ExistsById(int id)
         {
-            return await repo.AllReadonly<Storage>()
-                .AnyAsync(s=>s.Id == id && s.IsActive);
+            try
+            {
+                return await repo.AllReadonly<Storage>()
+          .AnyAsync(s => s.Id == id && s.IsActive);
+            }
+            catch (Exception ex) 
+            {
+                throw new InvalidOperationException(ex.Message); 
+            }
+      
         }
 
         public async Task<InfoStorageViewModel> GetStorageById(int storageId)
         {
-            return await repo.AllReadonly<Storage>()
+            try
+            {
+                return await repo.AllReadonly<Storage>()
                 .Where(s => s.Id == storageId)
                 .Where(s => s.IsActive)
                 .Select(s => new InfoStorageViewModel()
@@ -126,12 +142,18 @@ namespace WardrobeOrganizer.Core.Services
                     House = new Models.House.AllHousesViewModel()
                     {
                         Id = s.House.Id,
-                        Address=s.House.Address,
-                        Name=s.House.Name,
-                        FamilyId =s.House.FamilyId,
+                        Address = s.House.Address,
+                        Name = s.House.Name,
+                        FamilyId = s.House.FamilyId,
                     }
                 })
                 .FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+            
         }
     }
 }

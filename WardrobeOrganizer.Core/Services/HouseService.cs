@@ -24,6 +24,10 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddHouse(AddHouseViewModel model, int familiId)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("House is not valid");
+            }
             var house = new House()
             {
                 Name = model.Name,
@@ -35,45 +39,53 @@ namespace WardrobeOrganizer.Core.Services
             {
                 await repo.AddAsync(house);
                 await repo.SaveChangesAsync();
+
+                return house.Id;
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException(ex.Message);
             }
 
-          
-
-            return house.Id;
         }
 
         public async Task<ICollection<AllHousesViewModel>> AllHouses(int familyId)
         {
-            return await repo.AllReadonly<House>()
-                .Where(h => h.FamilyId == familyId && h.IsActive)
-                .OrderBy(x => x.Name)
-               .Select(s => new AllHousesViewModel
-               {
-                   Id = s.Id,
-                   Name = s.Name,
-                   Address = s.Address,
-                   FamilyId = familyId
-                    
+            var family = await repo.GetByIdAsync<Family>(familyId);
 
-               }).ToListAsync();
+            if (family == null)
+            {
+                
+            }
+
+            try
+            {
+                return await repo.AllReadonly<House>()
+             .Where(h => h.FamilyId == familyId && h.IsActive)
+             .OrderBy(x => x.Name)
+            .Select(s => new AllHousesViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Address = s.Address,
+                FamilyId = familyId
+
+            }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+         
         }
 
         public async Task Delete(int houseId)
         {
-            if (houseId == null)
-            {
-                //nqma kushta
-            }
             var house = await repo.GetByIdAsync<House>(houseId);
 
             if (house == null)
             {
-                //nqma kushta
+                throw new ArgumentNullException("Invalid house");
             }
 
             house.IsActive = false;
@@ -90,6 +102,11 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Edit(InfoHouseViewModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("House not found");
+            }
+
             try
             {
                 var house = await repo.GetByIdAsync<House>(model.Id);
@@ -108,16 +125,22 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<bool> ExistsById(int houseId)
         {
-            return await repo.AllReadonly<House>()
-              .AnyAsync(h => h.Id == houseId);
+            try
+            {
+
+                return await repo.AllReadonly<House>()
+                  .AnyAsync(h => h.Id == houseId);
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+        
         }
 
         public async Task<InfoHouseViewModel?> GetHouseById(int houseId)
         {
-            if (houseId == null)
-            {
-
-            }
             try
             {
                 return await repo.AllReadonly<House>()
@@ -132,10 +155,9 @@ namespace WardrobeOrganizer.Core.Services
                .FirstOrDefaultAsync();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(ex.Message);
             }
          
             
@@ -144,9 +166,23 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> GetHouseId(string userId)
         {
-            return (await repo.AllReadonly<Family>()
-                   .FirstOrDefaultAsync(f => f.UserId == userId))?.Id ?? 0;
+            if (userId == null)
+            {
+                throw new ArgumentNullException("User not found");
+            }
 
+            try
+            {
+                return (await repo.AllReadonly<Family>()
+            .FirstOrDefaultAsync(f => f.UserId == userId))?.Id ?? 0;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+     
         }
     }
 }

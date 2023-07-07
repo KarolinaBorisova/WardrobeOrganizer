@@ -30,28 +30,42 @@ namespace WardrobeOrganizer.Core.Services
         {
             var users = new AllUsersViewModel();
 
-           users.Users = await repo.AllReadonly<User>()
-           .Where(u=> u.LastName != "Admin")
-           .Select(c => new UserViewModel()
-           {
-               Id = c.Id,
-               Email = c.Email,
-               FullName = c.FirstName + " " + c.LastName,
-               IsActive = c.IsActive,
-           }).ToListAsync();
+            try
+            {
+                users.Users = await repo.AllReadonly<User>()
+         .Where(u => u.LastName != "Admin")
+         .Select(c => new UserViewModel()
+         {
+             Id = c.Id,
+             Email = c.Email,
+             FullName = c.FirstName + " " + c.LastName,
+             IsActive = c.IsActive,
+         }).ToListAsync();
 
-            await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync();
 
-            return users;
+                return users;
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+         
         }
 
         public async Task InActive(string UserId)
         {
+            var user = await repo.GetByIdAsync<User>(UserId);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException("User not found");
+            }
+
+            user.IsActive = false;
             try
             {
-                var user = await repo.GetByIdAsync<User>(UserId);
-
-                user.IsActive = false;
                 await repo.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -63,11 +77,17 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task Active(string UserId)
         {
+            var user = await repo.GetByIdAsync<User>(UserId);
+
+            if (user == null)
+            {
+
+                throw new ArgumentNullException("User not found");
+            }
+
+            user.IsActive = true;
             try
             {
-                var user = await repo.GetByIdAsync<User>(UserId);
-
-                user.IsActive = true;
                 await repo.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -79,15 +99,24 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<bool> ExistsById(string id)
         {
-            return await repo.AllReadonly<User>()
+            try
+            {
+                return await repo.AllReadonly<User>()
               .AnyAsync(u => u.Id == id);
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+            
         }
 
         public async Task<UserViewModel> GetUserById(string id)
         {
             if (id == null)
             {
-
+                throw new ArgumentNullException("User not found");
             }
             try
             {
@@ -103,10 +132,10 @@ namespace WardrobeOrganizer.Core.Services
                .FirstAsync();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(ex.Message);
             }
         }
     }

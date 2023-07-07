@@ -23,6 +23,10 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddOuterWear(AddOuterwearViewModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("Outerwear is not valid");
+            }
             var outerwear = new Outerwear()
             {
                 ImgUrl = model.ImgUrl,
@@ -36,124 +40,177 @@ namespace WardrobeOrganizer.Core.Services
                 MemberId = model.MemberId
 
             };
-            await repo.AddAsync(outerwear);
-            await repo.SaveChangesAsync();
 
-            return outerwear.Id;
+            try
+            {
+                await repo.AddAsync(outerwear);
+                await repo.SaveChangesAsync();
+
+                return outerwear.Id;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task<AllOuterwearViewModel> AllOutwear(int storageId)
         {
-            return await repo.AllReadonly<Storage>()
-                 .Where(s => s.Id == storageId)
-                 .Select(ow => new AllOuterwearViewModel()
-                 {
-                     StorageId = storageId,
-                     Outerwear = ow.Outerwear
-                     .Where(o=>o.IsActive == true)
-                     .Select(o => new OuterwearViewModel()
-                     {
-                         Id = o.Id,
-                         Name = o.Name,
-                         ImgUrl = o.ImgUrl,
-                         StorageId = storageId,
-                         Size = o.Size,
-                         SizeHeight = o.SizeHeight,
-                         Category = o.Category,
-                         MemberId= o.MemberId
+            try
+            {
+                return await repo.AllReadonly<Storage>()
+                .Where(s => s.Id == storageId)
+                .Select(ow => new AllOuterwearViewModel()
+                {
+                    StorageId = storageId,
+                    Outerwear = ow.Outerwear
+                    .Where(o => o.IsActive == true)
+                    .Select(o => new OuterwearViewModel()
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                        ImgUrl = o.ImgUrl,
+                        StorageId = storageId,
+                        Size = o.Size,
+                        SizeHeight = o.SizeHeight,
+                        Category = o.Category,
+                        MemberId = o.MemberId
 
-                     }).ToList()
-                 }).FirstAsync();
+                    }).ToList()
+                }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task<AllOuterwearByCategoryViewModel> AllOuterwearByCategory(int storageId, string category)
         {
-            return await repo.AllReadonly<Storage>()
+            if (category == null)
+            {
+                throw new ArgumentNullException("Category not found");
+            }
+
+            try
+            {
+                return await repo.AllReadonly<Storage>()
                 .Where(s => s.Id == storageId)
                 .Select(s => new AllOuterwearByCategoryViewModel()
-                {
-                    StorageId = storageId,
-                    Category = category,
-                    Outerwear = s.Outerwear.Where(ow => ow.Category == category && ow.IsActive == true)
-                    .Select(o => new OuterwearViewModel()
                     {
-                        Id = o.Id,
-                        Size = o.Size,
-                        SizeHeight = o.SizeHeight,
-                        StorageId = o.StorageId,
-                        Category = category,
-                        ImgUrl = o.ImgUrl,
-                        Name = o.Name,
-                        
-                    }).ToList()
-                }).FirstAsync();
+                         StorageId = storageId,
+                         Category = category,
+                         Outerwear = s.Outerwear.Where(ow => ow.Category == category && ow.IsActive == true)
+                 .Select(o => new OuterwearViewModel()
+                         {
+                     Id = o.Id,
+                     Size = o.Size,
+                     SizeHeight = o.SizeHeight,
+                     StorageId = o.StorageId,
+                     Category = category,
+                     ImgUrl = o.ImgUrl,
+                     Name = o.Name,
+                         }).ToList()
+                     }).FirstAsync();
+
+        }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+
         }                   
 
         public async Task<DetailsOuterwearViewModel> GetOuterwearDetailsModelById(int outerwearId)
         {
-            return await repo.AllReadonly<Outerwear>()
-                .Include(o=>o.Member)
-                .Include(o=>o.Storage)
-                .ThenInclude(s=>s.House)
-                .Where(o => o.Id == outerwearId)
-                .Select(o => new DetailsOuterwearViewModel()
-                {
-                    Id = o.Id,
-                    Name = o.Name,
-                    ImgUrl = o.ImgUrl,
-                    Description = o.Description,
-                    Category = o.Category,
-                    Size = o.Size,
-                    SizeHeight = o.SizeHeight,
-                    StorageId = o.StorageId,
-                    Color = o.Color,
-                    HouseName = o.Storage.House.Name,
-                    StorageName = o.Storage.Name,
-                    MemberName = o.Member.FirstName + " " + o.Member.LastName
-                    
-                }).FirstAsync();
+            try
+            {
+                return await repo.AllReadonly<Outerwear>()
+             .Include(o => o.Member)
+             .Include(o => o.Storage)
+             .ThenInclude(s => s.House)
+             .Where(o => o.Id == outerwearId)
+             .Select(o => new DetailsOuterwearViewModel()
+             {
+                 Id = o.Id,
+                 Name = o.Name,
+                 ImgUrl = o.ImgUrl,
+                 Description = o.Description,
+                 Category = o.Category,
+                 Size = o.Size,
+                 SizeHeight = o.SizeHeight,
+                 StorageId = o.StorageId,
+                 Color = o.Color,
+                 HouseName = o.Storage.House.Name,
+                 StorageName = o.Storage.Name,
+                 MemberName = o.Member.FirstName + " " + o.Member.LastName
+
+             }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+         
         }
 
         public async Task<EditOuterwearViewModel> GetOuterwearEditModelById(int outerwearId)
         {
-            return await repo.AllReadonly<Outerwear>()
-                .Include(o => o.Member)
-                .Include(o => o.Storage)
-                .ThenInclude(s => s.House)
-                .Where(o => o.Id == outerwearId)
-                .Select(o => new EditOuterwearViewModel()
-                {
-                    Id = o.Id,
-                    Name = o.Name,
-                    ImgUrl = o.ImgUrl,
-                    Description = o.Description,
-                    Size = o.Size,
-                    SizeHeight = o.SizeHeight,
-                    Color = o.Color,
-                    MemberId = o.MemberId
+            try
+            {
+                return await repo.AllReadonly<Outerwear>()
+             .Include(o => o.Member)
+             .Include(o => o.Storage)
+             .ThenInclude(s => s.House)
+             .Where(o => o.Id == outerwearId)
+             .Select(o => new EditOuterwearViewModel()
+             {
+                 Id = o.Id,
+                 Name = o.Name,
+                 ImgUrl = o.ImgUrl,
+                 Description = o.Description,
+                 Size = o.Size,
+                 SizeHeight = o.SizeHeight,
+                 Color = o.Color,
+                 MemberId = o.MemberId
 
-                }).FirstAsync();
+             }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+         
         }
 
 
         public async Task<bool> ExistsById(int outerwearId)
         {
-            return await repo.AllReadonly<Outerwear>()
-                .AnyAsync(o => o.Id == outerwearId && o.IsActive);
+            try
+            {
+                return await repo.AllReadonly<Outerwear>()
+               .AnyAsync(o => o.Id == outerwearId && o.IsActive);
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
 
         public async Task DeleteById(int outerwearId)
         {
-            if (outerwearId == null)
-            {
-
-            }
 
             var outerwear = await repo.GetByIdAsync<Outerwear>(outerwearId);
 
             if (outerwear == null)
             {
-
+                throw new ArgumentNullException("Outerwear not found");
             }
 
             outerwear.IsActive = false;
@@ -172,13 +229,15 @@ namespace WardrobeOrganizer.Core.Services
         {
             if (model == null)
             {
-
+                throw new ArgumentNullException("Outerwear is not valid");
             }
+
             var outerwear = await repo.GetByIdAsync<Outerwear>(model.Id);
             if (outerwear == null)
             {
-
+                throw new ArgumentNullException("Outerwear not found");
             }
+            outerwear.IsActive = true;
             outerwear.Name = model.Name;
             outerwear.ImgUrl = model.ImgUrl;
             outerwear.SizeHeight = model.SizeHeight;
@@ -192,22 +251,63 @@ namespace WardrobeOrganizer.Core.Services
             {
                 await repo.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new InvalidOperationException(ex.Message);
             }
         }
 
         public async Task<AllMemberOuterwearViewModel> AllOuterwearByMemberId(int memberId)
         {
-            return await repo.AllReadonly<Member>()
+            try
+            {
+                return await repo.AllReadonly<Member>()
+             .Where(m => m.Id == memberId && m.IsActive)
+             .Select(o => new AllMemberOuterwearViewModel()
+
+             {
+                 MemberId = memberId,
+                 Outerwear = o.Outerwear
+                 .Where(o => o.IsActive)
+                 .Select(cl => new OuterwearViewModel
+                 {
+                     Name = cl.Name,
+                     Category = cl.Category,
+                     Id = cl.Id,
+                     Size = cl.Size,
+                     SizeHeight = cl.SizeHeight,
+                     StorageId = cl.StorageId,
+                     ImgUrl = cl.ImgUrl,
+                     MemberId = memberId,
+
+                 }).ToList()
+             }).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new InvalidOperationException(ex.Message);
+            }
+          
+        }
+
+        public async Task<AllMemberOutwearByCategoryViewModel> AllOuterwearByCategoryAndMemberId(int memberId, string category)
+        {
+            if (category == null)
+            {
+                throw new ArgumentNullException("Category not found");
+            }
+
+            try
+            {
+                return await repo.AllReadonly<Member>()
                .Where(m => m.Id == memberId && m.IsActive)
-               .Select(o => new AllMemberOuterwearViewModel()
+               .Select(c => new AllMemberOutwearByCategoryViewModel()
 
                {
-                   MemberId = memberId, 
-                   Outerwear = o.Outerwear
-                   .Where(o => o.IsActive)
+                   Category = category,
+                   MemberId = memberId,
+                   Outerwear = c.Outerwear.Where(clt => clt.Category == category && clt.IsActive)
                    .Select(cl => new OuterwearViewModel
                    {
                        Name = cl.Name,
@@ -221,31 +321,13 @@ namespace WardrobeOrganizer.Core.Services
 
                    }).ToList()
                }).FirstAsync();
-        }
+            }
+            catch (Exception ex)
+            {
 
-        public async Task<AllMemberOutwearByCategoryViewModel> AllOuterwearByCategoryAndMemberId(int memberId, string category)
-        {
-            return await repo.AllReadonly<Member>()
-                .Where(m => m.Id == memberId && m.IsActive)
-                .Select(c => new AllMemberOutwearByCategoryViewModel()
-
-                {
-                    Category = category,
-                    MemberId = memberId,
-                    Outerwear = c.Outerwear.Where(clt => clt.Category == category && clt.IsActive)
-                    .Select(cl => new OuterwearViewModel
-                    {
-                        Name = cl.Name,
-                        Category = cl.Category,
-                        Id = cl.Id,
-                        Size = cl.Size,
-                        SizeHeight = cl.SizeHeight,
-                        StorageId = cl.StorageId,
-                        ImgUrl = cl.ImgUrl,
-                        MemberId = memberId,
-                        
-                    }).ToList()
-                }).FirstAsync();
+                throw new InvalidOperationException(ex.Message);
+            }
+           
         }
     }
 }
