@@ -189,6 +189,16 @@ form .list-group-item-info.btn {
     z-index: -2;
     opacity: 0.9;
 }
+/* img error background*/
+.error-background {
+    position: absolute;
+    width: 60rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    opacity: 0.5;
+}
 /*footer btns*/
 .btn {
     font-size: 19px;

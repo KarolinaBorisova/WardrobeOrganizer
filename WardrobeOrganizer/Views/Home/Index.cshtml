@@ -32,21 +32,13 @@
                 else
                 {
                     <div class="card-group">
-                        @{
-                            var count = 0;
-                        }
                         @foreach (var member in @Model.Members)
                         {
                             <div class="card">
                                 <div class="card-body">
                                     <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a>
                                 </div>
-                            </div>
-                            count++;
-                            if (count == 3)
-                            {
-                                break;
-                            };
+                            </div>                        
                         }
                     </div>
                 }   

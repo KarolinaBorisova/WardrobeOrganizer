@@ -29,7 +29,7 @@ namespace WardrobeOrganizer.Controllers
         }
 
         public async Task<IActionResult> All(int storageId)
-        {
+        {         
             var model = await accessoriesService.AllAccessories(storageId);
             return View(model);
         }
@@ -59,7 +59,18 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var storageId = model.StorageId;
-            int id = await accessoriesService.AddAccessories(model);
+
+            try
+            {
+                await accessoriesService.AddAccessories(model);
+            }
+            catch (Exception e)
+            {
+
+                this.ModelState.AddModelError(string.Empty, e.Message);
+                return this.View(model);
+            }
+
             return RedirectToAction("AccessoriesByCategory", "Accessories", new { storageId, model.Category });
 
         }
@@ -67,8 +78,16 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> AccessoriesByCategory(int storageId, string category)
         {
-            var model = await accessoriesService.AllAccessoriesByCategory(storageId, category);
-            return View(model);
+            try
+            {
+                var model = await accessoriesService.AllAccessoriesByCategory(storageId, category);
+                return RedirectToAction("Error", "Home");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+           
         }
 
         public async Task<IActionResult> Details(int accessoriesId)
