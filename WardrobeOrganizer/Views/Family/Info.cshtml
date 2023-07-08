@@ -1,57 +1,75 @@
 ﻿@model InfoFamilyViewModel
-
 @{
-    ViewData["Title"] = "Family Information";
+    ViewData["Title"] = "Info Family";
 }
 
 <div class="text-center">
     <h1 class="page-title">@Model.Name family</h1>
+    <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Family" asp-action="Edit" asp-route-id="@Model.Id">Edit family</a>
 </div>
-<div class="text-center">
-    <h3 class="display-5">Family members</h3>
-</div>
-@if (Model.Members.Count == 0)
-{
-    <div class="text-center">
-        <h5 class="display-8">There are no members yet.</h5>
-    </div>
-}
-else
-{
-    <div class="card-group">
-        @foreach (var member in Model.Members)
+<div class="main-container">
+    @*   MEMBERS*@
+    <div class="list-group">
+        <p class="list-title">
+            Family members
+        </p>
+        @if (Model.Members.Count == 0)
         {
-            <div class="card">
-                <div class="card-body">
-                    <img src="@member.ImgUrl" alt="Avatar" style="width:100%">
-                    <h4><a class="card-title text-dark" asp-area="" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a></h4>
-                </div>
+            <div class="text-center">
+                <h5 class="display-8">There are no members yet.</h5>
+            </div>
+        }
+        else
+        {
+            <div class="card-group">
+                @foreach (var member in @Model.Members)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">@member.FirstName @member.LastName</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    @*   Houses*@
+    <div class="list-group">
+        <p class="list-title">
+            Family houses
+        </p>
+        @if (Model.Houses.Count == 0)
+        {
+            <div class="text-center">
+                <h5 class="display-8">There are no houses yet.</h5>
+            </div>
+        }
+        else
+        {
+            <div class="card-group">
+                @foreach (var house in @Model.Houses)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <a class="list-group-item list-group-item-action list-group-item-warning" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">
+                                @house.Name
+                                <p class="list-gruop-item-info">Address: @house.Address</p>
+                            </a>
+                        </div>
+                    </div>
+                }
             </div>
         }
     </div>
 
-}
-
-<div class="text-center">
-    <h5 class="display-5">Family houses</h5>
 </div>
-@if (Model.Houses.Count == 0)
-{
+<div class="main-container">
     <div class="text-center">
-        <h5 class="display-8">There are no houses yet.</h5>
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Member" asp-action="All">All family members</a>
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Member" asp-action="Add">Add new member</a>
     </div>
-}
-else
-{
-    <div class="card-group">
-        @foreach (var house in Model.Houses)
-        {
-            <div class="card">
-                <div class="card-body">
-                    <h4><a class="card-title text-dark" asp-controller="House" asp-route-houseId="@house.Id" asp-action="Info">@house.Name</a></h4>
-                    <p class="card-text">Address: @house.Address</p>
-                </div>
-            </div>
-        }
+    <div class="text-center">
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="House" asp-action="All">All family houses</a>
+        <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="House" asp-action="Add">Add new house</a>
     </div>
-}
+</div>

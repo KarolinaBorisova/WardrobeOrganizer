@@ -13,10 +13,14 @@ namespace WardrobeOrganizer.Core.Contracts
     {
         Task<int> Create(FamilyViewModel model, string userId);
 
+        Task<bool> ExistsById(int id);
+
         Task<FamilyViewModel> GetFamilyByUserId(string id);
 
         Task<bool> HasFamily(string userId);
 
         Task<int> GetFamilyId(string userId);
+
+        Task Edit(FamilyViewModel model);
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Family;
+using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
 
@@ -43,12 +44,7 @@ namespace WardrobeOrganizer.Core.Services
                 User = user,
             };
 
-            if (family == null)
-            {
-
-                throw new ArgumentNullException("Family not found");
-            }
-
+          
             user.Family = family;
 
             try
@@ -63,6 +59,40 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException(ex.Message);
             }
 
+        }
+
+        public async Task Edit(FamilyViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException("Family is not valid");
+            }
+            try
+            {
+                var family = await repo.GetByIdAsync<Family>(model.Id);
+                family.Id = model.Id;
+                family.Name = model.Name;
+                
+
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        }
+
+        public async Task<bool> ExistsById(int id)
+        {
+            try
+            {
+                return await repo.AllReadonly<Family>()
+                .AnyAsync(f => f.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
         }
 
         public async Task<FamilyViewModel> GetFamilyByUserId(string userId)

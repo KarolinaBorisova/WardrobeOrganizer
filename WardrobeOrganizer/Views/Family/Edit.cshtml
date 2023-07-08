@@ -1,0 +1,18 @@
+﻿@model FamilyViewModel
+@{
+    ViewData["Title"] = "Edit Family";
+}
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
+<form method="post">
+    <input type="hidden" asp-for="@Model.UserId" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label class="label" asp-for="Name">Family name</label>
+            <input asp-for="Name" class="form-control" id="Name" placeholder="Family name">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+</form>

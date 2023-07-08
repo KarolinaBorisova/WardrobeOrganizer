@@ -81,7 +81,7 @@ namespace WardrobeOrganizer.Controllers
             try
             {
                 var model = await accessoriesService.AllAccessoriesByCategory(storageId, category);
-                return RedirectToAction("Error", "Home");
+                return View(model);
             }
             catch (Exception)
             {
@@ -92,8 +92,17 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int accessoriesId)
         {
-            var model = await accessoriesService.GetAccessoriesDetailsModelById(accessoriesId);
-            return View(model);
+            try
+            {
+                var model = await accessoriesService.GetAccessoriesDetailsModelById(accessoriesId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+          
         }
 
         [Authorize(Roles = RoleConstants.User)]
@@ -102,10 +111,23 @@ namespace WardrobeOrganizer.Controllers
             if (await accessoriesService.ExistsById(accessoriesId) == false)
             {
                 ModelState.AddModelError("", "Accessorie does not exist");
-                return RedirectToAction("Accessories", "All");
+                return RedirectToAction("Home", "Error");
             }
+
             var accessorie = await accessoriesService.GetAccessoriesDetailsModelById(accessoriesId);
-            await accessoriesService.DeleteById(accessoriesId);
+
+            try
+            {
+                await accessoriesService.DeleteById(accessoriesId);
+                TempData[MessageConstant.ErrorMessage] = "Accessorie was deleted";
+                
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+               
+            }
+
             return RedirectToAction(nameof(All), new { accessorie.StorageId });
         }
 
@@ -116,14 +138,10 @@ namespace WardrobeOrganizer.Controllers
             if (await accessoriesService.ExistsById(accessoriesId) == false)
             {
                 ModelState.AddModelError("", "Accessorie does not exist");
-                return RedirectToAction("Accessories", "All");
+                return RedirectToAction("Home", "Error");
             }
             var accessorise = await accessoriesService.GetAccessoriesEditModelById(accessoriesId);
 
-            if (accessorise == null)
-            {
-
-            }
             var familyId = await familyService.GetFamilyId(User.Id());
             var model = new EditAccessoriesViewModel()
             {
@@ -145,11 +163,13 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await accessoriesService.ExistsById(model.Id)== false)
             {
-
+                ModelState.AddModelError("", "Accessorie does not exist");
+                return RedirectToAction("Home", "Error");
             }
             if (ModelState.IsValid == false)
             {
-
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return View(model);
             }
 
 
@@ -160,24 +180,41 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-                // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
 
             }
             var accessoriesId = model.Id;
-            //  return RedirectToAction("Info", "Member", new { model.Id });
             return RedirectToAction("Details", "Accessories", new { accessoriesId });
         }
 
         public async Task<IActionResult> MemberAllAccessories(int memberId)
         {
-            var model = await accessoriesService.AllAccessoriesByMemberId(memberId);
-            return View(model);
+            try
+            {
+                var model = await accessoriesService.AllAccessoriesByMemberId(memberId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Home", "Error");
+            }
+           
         }
 
         public async Task<IActionResult> MemberAccessoriesByCategory(int memberId, string category)
         {
-            var model = await accessoriesService.AllAccessoriesByCategoryAndMemberId(memberId, category);
-            return View(model);
+            try
+            {
+                var model = await accessoriesService.AllAccessoriesByCategoryAndMemberId(memberId, category);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Home", "Error");
+            }
+          
         }
     }
 }

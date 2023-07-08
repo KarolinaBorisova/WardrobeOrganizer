@@ -52,14 +52,14 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "db08b25f-7ff4-4d12-94ad-123f78999191",
+                            ConcurrencyStamp = "7d64dd70-d311-4ca2-9fcd-dd3829f1b63c",
                             Name = "Administrator",
                             NormalizedName = "Administrator"
                         },
                         new
                         {
                             Id = "4070bb9e-78f6-4a73-b170-714f59bbc6e5",
-                            ConcurrencyStamp = "94d476bc-8cc9-4aad-88e4-10f974182a9b",
+                            ConcurrencyStamp = "ea4ae6d8-ad96-440d-8a27-1d0a6013b5cc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -657,7 +657,7 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f8bb2cf9-b94a-4d4d-8110-558b55a352e7",
+                            ConcurrencyStamp = "b2d6e7e6-eb9d-4d58-821e-a4fb0c6650eb",
                             Email = "admin@abv.bg",
                             EmailConfirmed = false,
                             FirstName = "Master",
@@ -666,9 +666,9 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAELG1Oq75KQbxHLwFFwBrj2VIjrT9ZiUY4N/cZNZ0U466reUP2kyGdBzw2ZPqdopXKA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGaSb2aeiZFSIkpK6ynJJEUEfJlxF8Vs4dBgfHgGs8sEAoHxqd/YeK5tQaxjGztutg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c2086a02-34f5-490e-baee-7278d8edcd13",
+                            SecurityStamp = "3fd177e4-a0ce-4d3f-8c5d-0681ddbc9fd6",
                             TwoFactorEnabled = false,
                             UserName = "admin@abv.bg"
                         },
@@ -676,18 +676,19 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0600df9-bfc2-4ac2-af80-797fb5203273",
+                            ConcurrencyStamp = "aa707234-6528-4962-bf0d-e424d9a551eb",
                             Email = "dani@abv.bg",
                             EmailConfirmed = false,
+                            FamilyId = 1,
                             FirstName = "Yordan",
                             IsActive = true,
                             LastName = "Borisov",
                             LockoutEnabled = false,
                             NormalizedEmail = "DANI@ABV.BG",
                             NormalizedUserName = "DANI@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGRIEGUuL4FTVR9ytkvaEjj4NPh39Yq+dA7Qsuyx+B1j5wfNJsl4DUCPtfjDM2h/Rg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELaR+9P5FlsM68SJjKNyevOFhwksS0SvyzkDwDBl8Re/yQyTXpVEAvhL34515SjMng==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c53f8b36-6540-4499-ae3f-9f291e813b7a",
+                            SecurityStamp = "bd45922f-ae40-4158-9938-3973e15cc394",
                             TwoFactorEnabled = false,
                             UserName = "dani@abv.bg"
                         },
@@ -695,18 +696,19 @@ namespace WardrobeOrganizer.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "142bbb07-fb55-4b9f-96d8-63dc51ccb9fb",
+                            ConcurrencyStamp = "49d6bc42-1bc6-4a73-b0f1-665163b1cae4",
                             Email = "karolina@abv.bg",
                             EmailConfirmed = false,
+                            FamilyId = 2,
                             FirstName = "Karolina",
                             IsActive = true,
                             LastName = "Borisova",
                             LockoutEnabled = false,
                             NormalizedEmail = "KAROLINA@ABV.BG",
                             NormalizedUserName = "KAROLINA@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHIpaXTq8NB1/aD8ixfGcqQeysaHI518H718hTixprTwf3JbXBZyZPOC7ZpbIFu3Zg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOvlPAFxN1OUfc8GU2O01vugNuLnSS+epGJrTNuXKSZKmH+S6JfwVV3R1zCNIok2xQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c880eae9-3400-4272-8e12-c47d23cbbe70",
+                            SecurityStamp = "bd549a16-e022-4b52-83a9-6e37b3e1c6cb",
                             TwoFactorEnabled = false,
                             UserName = "karolina@abv.bg"
                         });

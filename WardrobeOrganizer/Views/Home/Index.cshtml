@@ -16,6 +16,7 @@
     {
         <div class="text-center">
             <h1 class="page-title">@Model.Family.Name family</h1>
+            <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Family" asp-action="Edit" asp-route-id="@Model.Family.Id">Edit family</a>
         </div>
         <div class="main-container">
          @*   MEMBERS*@

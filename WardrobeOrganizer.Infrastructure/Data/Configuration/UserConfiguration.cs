@@ -32,6 +32,7 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
                 LastName = "Admin",
                 Email = "admin@abv.bg",
                 NormalizedEmail = "ADMIN@ABV.BG",
+               
 
             };
             admin.PasswordHash = hasher.HashPassword(admin, "admin@abv.bg");
@@ -45,7 +46,8 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
                 Email = "dani@abv.bg",
                 NormalizedEmail = "DANI@ABV.BG",
                 FirstName = "Yordan",
-                LastName = "Borisov"
+                LastName = "Borisov",
+                FamilyId = 1
             };
 
             user.PasswordHash = hasher.HashPassword(user, "dani@abv.bg");
@@ -61,6 +63,7 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
                 NormalizedEmail = "KAROLINA@ABV.BG",
                 FirstName = "Karolina",
                 LastName = "Borisova",
+                FamilyId = 2
              };
 
             user.PasswordHash = hasher.HashPassword(user, "karolina@abv.bg");

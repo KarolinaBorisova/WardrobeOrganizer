@@ -30,15 +30,30 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> All(int storageId) 
         {
-             var model = await clothesService.AllClothes(storageId);
-            return View(model);
+            try
+            {
+                var model = await clothesService.AllClothes(storageId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Home", "Error");
+            }
+            
         }
 
         public async Task<IActionResult> ClothesByCategory(int storageId, string category)
         {
-
-            var model = await clothesService.AllClothesByCategory(storageId, category);
-            return View(model);
+            try
+            {
+                var model = await clothesService.AllClothesByCategory(storageId, category);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Home", "Error");
+            }
+           
         }
 
         [HttpGet]
@@ -66,14 +81,32 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
             var storageId = model.StorageId;
-            int id = await clothesService.AddClothes(model);
-            return RedirectToAction("ClothesByCategory", "Clothes", new { storageId , model.Category});
+
+            try
+            {
+                int id = await clothesService.AddClothes(model);
+                
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                
+            }
+            return RedirectToAction("ClothesByCategory", "Clothes", new { storageId, model.Category });
         }
 
         public async Task<IActionResult> Details(int clothingId)
         {
-            var model = await clothesService.GetClothesDetailsModelById(clothingId);
-            return View(model);
+            try
+            {
+                var model = await clothesService.GetClothesDetailsModelById(clothingId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Home", "Error");
+            }
+           
         }
 
         [HttpGet]
@@ -109,12 +142,13 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await clothesService.ExistsById(model.Id) == false)
             {
-              //  logger.LogInformation("Clothing with id {0} not exist", model.Id);
+              
                 ModelState.AddModelError("", "Clothing does not exist");
                 return View();
             }
             if (ModelState.IsValid == false)
             {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong";
                 return View(model);
 
             }
@@ -126,11 +160,10 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-               // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong";
 
             }
             var clothingId = model.Id;
-            //  return RedirectToAction("Info", "Member", new { model.Id });
             return RedirectToAction("Details", "Clothes", new { clothingId });
         }
 
@@ -143,21 +176,50 @@ namespace WardrobeOrganizer.Controllers
                 ModelState.AddModelError("", "Clothing does not exist");
                 return RedirectToAction("Clothes", "All");
             }
+
             var clothing = await clothesService.GetClothesDetailsModelById(clothingId);
-            await clothesService.DeleteById(clothingId);
+
+            try
+            {
+                await clothesService.DeleteById(clothingId);
+            }
+            catch (Exception)
+            {
+
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong";
+            }
+           
             return RedirectToAction(nameof(All), new {clothing.StorageId});
         }
 
         public async Task<IActionResult> MemberAllClothes(int memberId)
         {
-            var model = await clothesService.AllClothesByMemberId(memberId);
-            return View(model);
+            try
+            {
+                var model = await clothesService.AllClothesByMemberId(memberId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Home", "Error");
+            }
+           
         }
 
         public async Task<IActionResult> MemberClothesByCategory(int memberId, string category)
         {
-            var model = await clothesService.AllClothesByCategoryAndMemberId(memberId, category);
-            return View(model);
+            try
+            {
+                var model = await clothesService.AllClothesByCategoryAndMemberId(memberId, category);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Home", "Error");
+            }
+          
         }
     }
 } 

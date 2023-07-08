@@ -12,8 +12,6 @@ namespace WardrobeOrganizer.Core.Contracts
     { 
         Task<bool> ExistsById(int id);
 
-       // Task Create(string userId);
-
         Task<int> AddMember(AddMemberViewModel model, int familyId);
 
         Task<ICollection<AllMembersViewModel>> AllMembers(int familyId);
