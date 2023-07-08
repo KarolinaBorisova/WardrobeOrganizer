@@ -52,28 +52,64 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
             var storageId = model.StorageId;
-            int id = await shoesService.AddShoes(model);
+
+            try
+            {
+                await shoesService.AddShoes(model);
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+            }
             return RedirectToAction("ShoesByCategory", "Shoes", new { storageId, model.Category });
         }
 
         public async Task<IActionResult> ShoesByCategory(int storageId, string category)
         {
-            var model = await shoesService.AllShoesByCategory(storageId, category);
+            try
+            {
+                var model = await shoesService.AllShoesByCategory(storageId, category);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+           
         }
 
         public async Task<IActionResult> All(int storageId)
         {
-            var model = await shoesService.AllShoes(storageId);
+            //if storageID ....
+            try
+            {
+                var model = await shoesService.AllShoes(storageId);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+          
         }
 
         public async Task<IActionResult> Details(int shoesId)
         {
-            var model = await shoesService.GetShoesDetailsModelById(shoesId);
-            return View(model);
+           // if shoesID
+            try
+            {
+                var model = await shoesService.GetShoesDetailsModelById(shoesId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+          
         }
 
         [Authorize(Roles = RoleConstants.User)]
@@ -81,11 +117,19 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await shoesService.ExistsById(shoesId) == false)
             {
-                ModelState.AddModelError("", "Shoes does not exist");
-                return RedirectToAction("Shoes", "All"); //Error page
+                return RedirectToAction("Error", "Home");  
             }
             var shoes = await shoesService.GetShoesDetailsModelById(shoesId);
-            await shoesService.DeleteById(shoesId);
+
+            try
+            {
+                await shoesService.DeleteById(shoesId);
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+            }
+           
             return RedirectToAction(nameof(All), new { shoes.StorageId });
 
         }
@@ -96,14 +140,10 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await shoesService.ExistsById(shoesId)==false)
             {
-
+                return RedirectToAction("Error", "Home");
             }
             var shoes = await shoesService.GetShoesEditModelById(shoesId);
 
-            if (shoes == null)
-            {
-
-            }
             var familyId = await familyService.GetFamilyId(User.Id());
             var model = new EditShoesViewModel()
             {
@@ -128,11 +168,12 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await shoesService.ExistsById(model.Id) == false)
             {
-
+                return RedirectToAction("Error", "Home");
             }
             if (!ModelState.IsValid)
             {
-
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return View(model);
             }
 
             try
@@ -142,25 +183,42 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-                // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
 
             }
             var shoesId = model.Id;
-            //  return RedirectToAction("Info", "Member", new { model.Id });
             return RedirectToAction("Details", "Shoes", new { shoesId });
 
         }
 
         public async Task<IActionResult> MemberAllShoes(int memberId)
         {
-            var model = await shoesService.AllShoesByMemberId(memberId);
-            return View(model);
+            //if mmeberID
+            try
+            {
+                var model = await shoesService.AllShoesByMemberId(memberId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+           
         }
 
         public async Task<IActionResult> MemberShoesByCategory(int memberId, string category)
         {
-            var model = await shoesService.AllShoesByCategoryAndMemberId(memberId, category);
-            return View(model);
+
+            try
+            {
+                var model = await shoesService.AllShoesByCategoryAndMemberId(memberId, category);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+           
         }
     }
 }

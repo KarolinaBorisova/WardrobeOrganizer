@@ -149,17 +149,7 @@ namespace WardrobeOrganizer.Controllers
 
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong";
                 return View(model);          
-            }
-            
-            
-            
-        }
-
-        [HttpPost]
-        [Authorize(Roles = RoleConstants.User)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            return RedirectToAction("All", "Family");
+            }     
         }
 
     }

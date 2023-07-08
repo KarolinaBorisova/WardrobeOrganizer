@@ -63,11 +63,22 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Try again";
                 return View(model);
             }
-      
-            int familiId = await familyService.GetFamilyId(User.Id());
-      
-            int houseId = await houseService.AddHouse(model, familiId);
-            return RedirectToAction("Info", "House", new {houseId});
+
+            try
+            {
+                int familiId = await familyService.GetFamilyId(User.Id());
+                int houseId = await houseService.AddHouse(model, familiId);
+
+                return RedirectToAction("Info", "House", new { houseId });
+            }
+            catch (Exception)
+            {
+
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return RedirectToAction("Add", "House");
+            }
+            
+           
         }
 
         [HttpGet]
@@ -85,7 +96,7 @@ namespace WardrobeOrganizer.Controllers
 
             if (house.FamilyId != familiId)
             {
-                //ModelState.AddModelError("", "Not allowed");
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -116,7 +127,16 @@ namespace WardrobeOrganizer.Controllers
 
             }
             var houseId = model.Id;
-            await houseService.Edit(model);
+
+            try
+            {
+                await houseService.Edit(model);
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+            }
+           
             return RedirectToAction("Info", "House", new {houseId});
 
         }
@@ -131,8 +151,17 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await houseService.Delete(Id);
+            try
+            {
+                await houseService.Delete(Id);
 
+            }
+            catch (Exception)
+            {
+
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+            }
+            
             return RedirectToAction("Index", "Home");
         }
         
@@ -142,6 +171,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await houseService.ExistsById(houseId) == false)
             {
+                TempData[MessageConstant.ErrorMessage] = "Can`t find this house";
                 return RedirectToAction("All", "Member");
             }
             var house = await houseService.GetHouseById(houseId);
@@ -151,6 +181,7 @@ namespace WardrobeOrganizer.Controllers
 
             if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Index", "Home");
             }
 

@@ -59,21 +59,47 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var storageId = model.StorageId;
-            int id = await outerwearService.AddOuterWear(model);
+
+            try
+            {
+                int id = await outerwearService.AddOuterWear(model);
+            }
+            catch (Exception)
+            {
+
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+            }
+            
             return RedirectToAction("OuterwearByCategory", "Outerwear", new { storageId, model.Category });
         }
 
         [HttpGet]
         public async Task<IActionResult> OuterwearByCategory(int storageId, string category)
         {
-            var model = await outerwearService.AllOuterwearByCategory(storageId, category);
-            return View(model);
+            try
+            {
+                var model = await outerwearService.AllOuterwearByCategory(storageId, category);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+           
         }
 
         public async Task<IActionResult> Details(int outerwearId)
         {
-            var model = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
-            return View(model);
+            try
+            {
+                var model = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+          
         }
 
         [Authorize(Roles = RoleConstants.User)]
@@ -82,10 +108,18 @@ namespace WardrobeOrganizer.Controllers
             if (await outerwearService.ExistsById(outerwearId) == false)
             {
                 ModelState.AddModelError("", "Outerwear does not exist");
-                return RedirectToAction("Outerwear", "All"); //Error page
+                return RedirectToAction("Outerwear", "All"); 
             }
+
             var outerwear = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
-            await outerwearService.DeleteById(outerwearId);
+            try
+            {
+                await outerwearService.DeleteById(outerwearId);
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+            }
             return RedirectToAction(nameof(All), new { outerwear.StorageId });
         }
 
@@ -95,7 +129,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await outerwearService.ExistsById(outerwearId) == false)
             {
-               // logger.LogInformation("Clothing with id {0} not exist", outerwearId);
+                TempData[MessageConstant.ErrorMessage] = "Can`t find this outerwear";
                 return RedirectToAction(nameof(All));
             }
             var outerwear = await outerwearService.GetOuterwearEditModelById(outerwearId);
@@ -124,7 +158,7 @@ namespace WardrobeOrganizer.Controllers
             {
                 //logger.LogInformation("Clothing with id {0} not exist", model.Id);
                 ModelState.AddModelError("", "Outerwear does not exist");
-                return View();
+                return RedirectToAction(nameof(All));
             }
             if (ModelState.IsValid == false)
             {
@@ -138,24 +172,39 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-               // logger.LogInformation("Failed to edit member with id {0}", model.Id);
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
 
             }
             var outerwearId = model.Id;
-            //  return RedirectToAction("Info", "Member", new { model.Id });
             return RedirectToAction("Details", "Outerwear", new { outerwearId });
         }
 
         public async Task<IActionResult> MemberAllOuterwear(int memberId)
         {
-            var model = await outerwearService.AllOuterwearByMemberId(memberId);
-            return View(model);
+            try
+            {
+                var model = await outerwearService.AllOuterwearByMemberId(memberId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         public async Task<IActionResult> MemberOuterwearByCategory(int memberId, string category)
         {
-            var model = await outerwearService.AllOuterwearByCategoryAndMemberId(memberId, category);
-            return View(model);
+            try
+            {
+                var model = await outerwearService.AllOuterwearByCategoryAndMemberId(memberId, category);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
     }
 }
