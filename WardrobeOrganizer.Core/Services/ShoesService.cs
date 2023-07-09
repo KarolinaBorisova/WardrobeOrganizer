@@ -330,7 +330,7 @@ namespace WardrobeOrganizer.Core.Services
             }
             catch (Exception ex)
             {
-
+               
                 throw new InvalidOperationException(ex.Message);
             }
        

@@ -111,8 +111,13 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var family = await familyService.GetFamilyByUserId(User.Id());
-           
+            var family = await familyService.GetFamilyById(id);
+            var realFamily = await familyService.GetFamilyByUserId(User.Id());
+
+            if (family.Id != realFamily.Id)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             var model = new FamilyViewModel()
             {
                 Id = id,
@@ -149,7 +154,8 @@ namespace WardrobeOrganizer.Controllers
 
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong";
                 return View(model);          
-            }     
+            }
+     
         }
 
     }

@@ -95,6 +95,27 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
+        public async Task<FamilyViewModel> GetFamilyById(int id)
+        {
+
+            try
+            {
+                return await repo.AllReadonly<Family>()
+               .Where(f => f.Id == id)
+               .Select(f => new FamilyViewModel()
+               {
+                   Id = f.Id,
+                   Name = f.Name,
+                   UserId = f.UserId
+               }).FirstOrDefaultAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        }
+
         public async Task<FamilyViewModel> GetFamilyByUserId(string userId)
         {
            
