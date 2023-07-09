@@ -106,7 +106,7 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 return await repo.AllReadonly<Member>()
-            .Where(m => m.Id == memberId)
+            .Where(m => m.Id == memberId && m.IsActive)
             .Select(m => new InfoMemberViewModel()
             {
                 Id = m.Id,
@@ -144,7 +144,7 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 return await repo.AllReadonly<Member>()
-              .AnyAsync(m => m.Id == id);
+              .AnyAsync(m => m.Id == id && m.IsActive);
             }
             catch (Exception ex)
             {

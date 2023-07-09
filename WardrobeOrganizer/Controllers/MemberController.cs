@@ -82,11 +82,11 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> Info(int id)
         {
-            if(await memberService.ExistsById(id) == false)
+            if(await memberService.ExistsById(id) == false )
             {
                 logger.LogInformation("Member with id {0} not exist", id);
                  TempData[MessageConstant.ErrorMessage] = "Can`t find this member";
-                return RedirectToAction("All", "Member");
+                return RedirectToAction("Error", "Home");
             }
 
             InfoMemberViewModel model;
@@ -104,13 +104,12 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
            
-            var user =await userManager.FindByIdAsync(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
 
             if (model.Family.Id != familyId && await userManager.IsInRoleAsync(user,RoleConstants.User))
             {
                 logger.LogInformation("Family with id {0} attempted to open other family house", familyId);
-                TempData[MessageConstant.ErrorMessage] = "Not allowed";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
        
             return View(model);
@@ -124,7 +123,7 @@ namespace WardrobeOrganizer.Controllers
             {
                 logger.LogInformation("Member with id {0} not exist", id);
                 TempData[MessageConstant.ErrorMessage] = "Can`t find member with this id";
-                return RedirectToAction(nameof(All));
+                return RedirectToAction("Error", "Home");
             }
 
             var member = await memberService.GetMemberById(id);
@@ -134,7 +133,7 @@ namespace WardrobeOrganizer.Controllers
             {
                 logger.LogInformation("Family with id {0} attempted to edit other family house", familyId);
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
 
             var model = new InfoMemberViewModel()
@@ -168,8 +167,19 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
 
+            var member = await memberService.GetMemberById(model.Id);
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familyId)
+            {
+                logger.LogInformation("Family with id {0} attempted to edit other family house", familyId);
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
+               
                 await memberService.Edit(model);
                 TempData[MessageConstant.SuccessMessage] = "Member edited";
             }
@@ -192,11 +202,22 @@ namespace WardrobeOrganizer.Controllers
                 logger.LogInformation("Member with id {0} not exist", Id);
                 ModelState.AddModelError("", "Member does not exist");
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
+            }
+
+            var member = await memberService.GetMemberById(Id);
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familyId)
+            {
+                logger.LogInformation("Family with id {0} attempted to edit other family house", familyId);
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
             }
 
             try
             {
+
                 await memberService.Delete(Id);
                 TempData[MessageConstant.ErrorMessage] = "Member deleted";
             }
