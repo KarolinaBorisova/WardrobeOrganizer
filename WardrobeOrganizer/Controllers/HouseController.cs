@@ -83,21 +83,21 @@ namespace WardrobeOrganizer.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.User)]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int Id)
         {
-            if (await houseService.ExistsById(id) == false)
+            if (await houseService.ExistsById(Id) == false)
             {
                 ModelState.AddModelError("", "House does not exist");
-                return View();
+                return RedirectToAction("Error", "Home");
             }
 
-            var house = await houseService.GetHouseById(id);
+            var house = await houseService.GetHouseById(Id);
             int familiId = await familyService.GetFamilyId(User.Id());
 
             if (house.FamilyId != familiId)
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
 
 
@@ -119,14 +119,22 @@ namespace WardrobeOrganizer.Controllers
             if (await houseService.ExistsById(model.Id) == false)
             {
                 ModelState.AddModelError("", "House does not exist");
-                return View();
+                return RedirectToAction("Error", "Home");
             }
             if (ModelState.IsValid == false)
             {
                 return View(model);
 
             }
-            var houseId = model.Id;
+            var house = await houseService.GetHouseById(model.Id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var houseId = house.Id;
+
+            if (house.FamilyId != familiId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
 
             try
             {
@@ -148,7 +156,16 @@ namespace WardrobeOrganizer.Controllers
             if (await houseService.ExistsById(Id) == false)
             {
                 ModelState.AddModelError("", "House does not exist");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
+            }
+
+            var house = await houseService.GetHouseById(Id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (house.FamilyId != familiId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
             }
 
             try
@@ -172,8 +189,9 @@ namespace WardrobeOrganizer.Controllers
             if (await houseService.ExistsById(houseId) == false)
             {
                 TempData[MessageConstant.ErrorMessage] = "Can`t find this house";
-                return RedirectToAction("All", "Member");
+                return RedirectToAction("Error", "Home");
             }
+
             var house = await houseService.GetHouseById(houseId);
             int familiId = await familyService.GetFamilyId(User.Id());
 
@@ -182,7 +200,7 @@ namespace WardrobeOrganizer.Controllers
             if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
 
             var model = new InfoHouseViewModel()

@@ -55,7 +55,7 @@ namespace WardrobeOrganizer.Core.Services
 
             if (family == null)
             {
-                
+                throw new ArgumentNullException("Invalid family");
             }
 
             try
@@ -129,7 +129,7 @@ namespace WardrobeOrganizer.Core.Services
             {
 
                 return await repo.AllReadonly<House>()
-                  .AnyAsync(h => h.Id == houseId);
+                  .AnyAsync(h => h.Id == houseId && h.IsActive);
             }
             catch (Exception ex)
             {
@@ -144,7 +144,7 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 return await repo.AllReadonly<House>()
-               .Where(h => h.Id == houseId)
+               .Where(h => h.Id == houseId && h.IsActive)
                .Select(h => new InfoHouseViewModel()
                {
                    Id = h.Id,
