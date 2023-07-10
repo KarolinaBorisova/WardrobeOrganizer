@@ -2,18 +2,17 @@
 {
     public enum CategoryClothes
     {
-        Tshirt,
-        Longsleeve,
-        Blouse,
-        Sweatshirt,
+        Tshirts,
+        Longsleeves,
+        Blouses,
+        Sweatshirts,
         Cardigans,
         Jeans,
-        Legging,
+        Leggings,
         Trousers,
-        Short,
-        Skirt,
-        Set,
+        Shorts,
+        Skirts,
+        Sets,
         Dress
-
     }
 }

@@ -71,19 +71,15 @@ namespace WardrobeOrganizer.Core.Services
         }
 
         public async Task Delete(int storageId)
-        {
-            
+        {       
             try
             {
                 var storage = await repo.GetByIdAsync<Storage>(storageId);
-
                 storage.IsActive = false;
-
                 await repo.SaveChangesAsync();
             }
             catch (Exception e )
             {
-                
                 throw new InvalidOperationException(e.Message);
             }
          
