@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,7 @@ namespace WardrobeOrganizer.Controllers
         private readonly IStorageService storageService;
         private readonly IFamilyService familyService;
         private readonly IHouseService houseService;
+        private readonly UserManager<User> userManager;
         private readonly ILogger logger;
         
 
@@ -26,11 +28,13 @@ namespace WardrobeOrganizer.Controllers
         public StorageController(IStorageService _storageService,
             IFamilyService _familyService,
             IHouseService _houseService,
-            ILogger<StorageController> _logger)
+            UserManager<User> _userManager,
+        ILogger<StorageController> _logger)
         {
             this.storageService = _storageService;
             this.familyService = _familyService;
             this.houseService = _houseService;
+            this.userManager = _userManager;
             this.logger = _logger;
          
         }
@@ -44,8 +48,13 @@ namespace WardrobeOrganizer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int houseId)
+        public async Task<IActionResult> Add(int houseId)
         {
+            if (await houseService.ExistsById(houseId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid house";
+                return RedirectToAction("Error", "Home");
+            }
             var model = new AddStorageViewModel()
             {
                    HouseId = houseId
@@ -56,20 +65,27 @@ namespace WardrobeOrganizer.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddStorageViewModel model)
         {
+            if (await houseService.ExistsById(model.HouseId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid house";
+                return RedirectToAction("Error", "Home");
+            }
             if (!ModelState.IsValid)
             {
                 TempData[MessageConstant.ErrorMessage] = "Try again";
                 return View(model);
             }
 
-            int id = await storageService.AddStorage(model);
-            return RedirectToAction("Info", "Storage", new { id }); 
-        }
-
-        public async Task<IActionResult> Content(int id)
-        {
-            var model = new ContentStorageViewModel();
-            return View(model);
+            try
+            {
+                int id = await storageService.AddStorage(model);
+                return RedirectToAction("Info", "Storage", new { id });
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return RedirectToAction("Add", "Storage");
+            }     
         }
 
         [HttpGet]
@@ -78,16 +94,16 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await storageService.ExistsById(id)==false)
             {
-                return RedirectToAction(nameof(All));
+                TempData[MessageConstant.ErrorMessage] = "Can`t find this storage";
+                return RedirectToAction("Error", "Home");
             }
             var storage = await storageService.GetStorageById(id);
             int familiId = await familyService.GetFamilyId(User.Id());
 
-            if (storage.House.FamilyId != familiId)
+            if (storage.House.FamilyId != familiId )
             {
-                ModelState.AddModelError("", "Not allowed");
                 TempData[MessageConstant.WarningMessage] = "Not allowed";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             var model = new InfoStorageViewModel()
             {
@@ -104,8 +120,8 @@ namespace WardrobeOrganizer.Controllers
         {
              if (await storageService.ExistsById(model.Id) == false)
             {
-                ModelState.AddModelError("", "Storage does not exist");
-                return RedirectToAction(nameof(All));
+                ModelState.AddModelError("", "Can`t find this storage");
+                return RedirectToAction("Error", "Home");
             }
 
             if (ModelState.IsValid == false)
@@ -113,8 +129,17 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
 
-            await storageService.Edit(model);
-            return RedirectToAction("Info", "Storage", new { model.Id });
+            try
+            {
+                await storageService.Edit(model);
+                return RedirectToAction("Info", "Storage", new { model.Id });
+            }
+            catch (Exception)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
+                return RedirectToAction("Edit", "Storage");
+            }
+            
 
         }
 
@@ -124,33 +149,68 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await storageService.ExistsById(id) == false)
             {
-                ModelState.AddModelError("", "Storage does not exist");
-                return RedirectToAction(nameof(All));
+                ModelState.AddModelError("", "Can`t find this storage");
+                return RedirectToAction("Error", "Home");
             }
 
             var storage = await storageService.GetStorageById(id);
             var houseId = storage.House.Id;
-            await storageService.Delete(id);
 
-            return RedirectToAction("Info", "House", new {houseId});
+            try
+            {
+                await storageService.Delete(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+             return RedirectToAction("Info", "House", new {houseId});
         }
         
 
         [HttpGet]
         public async Task<IActionResult> Info(int id)
         {
-            var model = await storageService.GetStorageById(id);
+            if (await storageService.ExistsById(id) == false)
+            {
+                ModelState.AddModelError("", "Can`t find this storage");
+                return RedirectToAction("Error", "Home");
+            }
+            var storage = await storageService.GetStorageById(id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
 
-            return View(model);
+
+            if (storage.House.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(storage);
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> AddItem(int storageId)
         {
-            var model = await storageService.GetStorageById(storageId);
+            if (await storageService.ExistsById(storageId) == false)
+            {
+                ModelState.AddModelError("", "Can`t find this storage");
+                return RedirectToAction("Error", "Home");
+            }
+            var storage = await storageService.GetStorageById(storageId);
+            int familiId = await familyService.GetFamilyId(User.Id());
 
-            return View(model);
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(storage);
         }
 
     }

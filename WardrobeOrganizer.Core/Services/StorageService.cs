@@ -49,7 +49,7 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 return await repo.AllReadonly<Storage>()
-               .Where(s => s.HouseId == houseId)
+               .Where(s => s.HouseId == houseId && s.IsActive)
                .Where(s => s.IsActive)
                .OrderBy(x => x.Name)
               .Select(s => new AllStoragesViewModel

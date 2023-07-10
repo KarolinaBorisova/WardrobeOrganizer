@@ -51,12 +51,6 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<ICollection<AllHousesViewModel>> AllHouses(int familyId)
         {
-            var family = await repo.GetByIdAsync<Family>(familyId);
-
-            if (family == null)
-            {
-                throw new ArgumentNullException("Invalid family");
-            }
 
             try
             {

@@ -87,7 +87,7 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await houseService.ExistsById(Id) == false)
             {
-                ModelState.AddModelError("", "House does not exist");
+                ModelState.AddModelError("", "Can`t find this house");
                 return RedirectToAction("Error", "Home");
             }
 
