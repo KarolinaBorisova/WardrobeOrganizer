@@ -146,15 +146,15 @@ namespace WardrobeOrganizer.Core.Services
                 StorageName = c.Storage.Name,
                 StorageId = c.StorageId,
                 HouseName = c.Storage.House.Name,
+                HouseId = c.Storage.House.Id,
                 ImgUrl = c.ImgUrl,
                 MemberId = c.MemberId,
-                MemberName = c.Member.FirstName + " " + c.Member.LastName
+                MemberName = c.Member.FirstName + " " + c.Member.LastName,
 
             }).FirstAsync();
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException(ex.Message);
             }
         }
@@ -168,7 +168,6 @@ namespace WardrobeOrganizer.Core.Services
             }
             catch (Exception ex)
             {
-
                 throw new InvalidOperationException(ex.Message);
             }
            

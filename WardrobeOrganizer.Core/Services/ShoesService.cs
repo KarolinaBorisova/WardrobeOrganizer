@@ -221,7 +221,8 @@ namespace WardrobeOrganizer.Core.Services
                    MemberName = s.Member.FirstName + " " + s.Member.LastName,
                    StorageName = s.Storage.Name,
                    HouseName = s.Storage.House.Name,
-                   MemberId = s.MemberId
+                   MemberId = s.MemberId,
+                   HouseId = s.Storage.HouseId
 
                }).FirstAsync();
             }

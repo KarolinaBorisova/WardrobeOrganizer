@@ -145,7 +145,9 @@ namespace WardrobeOrganizer.Core.Services
                  Color = o.Color,
                  HouseName = o.Storage.House.Name,
                  StorageName = o.Storage.Name,
-                 MemberName = o.Member.FirstName + " " + o.Member.LastName
+                 MemberName = o.Member.FirstName + " " + o.Member.LastName,
+                 MemberId = o.MemberId,
+                 HouseId = o.Storage.HouseId
 
              }).FirstAsync();
             }

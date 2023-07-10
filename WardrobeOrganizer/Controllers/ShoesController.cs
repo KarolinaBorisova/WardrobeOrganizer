@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -9,6 +10,7 @@ using WardrobeOrganizer.Core.Models.Shoes;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
+using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -18,20 +20,52 @@ namespace WardrobeOrganizer.Controllers
         private readonly IShoesService shoesService;
         private readonly IMemberService memberService;
         private readonly IFamilyService familyService;
+        private readonly IHouseService houseService;
+        private readonly IStorageService storageService;
+        private readonly UserManager<User> userManager;
 
         public ShoesController(IShoesService _shoesService,
             IMemberService _memberService,
-            IFamilyService _familyService)
+            IFamilyService _familyService,
+            IHouseService _houseService,
+            UserManager<User> _userManager,
+            IStorageService _storageService)
         {
             this.shoesService = _shoesService;
             this.memberService = _memberService;
             this.familyService = _familyService;
+            this.houseService = _houseService;
+            this.userManager = _userManager;
+            this.shoesService = _shoesService;
         } 
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(int storageId, string category)
         {
+            if (await storageService.ExistsById(storageId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid storage";
+                return RedirectToAction("Error", "Home");
+            }
+
+            string[] shoesCategory = Enum.GetNames(typeof(CategoryShoes));
+
+            if (!shoesCategory.Contains(category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var storage = await storageService.GetStorageById(storageId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             var familyId = await familyService.GetFamilyId(User.Id());
             var model = new AddShoesViewModel()
             {
@@ -51,6 +85,28 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return View(model);
             }
+            if (await storageService.ExistsById(model.StorageId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid storage";
+                return RedirectToAction("Error", "Home");
+            }
+            string[] shoesCategory = Enum.GetNames(typeof(CategoryShoes));
+
+            if (!shoesCategory.Contains(model.Category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var storage = await storageService.GetStorageById(model.StorageId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             var storageId = model.StorageId;
 
             try
@@ -99,9 +155,26 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int shoesId)
         {
-           // if shoesID
+            if (await shoesService.ExistsById(shoesId) == false)
+            {
+                TempData[MessageConstant.WarningMessage] = "Can`t find this shoes";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var shoes = await shoesService.GetShoesDetailsModelById(shoesId);
+            var house = await houseService.GetHouseById(shoes.HouseId);
+
             try
             {
+                int familiId = await familyService.GetFamilyId(User.Id());
+                var user = await userManager.FindByIdAsync(User.Id());
+
+                if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+                {
+                    TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                    return RedirectToAction("Error", "Home");
+                }
+
                 var model = await shoesService.GetShoesDetailsModelById(shoesId);
                 return View(model);
             }
@@ -156,7 +229,6 @@ namespace WardrobeOrganizer.Controllers
                 ImgUrl = shoes.ImgUrl,
                 MemberId = shoes.MemberId,
                 Members = await memberService.AllMembersBasic(familyId)
-
             };
 
             return View(model);
@@ -193,7 +265,20 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> MemberAllShoes(int memberId)
         {
-            //if mmeberID
+            
+            if (await memberService.ExistsById(memberId))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            var member = await memberService.GetMemberById(memberId);
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familyId)
+            {
+                return RedirectToAction("Error", "Home");
+
+            }
             try
             {
                 var model = await shoesService.AllShoesByMemberId(memberId);
@@ -208,6 +293,27 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> MemberShoesByCategory(int memberId, string category)
         {
+            if (await memberService.ExistsById(memberId))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            string[] shoesCategory = Enum.GetNames(typeof(CategoryShoes));
+
+            if (!shoesCategory.Contains(category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var member = await memberService.GetMemberById(memberId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Id != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
 
             try
             {

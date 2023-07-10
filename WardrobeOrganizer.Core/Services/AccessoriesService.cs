@@ -210,7 +210,10 @@ namespace WardrobeOrganizer.Core.Services
                    ImgUrl = a.ImgUrl,
                    MemberName = a.Member.FirstName + " " + a.Member.LastName,
                    HouseName = a.Storage.House.Name,
-                   StorageName = a.Storage.Name
+                   StorageName = a.Storage.Name,
+                   MemberId = a.MemberId,
+                   HouseId = a.Storage.HouseId
+
                }).FirstAsync();
             }
             catch (Exception ex)

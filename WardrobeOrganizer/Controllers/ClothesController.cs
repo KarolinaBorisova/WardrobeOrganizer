@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Constants;
 using WardrobeOrganizer.Core.Contracts;
@@ -19,18 +20,23 @@ namespace WardrobeOrganizer.Controllers
         private readonly IFamilyService familyService;
         private readonly IMemberService memberService;
         private readonly IStorageService storageService;
-  
+        private readonly IHouseService houseService;
+        private readonly UserManager<User> userManager;
 
         public ClothesController(IClothesService _clothesService,
         IFamilyService _familyService,
         IMemberService _memberService,
-        IStorageService _storageService)
+        IStorageService _storageService,
+        IHouseService _houseService,
+        UserManager<User> _userManager)
         {
             this.clothesService = _clothesService;
             this.familyService = _familyService;
             this.memberService = _memberService;
             this.storageService = _storageService;
-        }   
+            this.houseService = _houseService;
+            this.userManager = _userManager;
+        }
 
         public async Task<IActionResult> All(int storageId) 
         {
@@ -180,26 +186,32 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int clothingId)
         {
-            if (await clothesService.ExistsById(clothingId))
+            if (await clothesService.ExistsById(clothingId) == false)
             {
                 TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
                 return RedirectToAction("Error", "Home");
             }
 
             var clothe = await clothesService.GetClothesDetailsModelById(clothingId);
-            int familiId = await familyService.GetFamilyId(User.Id());
-            if (clothe.s )
-            {
+            var house = await houseService.GetHouseById(clothe.HouseId);
 
-            }
             try
             {
-                var model = await clothesService.GetClothesDetailsModelById(clothingId);
-                return View(model);
+                int familiId = await familyService.GetFamilyId(User.Id());
+                var user = await userManager.FindByIdAsync(User.Id());
+
+                 if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+                 {
+                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                  return RedirectToAction("Error", "Home");
+                 }
+
+                 var model = await clothesService.GetClothesDetailsModelById(clothingId);
+                 return View(model);
             }
             catch (Exception)
             {
-                return RedirectToAction("Home", "Error");
+                return RedirectToAction("Error", "Home");
             }
            
         }
@@ -210,8 +222,8 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await clothesService.ExistsById(clothingId) == false)
             {
-                //logger.LogInformation("Clothing with id {0} not exist", clothingId);
-                return RedirectToAction(nameof(All));
+                TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
+                return RedirectToAction("Error", "Home");
             }
             var clothing = await clothesService.GetClothesEditModelById(clothingId);
             var familyId = await familyService.GetFamilyId(User.Id());
@@ -237,7 +249,6 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await clothesService.ExistsById(model.Id) == false)
             {
-              
                 ModelState.AddModelError("", "Clothing does not exist");
                 return View();
             }
@@ -256,7 +267,6 @@ namespace WardrobeOrganizer.Controllers
             catch (Exception)
             {
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong";
-
             }
             var clothingId = model.Id;
             return RedirectToAction("Details", "Clothes", new { clothingId });
@@ -289,6 +299,24 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> MemberAllClothes(int memberId)
         {
+            if (await memberService.ExistsById(memberId))
+            {
+
+                TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
+                return RedirectToAction("Error", "Home");
+
+            }
+
+            var member = await memberService.GetMemberById(memberId);
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familyId)
+            {
+
+                TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
                 var model = await clothesService.AllClothesByMemberId(memberId);
@@ -296,14 +324,28 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-
-                return RedirectToAction("Home", "Error");
+                return RedirectToAction("Error", "Home");
             }
            
         }
 
         public async Task<IActionResult> MemberClothesByCategory(int memberId, string category)
         {
+            if (await memberService.ExistsById(memberId))
+            {
+
+                TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
+                return RedirectToAction("Error", "Home");
+
+            }
+            string[] clothesCategory = Enum.GetNames(typeof(CategoryClothes));
+
+            if (!clothesCategory.Contains(category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
                 var model = await clothesService.AllClothesByCategoryAndMemberId(memberId, category);
@@ -311,8 +353,7 @@ namespace WardrobeOrganizer.Controllers
             }
             catch (Exception)
             {
-
-                return RedirectToAction("Home", "Error");
+                return RedirectToAction("Error", "Home");
             }
           
         }
