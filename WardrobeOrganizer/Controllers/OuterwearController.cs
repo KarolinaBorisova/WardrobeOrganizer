@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Data;
@@ -9,6 +10,7 @@ using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Extensions;
 using WardrobeOrganizer.Infrastructure.Data;
+using WardrobeOrganizer.Infrastructure.Data.Enums;
 
 namespace WardrobeOrganizer.Controllers
 {
@@ -18,27 +20,80 @@ namespace WardrobeOrganizer.Controllers
         private readonly IOuterwearService outerwearService;
         private readonly IFamilyService familyService;
         private readonly IMemberService memberService;
+        private readonly IStorageService storageService;
+        private readonly UserManager<User> userManager;
 
         public OuterwearController(IOuterwearService _outerwearService,
             IFamilyService _familyService,
-            IMemberService _memberService)
+            IMemberService _memberService,
+            IStorageService _storageService,
+           UserManager<User> _userManager)
         {
             this.outerwearService = _outerwearService;
             this.familyService = _familyService;
             this.memberService = _memberService;
+            this.storageService = _storageService;
+            this.userManager = _userManager;
+
+             
         }
 
         public async Task<IActionResult> All(int storageId)
         {
-            var model = await outerwearService.AllOutwear(storageId);
-            return View(model);
+            if (await storageService.ExistsById(storageId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid storage";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var storage = await storageService.GetStorageById(storageId);
+            var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familyId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
+            try
+            {
+                var model = await outerwearService.AllOutwear(storageId);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(int storageId, string category)
         {
+            if (await storageService.ExistsById(storageId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid storage";
+                return RedirectToAction("Error", "Home");
+            }
+
+            string[] outerwearCategory = Enum.GetNames(typeof(CategoryOuterwear));
+
+            if (!outerwearCategory.Contains(category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+            var storage = await storageService.GetStorageById(storageId);
             var familyId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familyId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             var model = new AddOuterwearViewModel()
             {
                 StorageId=  storageId,
