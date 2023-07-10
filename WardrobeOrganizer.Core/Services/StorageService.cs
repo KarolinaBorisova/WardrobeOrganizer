@@ -50,7 +50,6 @@ namespace WardrobeOrganizer.Core.Services
             {
                 return await repo.AllReadonly<Storage>()
                .Where(s => s.HouseId == houseId && s.IsActive)
-               .Where(s => s.IsActive)
                .OrderBy(x => x.Name)
               .Select(s => new AllStoragesViewModel
               {
@@ -62,13 +61,10 @@ namespace WardrobeOrganizer.Core.Services
                      // FamilyId = s.House.FamilyId,
                       Address = s.House.Address
                   }
-
-
               }).ToListAsync();
             }
             catch (Exception e)
             {
-
                 throw new InvalidOperationException(e.Message);
             }
            

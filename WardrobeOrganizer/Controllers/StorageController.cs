@@ -39,10 +39,23 @@ namespace WardrobeOrganizer.Controllers
          
         }
         //All Storages in DB
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int houseId)
         {
-            int familiId = await familyService.GetFamilyId(User.Id());
-            var model = await storageService.AllStorages(familiId);
+            if (await houseService.ExistsById(houseId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid house";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var familyId = await familyService.GetFamilyId(User.Id());
+            var house = await houseService.GetHouseById(houseId);
+
+            if (house.FamilyId != familyId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+            var model = await storageService.AllStorages(houseId);
 
             return View(model);
         }
@@ -53,6 +66,15 @@ namespace WardrobeOrganizer.Controllers
             if (await houseService.ExistsById(houseId) == false)
             {
                 TempData[MessageConstant.ErrorMessage] = "Not valid house";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var familyId = await familyService.GetFamilyId(User.Id());
+            var house = await houseService.GetHouseById(houseId);
+
+            if (house.FamilyId != familyId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
             }
             var model = new AddStorageViewModel()
@@ -75,8 +97,16 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Try again";
                 return View(model);
             }
+            var familyId = await familyService.GetFamilyId(User.Id());
+            var house = await houseService.GetHouseById(model.HouseId);
 
-            try
+            if (house.FamilyId != familyId)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
+                try
             {
                 int id = await storageService.AddStorage(model);
                 return RedirectToAction("Info", "Storage", new { id });
@@ -103,7 +133,7 @@ namespace WardrobeOrganizer.Controllers
             if (storage.House.FamilyId != familiId )
             {
                 TempData[MessageConstant.WarningMessage] = "Not allowed";
-                return RedirectToAction("Error", "Home");
+               return RedirectToAction("Error", "Home");
             }
             var model = new InfoStorageViewModel()
             {
@@ -128,6 +158,14 @@ namespace WardrobeOrganizer.Controllers
             {
                 return View(model);
             }
+            var storage = await storageService.GetStorageById(model.Id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
 
             try
             {
@@ -139,8 +177,6 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return RedirectToAction("Edit", "Storage");
             }
-            
-
         }
 
         [HttpPost]
@@ -154,6 +190,13 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var storage = await storageService.GetStorageById(id);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
             var houseId = storage.House.Id;
 
             try
@@ -163,7 +206,7 @@ namespace WardrobeOrganizer.Controllers
             catch (Exception)
             {
 
-                throw;
+                TempData[MessageConstant.WarningMessage] = "Something went wrong! Try again";
             }
              return RedirectToAction("Info", "House", new {houseId});
         }
