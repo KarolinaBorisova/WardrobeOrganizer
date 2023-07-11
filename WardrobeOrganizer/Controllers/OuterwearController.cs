@@ -21,18 +21,21 @@ namespace WardrobeOrganizer.Controllers
         private readonly IFamilyService familyService;
         private readonly IMemberService memberService;
         private readonly IStorageService storageService;
+        private readonly IHouseService houseService;
         private readonly UserManager<User> userManager;
 
         public OuterwearController(IOuterwearService _outerwearService,
             IFamilyService _familyService,
             IMemberService _memberService,
             IStorageService _storageService,
+            IHouseService houseService,
            UserManager<User> _userManager)
         {
             this.outerwearService = _outerwearService;
             this.familyService = _familyService;
             this.memberService = _memberService;
             this.storageService = _storageService;
+            this.houseService = houseService;
             this.userManager = _userManager;
 
              
@@ -112,7 +115,27 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
                 return View(model);
             }
+            if (await storageService.ExistsById(model.StorageId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid storage";
+                return RedirectToAction("Error", "Home");
+            }
+            string[] outerwearCategory = Enum.GetNames(typeof(CategoryOuterwear));
 
+            if (!outerwearCategory.Contains(model.Category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var storage = await storageService.GetStorageById(model.StorageId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
             var storageId = model.StorageId;
 
             try
@@ -131,6 +154,29 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> OuterwearByCategory(int storageId, string category)
         {
+
+            if (await storageService.ExistsById(storageId) == false)
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid storage";
+                return RedirectToAction("Error", "Home");
+            }
+            string[] outerwearCategory = Enum.GetNames(typeof(CategoryOuterwear));
+
+            if (!outerwearCategory.Contains(category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+
+            var storage = await storageService.GetStorageById(storageId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (storage.House.FamilyId != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
                 var model = await outerwearService.AllOuterwearByCategory(storageId, category);
@@ -145,8 +191,25 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> Details(int outerwearId)
         {
+            if (await outerwearService.ExistsById(outerwearId)== false)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            var outerwear = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
+            var house = await houseService.GetHouseById(outerwear.HouseId);
+  
             try
             {
+                int familiId = await familyService.GetFamilyId(User.Id());
+                var user = await userManager.FindByIdAsync(User.Id());
+
+                if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+                {
+                    TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                    return RedirectToAction("Error", "Home");
+                }
+
                 var model = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
                 return View(model);
             }
