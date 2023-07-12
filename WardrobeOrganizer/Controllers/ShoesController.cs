@@ -329,7 +329,7 @@ namespace WardrobeOrganizer.Controllers
         public async Task<IActionResult> MemberAllShoes(int memberId)
         {
             
-            if (await memberService.ExistsById(memberId))
+            if (await memberService.ExistsById(memberId) == false)
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -356,7 +356,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> MemberShoesByCategory(int memberId, string category)
         {
-            if (await memberService.ExistsById(memberId))
+            if (await memberService.ExistsById(memberId)== false)
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -372,7 +372,7 @@ namespace WardrobeOrganizer.Controllers
             var member = await memberService.GetMemberById(memberId);
             int familiId = await familyService.GetFamilyId(User.Id());
 
-            if (member.Id != familiId)
+            if (member.Family.Id != familiId)
             {
                 TempData[MessageConstant.WarningMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");

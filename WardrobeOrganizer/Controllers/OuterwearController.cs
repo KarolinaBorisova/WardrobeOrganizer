@@ -43,7 +43,7 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> All(int storageId)
         {
-            if (await storageService.ExistsById(storageId))
+            if (await storageService.ExistsById(storageId) == false)
             {
                 TempData[MessageConstant.ErrorMessage] = "Not valid storage";
                 return RedirectToAction("Error", "Home");
@@ -75,7 +75,7 @@ namespace WardrobeOrganizer.Controllers
         [Authorize(Roles = RoleConstants.User)]
         public async Task<IActionResult> Add(int storageId, string category)
         {
-            if (await storageService.ExistsById(storageId))
+            if (await storageService.ExistsById(storageId) == false)
             {
                 TempData[MessageConstant.ErrorMessage] = "Not valid storage";
                 return RedirectToAction("Error", "Home");
@@ -230,6 +230,18 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var outerwear = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
+            var house = await houseService.GetHouseById(outerwear.HouseId);
+
+
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
+
+            if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
                 await outerwearService.DeleteById(outerwearId);
@@ -250,8 +262,18 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Can`t find this outerwear";
                 return RedirectToAction(nameof(All));
             }
-            var outerwear = await outerwearService.GetOuterwearEditModelById(outerwearId);
-            var familyId = await familyService.GetFamilyId(User.Id());
+            var outerwear = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
+            var house = await houseService.GetHouseById(outerwear.HouseId);
+
+
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
+
+            if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
 
             var model = new EditOuterwearViewModel()
             {
@@ -263,7 +285,7 @@ namespace WardrobeOrganizer.Controllers
                 ImgUrl = outerwear.ImgUrl,
                 Name = outerwear.Name,
                 MemberId = outerwear.MemberId,
-                Members = await memberService.AllMembersBasic(familyId)
+                Members = await memberService.AllMembersBasic(familiId)
             };
             return View(model);
         }
@@ -274,7 +296,6 @@ namespace WardrobeOrganizer.Controllers
         {
             if (await outerwearService.ExistsById(model.Id) == false)
             {
-                //logger.LogInformation("Clothing with id {0} not exist", model.Id);
                 ModelState.AddModelError("", "Outerwear does not exist");
                 return RedirectToAction(nameof(All));
             }
@@ -282,6 +303,19 @@ namespace WardrobeOrganizer.Controllers
             {
                 return View(model);
             }
+            var outerwear = await outerwearService.GetOuterwearDetailsModelById(model.Id);
+            var house = await houseService.GetHouseById(outerwear.HouseId);
+
+
+            int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
+
+            if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
 
             try
             {
@@ -299,6 +333,20 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> MemberAllOuterwear(int memberId)
         {
+            if (await memberService.ExistsById(memberId) == false)
+            {
+                ModelState.AddModelError("", "Outerwear does not exist");
+                return RedirectToAction(nameof(All));
+            }
+            var member = await memberService.GetMemberById(memberId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
                 var model = await outerwearService.AllOuterwearByMemberId(memberId);
@@ -313,6 +361,27 @@ namespace WardrobeOrganizer.Controllers
 
         public async Task<IActionResult> MemberOuterwearByCategory(int memberId, string category)
         {
+            if (await memberService.ExistsById(memberId) == false)
+            {
+                ModelState.AddModelError("", "Outerwear does not exist");
+                return RedirectToAction(nameof(All));
+            }
+            string[] outerwearCategory = Enum.GetNames(typeof(CategoryOuterwear));
+
+            if (!outerwearCategory.Contains(category))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Not valid category";
+                return RedirectToAction("Error", "Home");
+            }
+            var member = await memberService.GetMemberById(memberId);
+            int familiId = await familyService.GetFamilyId(User.Id());
+
+            if (member.Family.Id != familiId)
+            {
+                TempData[MessageConstant.WarningMessage] = "Not allowed";
+                return RedirectToAction("Error", "Home");
+            }
+
             try
             {
                 var model = await outerwearService.AllOuterwearByCategoryAndMemberId(memberId, category);

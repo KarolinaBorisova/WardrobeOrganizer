@@ -32,12 +32,12 @@
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-action="All">Outerwear</a>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJacket" asp-action="OuterwearByCategory">WinterJacket</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJacket" asp-action="OuterwearByCategory">RainJacket</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jacket" asp-action="OuterwearByCategory">Jacket</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vest" asp-action="OuterwearByCategory">Vest</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coat" asp-action="OuterwearByCategory">Coat</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuit" asp-action="OuterwearByCategory">Snowsuit</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJackets" asp-action="OuterwearByCategory">WinterJacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJackets" asp-action="OuterwearByCategory">RainJacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jackets" asp-action="OuterwearByCategory">Jacket</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vests" asp-action="OuterwearByCategory">Vest</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coats" asp-action="OuterwearByCategory">Coat</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuits" asp-action="OuterwearByCategory">Snowsuit</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterTrousers" asp-action="OuterwearByCategory">WinterTrousers</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainTrousers" asp-action="OuterwearByCategory">RainTrousers</a>
         </div>
@@ -67,7 +67,7 @@
     <h1 class="page-title">@ViewData["Title"]</h1>
 </div>
 <div class="text-center">
-    <a class="btn btn-primary" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
+    <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
 </div>
 <div class="card-group">
 
