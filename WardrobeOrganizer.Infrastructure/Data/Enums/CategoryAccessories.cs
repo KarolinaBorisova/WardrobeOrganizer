@@ -8,9 +8,9 @@ namespace WardrobeOrganizer.Infrastructure.Data.Enums
 {
     public enum CategoryAccessories
     {
-        Hat,
+        Hats,
         Gloves,
-        Scarve,
+        Scarves,
         HairAccessories,
         Sunglasses
     }   

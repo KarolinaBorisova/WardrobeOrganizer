@@ -13,6 +13,6 @@
         Shorts,
         Skirts,
         Sets,
-        Dress
+        Dresses
     }
 }

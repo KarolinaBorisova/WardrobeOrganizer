@@ -8,12 +8,12 @@ namespace WardrobeOrganizer.Infrastructure.Data.Enums
 {
     public enum CategoryOuterwear
     {
-        WinterJacket,
-        RainJacket,
-        Jacket,
-        Vest,
-        Coat,
-        Snowsuit,
+        WinterJackets,
+        RainJackets,
+        Jackets,
+        Vests,
+        Coats,
+        Snowsuits,
         WinterTrousers,
         RainTrousers
     }
