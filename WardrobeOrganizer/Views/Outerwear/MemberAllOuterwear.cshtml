@@ -1,8 +1,11 @@
 ﻿@model AllMemberOuterwearViewModel
 @{
-    ViewData["Title"] = "All Member Outerwear";
+    ViewData["Title"] = Model.MemberName;
 }
-
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]`s</h1>
+    <h2 class="text-center">Outerwear</h2>
+</div>
 <div class="nav-container">
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Clothes" asp-route-memberId="@Model.MemberId" asp-action="MemberAllClothes">Clothes</a>
@@ -53,18 +56,4 @@
         </div>
     </div>
 </div>
-<div class="text-center">
-    <h1 class="page-title">@ViewData["Title"]</h1>
-</div>
-    @foreach (var item in Model.Outerwear)
-    {
-        <div class="card">
-            <div class="card-body">
-                <img src="@item.ImgUrl" alt="Avatar" style="width:50%">
-                <h4><a class="card-title text-dark" asp-controller="Outerwear" asp-route-outerwearId="@item.Id" asp-action="Details">@item.Name</a></h4>
-                <p class="card-text">Size: @item.Size</p>
-            </div>  
-        </div>
-    }
-</div>
-
+<partial name="_OuterwearCollectionPartial" for="Outerwear">

@@ -261,6 +261,7 @@ namespace WardrobeOrganizer.Core.Services
 
              {
                  MemberId = memberId,
+                 MemberName = c.FirstName + " " + c.LastName,
                  Accessories = c.Accessories
                  .Where(c => c.IsActive)
                  .Select(a => new AccessoriesViewModel
@@ -299,6 +300,7 @@ namespace WardrobeOrganizer.Core.Services
               {
                   Category = category,
                   MemberId = memberId,
+                  MemberName = c.FirstName + " " + c.LastName,
                   Accessories = c.Accessories
                   .Where(a => a.Category == category && a.IsActive)
                   .Select(ac => new AccessoriesViewModel

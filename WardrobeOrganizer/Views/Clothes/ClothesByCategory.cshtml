@@ -70,17 +70,4 @@
 <div class="text-center">
     <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
 </div>
-<div class="card-group">
-
-    @foreach (var item in Model.Clothes)
-    {
-        <div class="card">
-            <div class="card-body">
-                <img src="@item.ImgUrl" alt="Avatar" style="width:50%">
-                <h4><a class="card-title text-dark" asp-controller="Clothes" asp-route-clothingId="@item.Id" asp-action="Details">@item.Name</a></h4>
-                <p class="card-text">Size: @item.Size</p>
-            </div>
-        </div>
-    }
-</div>
-
+<partial name="_ClothesCollectionPartial" for="Clothes">

@@ -30,7 +30,7 @@
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJackets" asp-action="OuterwearByCategory">WinterJackets</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJackets" asp-action="OuterwearByCategory">RainJackets</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jackets" asp-action="OuterwearByCategory">Jackets</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vesst" asp-action="OuterwearByCategory">Vests</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vests" asp-action="OuterwearByCategory">Vests</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coats" asp-action="OuterwearByCategory">Coats</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuits" asp-action="OuterwearByCategory">Snowsuits</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterTrousers" asp-action="OuterwearByCategory">WinterTrousers</a>
@@ -60,17 +60,4 @@
 <div class="text-center">
     <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Shoes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
 </div>
-<div class="card-group">
-
-    @foreach (var item in Model.Shoes)
-    {
-        <div class="card">
-            <div class="card-body">
-                <img src="@item.ImgUrl" alt="Avatar" style="width:50%">
-                <h4><a class="card-title text-dark" asp-controller="Shoes" asp-route-shoesId="@item.Id" asp-action="Details">@item.Name</a></h4>
-                <p class="card-text">Shoes Size: @item.SizeEu</p>
-            </div>
-        </div>
-    }
-</div>
-
+<partial name="_ShoesCollectionPartial" for="Shoes">

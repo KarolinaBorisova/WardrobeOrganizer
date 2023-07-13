@@ -241,6 +241,7 @@ namespace WardrobeOrganizer.Core.Services
 
           {
               MemberId = memberId,
+              MemberName = c.FirstName + " " + c.LastName,
               Clothes = c.Clothes
               .Where(c => c.IsActive)
               .Select(cl => new ClothesViewModel
@@ -277,6 +278,7 @@ namespace WardrobeOrganizer.Core.Services
 
            {
                Category = category,
+               MemberName = c.FirstName + " " + c.LastName,
                MemberId = memberId,
                Clothes = c.Clothes.Where(clt => clt.Category == category && clt.IsActive)
                .Select(cl => new ClothesViewModel

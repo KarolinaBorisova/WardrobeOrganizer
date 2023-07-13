@@ -27,12 +27,12 @@
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-action="All">Outerwear</a>
         <div class="dropdown-content">
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJackets" asp-action="OuterwearByCategory">WinterJacket</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJackets" asp-action="OuterwearByCategory">RainJacket</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jackets" asp-action="OuterwearByCategory">Jacket</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vests" asp-action="OuterwearByCategory">Vest</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coats" asp-action="OuterwearByCategory">Coat</a>
-            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuits" asp-action="OuterwearByCategory">Snowsuit</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterJackets" asp-action="OuterwearByCategory">WinterJackets</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainJackets" asp-action="OuterwearByCategory">RainJackets</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Jackets" asp-action="OuterwearByCategory">Jackets</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Vests" asp-action="OuterwearByCategory">Vests</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Coats" asp-action="OuterwearByCategory">Coats</a>
+            <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="Snowsuits" asp-action="OuterwearByCategory">Snowsuits</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="WinterTrousers" asp-action="OuterwearByCategory">WinterTrousers</a>
             <a class="btn btn-info" asp-controller="Outerwear" asp-route-storageId="@Model.StorageId" asp-route-category="RainTrousers" asp-action="OuterwearByCategory">RainTrousers</a>
         </div>
@@ -60,17 +60,5 @@
 <div class="text-center">
     <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Storage" asp-route-storageId="@Model.StorageId" asp-action="AddItem">Add new item in the storage</a>
 </div>
-<div class="card-group">
-
-    @foreach (var item in Model.Shoes)
-    {
-        <div class="card">
-            <div class="card-body">
-                <img src="@item.ImgUrl" alt="Avatar" style="width:50%">
-                <h4><a class="card-title text-dark" asp-controller="Shoes" asp-route-shoesId="@item.Id" asp-action="Details">@item.Name</a></h4>
-                <p class="card-text">Shoe Size: @item.SizeEu</p>
-            </div>
-        </div>
-    }
-</div>
+<partial name="_ShoesCollectionPartial" for="Shoes">
 

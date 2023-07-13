@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WardrobeOrganizer.Core.Models.Shoes.ShoesViewModel>
+<div class="container card-img">
+
+    @foreach (var item in Model)
+    {
+        <div class="card-wrapper">
+            <a class="card-title text-dark" asp-controller="Shoes" asp-route-shoesId="@item.Id" asp-action="Details">
+            <div class="card-body">
+                <img src="@item.ImgUrl" alt="Avatar" style="width:50%">
+                <h4>@item.Name</h4>
+                <p class="card-text">Shoe Size: @item.SizeEu</p>
+            </div>
+            </a>
+        </div>
+    }
+</div>
