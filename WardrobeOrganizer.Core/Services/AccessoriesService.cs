@@ -64,6 +64,8 @@ namespace WardrobeOrganizer.Core.Services
             .Select(s => new AllAccessoriesViewModel()
             {
                 StorageId = storageId,
+                StorageName = s.Name,
+                HouseName = s.House.Name,
                 Accessories = s.Accessories
                 .Where(a => a.IsActive == true)
                 .Select(a => new AccessoriesViewModel()
@@ -101,6 +103,8 @@ namespace WardrobeOrganizer.Core.Services
                {
                    Category = category,
                    StorageId = storageId,
+                   StorageName = s.Name,
+                   HouseName = s.House.Name,
                    Accessories = s.Accessories
                    .Where(a => a.Category == category && a.IsActive == true)
                    .Select(a => new AccessoriesViewModel()

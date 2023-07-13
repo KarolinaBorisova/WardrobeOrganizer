@@ -66,6 +66,8 @@ namespace WardrobeOrganizer.Core.Services
 
               {
                   StorageId = storageId,
+                  StorageName = c.Name,
+                  HouseName = c.House.Name,
                   Clothes = c.Clothes
                   .Where(c => c.IsActive)
                   .Select(cl => new ClothesViewModel
@@ -104,6 +106,8 @@ namespace WardrobeOrganizer.Core.Services
               {
                   Category = category,
                   StorageId = storageId,
+                  StorageName = c.Name,
+                  HouseName = c.House.Name,
                   Clothes = c.Clothes.Where(clt => clt.Category == category && clt.IsActive)
                   .Select(cl => new ClothesViewModel
                   {

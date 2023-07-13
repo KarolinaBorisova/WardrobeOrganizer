@@ -9,6 +9,8 @@ namespace WardrobeOrganizer.Core.Models.Outerwear
 {
     public class AllOuterwearByCategoryViewModel
     {
+        public string HouseName { get; set; }
+        public string StorageName { get; set; }
         public int StorageId { get; set; }
         public string Category { get; set; }
         public IEnumerable<OuterwearViewModel> Outerwear { get; set; }
