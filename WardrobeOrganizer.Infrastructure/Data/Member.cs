@@ -29,6 +29,8 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [Required]
         public int ShoeSizeEu { get; set; }
 
+        [Required]
+        public string ImagePath { get; set; }
 
         public double? FootLengthCm { get; set; }
 

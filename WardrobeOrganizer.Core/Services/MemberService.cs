@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -6,17 +7,18 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WardrobeOrganizer.Core.Services
 {
     public class MemberService : IMemberService
     {
         private readonly IRepository repo;
-      
 
         
         public MemberService(IRepository _repo)
@@ -24,12 +26,15 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task<int> AddMember(AddMemberViewModel model, int familyId)
+        public async Task<int> AddMember(AddMemberViewModel model, int familyId, string rootPath)
         {
             if (model == null)
             {
                 throw new ArgumentNullException("Member is not valid");
             }
+            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+            await this.SaveImage(model.Image, familyId.ToString(), rootPath, extention);
+
             var member = new Member()
             {
                 FirstName = model.FirstName,
@@ -41,7 +46,8 @@ namespace WardrobeOrganizer.Core.Services
                 ClothesSize = model.ClothesSize,
                 UserHeight = model.UserHeight,
                 FamilyId = familyId,
-                ImgUrl = model.ImgUrl
+                ImgUrl = model.ImgUrl,
+                ImagePath = $"/images/{familyId}{extention}",
                 
             };
 
@@ -69,7 +75,8 @@ namespace WardrobeOrganizer.Core.Services
                 Id = m.Id,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
-                ImgUrl = m.ImgUrl
+                ImgUrl = m.ImgUrl,
+                ImagePath = m.ImagePath
 
             }).ToListAsync();
             }
@@ -113,6 +120,7 @@ namespace WardrobeOrganizer.Core.Services
                 FirstName = m.FirstName,
                 LastName = m.LastName,
                 ImgUrl = m.ImgUrl,
+                ImagePath = m.ImagePath,
                 Birthdate = m.Birthdate,
                 Gender = m.Gender,
                 ShoeSizeEu = m.ShoeSizeEu,
@@ -199,5 +207,16 @@ namespace WardrobeOrganizer.Core.Services
             }
             
         }
+
+        private async Task SaveImage(IFormFile image, string familyId, string rootPath, string extention)
+        {
+            Directory.CreateDirectory($"{rootPath}/images/");
+           
+            var physicalPath = $"{rootPath}/images/{familyId}{extention}";
+
+            await using Stream fileStrem = new FileStream(physicalPath, FileMode.Create);
+            await image.CopyToAsync(fileStrem);
+        }
+
     }
 }

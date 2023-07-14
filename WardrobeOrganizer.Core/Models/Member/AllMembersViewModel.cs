@@ -16,5 +16,7 @@ namespace WardrobeOrganizer.Core.Models.Member
         public string LastName { get; set; }
 
         public string ImgUrl { get; set; }
+
+        public string ImagePath { get; set; }
     }
 }

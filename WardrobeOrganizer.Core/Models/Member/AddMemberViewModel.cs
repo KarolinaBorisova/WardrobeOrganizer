@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,7 +22,8 @@ namespace WardrobeOrganizer.Core.Models.Member
         [Display(Name = "Image URL")]
         public string ImgUrl { get; set; }
 
-
+        public IFormFile Image { get; set; }
+        
         [Required]
         [DataType(DataType.Date)]    
         public DateTime Birthdate { get; set; }

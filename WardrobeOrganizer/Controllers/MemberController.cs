@@ -22,16 +22,19 @@ namespace WardrobeOrganizer.Controllers
         private readonly IFamilyService familyService;
         private readonly ILogger logger;
         private readonly UserManager<User> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public MemberController(IMemberService _memberService,
             IFamilyService _familyService,
             ILogger<MemberController> _logger,
-            UserManager<User> _userManager)
+            UserManager<User> _userManager,
+            IWebHostEnvironment _webHostEnvironment)
         {
             this.memberService = _memberService;
             this.familyService = _familyService;
             this.logger = _logger;
             this.userManager = _userManager;
+            this.webHostEnvironment = _webHostEnvironment;
         }
 
         [HttpGet]
@@ -61,12 +64,14 @@ namespace WardrobeOrganizer.Controllers
                 return View(model);
             }
 
-            int memberId;
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
+            int memberId;
+            
             try
             {
                 int familiId = await familyService.GetFamilyId(User.Id());
-                memberId = await memberService.AddMember(model, familiId);
+                memberId = await memberService.AddMember(model, familiId,rootPath);
                 TempData[MessageConstant.SuccessMessage] = "Member added";
             }
             catch (Exception ex)

@@ -22,6 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\WardrobeOrganizer.Core\WardrobeOrganizer.Core.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />

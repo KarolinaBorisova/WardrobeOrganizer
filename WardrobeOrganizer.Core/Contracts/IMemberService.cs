@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace WardrobeOrganizer.Core.Contracts
     { 
         Task<bool> ExistsById(int id);
 
-        Task<int> AddMember(AddMemberViewModel model, int familyId);
+        Task<int> AddMember(AddMemberViewModel model, int familyId, string rootPath);
 
         Task<ICollection<AllMembersViewModel>> AllMembers(int familyId);
 
@@ -23,5 +24,6 @@ namespace WardrobeOrganizer.Core.Contracts
         Task Delete(int MemberId);
 
         Task<IEnumerable<KeyValuePair<string, string>>> AllMembersBasic(int familyId);
+
     }
 }

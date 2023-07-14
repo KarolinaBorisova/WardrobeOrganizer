@@ -15,13 +15,12 @@
         <div class="card-wrapper">
             <a class="card-title text-dark" asp-controller="Member" asp-route-id="@member.Id" asp-action="Info">
                 <div class="card-image">
-                    <img src="@member.ImgUrl" alt="profile one">
+                    <img src="@member.ImagePath" alt="profile one">
                     <div class="details">
                         <h2>@member.FirstName @member.LastName</h2>
                         <br>
                     </div>
                 </div>
-               
             </a>
             </div>
 

@@ -21,6 +21,8 @@ namespace WardrobeOrganizer.Core.Models.Member
 
         public string? ImgUrl { get; set; }
 
+        public string ImagePath { get; set; }
+
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime Birthdate { get; set; }
