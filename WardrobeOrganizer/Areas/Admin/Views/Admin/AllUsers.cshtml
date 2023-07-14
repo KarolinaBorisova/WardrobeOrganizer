@@ -14,7 +14,8 @@
     {
         <div class="card">
             <div class="card-body">
-                <a class="card-title text-dark" asp-area="" asp-route-userId="@user.Id" asp-controller="Family" asp-action="Info">User: @user.Email</a>
+                <h4>
+                    <a class="card-title text-dark" asp-area="" asp-route-userId="@user.Id" asp-controller="Family" asp-action="Info">User: @user.Email</a></h4>
                 <h4>Fullname: @user.FullName</h4>
                 <h4>IsAcitve: @user.IsActive</h4>
             </div>
