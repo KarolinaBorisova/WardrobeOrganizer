@@ -21,6 +21,9 @@ namespace WardrobeOrganizer.Infrastructure.Data
 
         public string? ImgUrl { get; set; }
 
+        [Required]
+        public string ImagePath { get; set; }
+
         public string? Color { get; set; }
 
         [Required]

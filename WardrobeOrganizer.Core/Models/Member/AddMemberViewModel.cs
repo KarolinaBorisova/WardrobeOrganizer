@@ -24,7 +24,7 @@ namespace WardrobeOrganizer.Core.Models.Member
 
         public IFormFile Image { get; set; }
         
-        [Required]
+        [Required]  
         [DataType(DataType.Date)]    
         public DateTime Birthdate { get; set; }
 

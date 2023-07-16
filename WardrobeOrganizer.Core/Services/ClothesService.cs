@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -24,12 +25,23 @@ namespace WardrobeOrganizer.Core.Services
             this.repo = _repo;
         }
 
-        public async Task<int> AddClothes(AddClothesViewModel model)
+        public async Task<int> AddClothes(AddClothesViewModel model, string rootPath)
         {
-            if (model == null)
+            if (model == null || model.Image == null)
             {
-                throw new ArgumentNullException("Not valid clothes");
+                throw new ArgumentNullException("Clothe is not valid");
             }
+
+            if (model.Image.Length > 2 * 1024 * 1024)
+            {
+                throw new InvalidOperationException("Image size is too big");
+            }
+
+            Guid imgGuid = Guid.NewGuid();
+
+            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+            await this.SaveImage(model.Image, imgGuid, rootPath, extention);
+
             var clothing = new Clothes()
             {
                 Name = model.Name,
@@ -40,7 +52,8 @@ namespace WardrobeOrganizer.Core.Services
                 Description = model.Description,
                 Category = model.Category,
                 StorageId = model.StorageId,
-                MemberId = model.MemberId,               
+                MemberId = model.MemberId,
+                ImagePath = $"/clothes/{imgGuid}{extention}",
             };
             try
             {
@@ -79,7 +92,8 @@ namespace WardrobeOrganizer.Core.Services
                       Size = cl.Size,
                       SizeHeight = cl.SizeHeight,
                       StorageId = cl.StorageId,
-                      MemberId = cl.MemberId
+                      MemberId = cl.MemberId,
+                      ImagePath = cl.ImagePath
 
                   }).ToList()
               }).FirstAsync();
@@ -117,7 +131,8 @@ namespace WardrobeOrganizer.Core.Services
                       Size = cl.Size,
                       StorageId = cl.StorageId,
                       ImgUrl = cl.ImgUrl,
-                      MemberId = cl.MemberId
+                      MemberId = cl.MemberId,
+                      ImagePath = cl.ImagePath
 
                   }).ToList()
               }).FirstAsync();
@@ -154,6 +169,7 @@ namespace WardrobeOrganizer.Core.Services
                 ImgUrl = c.ImgUrl,
                 MemberId = c.MemberId,
                 MemberName = c.Member.FirstName + " " + c.Member.LastName,
+
 
             }).FirstAsync();
             }
@@ -252,7 +268,8 @@ namespace WardrobeOrganizer.Core.Services
                   Size = cl.Size,
                   StorageId = cl.StorageId,
                   ImgUrl = cl.ImgUrl,
-                  MemberId = memberId
+                  MemberId = memberId,
+                  ImagePath = cl.ImagePath
 
               }).ToList()
           }).FirstAsync();
@@ -290,6 +307,7 @@ namespace WardrobeOrganizer.Core.Services
                    StorageId = cl.StorageId,
                    ImgUrl = cl.ImgUrl,
                    MemberId = memberId,
+                   ImagePath = cl.ImagePath
 
                }).ToList()
            }).FirstAsync();
@@ -328,5 +346,16 @@ namespace WardrobeOrganizer.Core.Services
             }
            
         }
+
+        private async Task SaveImage(IFormFile image, Guid imgGuid, string rootPath, string extention)
+        {
+            Directory.CreateDirectory($"{rootPath}/clothes/");
+
+            var physicalPath = $"{rootPath}/clothes/{imgGuid}{extention}";
+
+            await using Stream fileStrem = new FileStream(physicalPath, FileMode.Create);
+            await image.CopyToAsync(fileStrem);
+        }
+
     }
 }

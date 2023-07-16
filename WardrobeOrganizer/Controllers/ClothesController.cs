@@ -22,13 +22,15 @@ namespace WardrobeOrganizer.Controllers
         private readonly IStorageService storageService;
         private readonly IHouseService houseService;
         private readonly UserManager<User> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public ClothesController(IClothesService _clothesService,
         IFamilyService _familyService,
         IMemberService _memberService,
         IStorageService _storageService,
         IHouseService _houseService,
-        UserManager<User> _userManager)
+        UserManager<User> _userManager,
+         IWebHostEnvironment _webHostEnvironment)
         {
             this.clothesService = _clothesService;
             this.familyService = _familyService;
@@ -36,6 +38,7 @@ namespace WardrobeOrganizer.Controllers
             this.storageService = _storageService;
             this.houseService = _houseService;
             this.userManager = _userManager;
+            this.webHostEnvironment = _webHostEnvironment;
         }
 
         public async Task<IActionResult> All(int storageId) 
@@ -170,10 +173,11 @@ namespace WardrobeOrganizer.Controllers
             }
           
             var storageId = model.StorageId;
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
             try
             {
-                int id = await clothesService.AddClothes(model);
+                int id = await clothesService.AddClothes(model, rootPath);
                 
             }
             catch (Exception)

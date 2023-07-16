@@ -29,5 +29,7 @@ namespace WardrobeOrganizer.Core.Models.Shoes
         public string Category { get; set; }
 
         public int StorageId { get; set; }
+
+        public string ImagePath { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace WardrobeOrganizer.Core.Models.Outerwear
         public string? Description { get; set; }
 
         [Required]
-        public string ImgUrl { get; set; } 
+        public string ImgUrl { get; set; }
+
+        public IFormFile Image { get; set; }
+
         [Required]
         [MaxLength(50)]
         public string Color { get; set; }

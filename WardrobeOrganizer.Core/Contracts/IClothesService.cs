@@ -11,7 +11,7 @@ namespace WardrobeOrganizer.Core.Contracts
     public interface IClothesService
     {
 
-        Task<int> AddClothes(AddClothesViewModel model);
+        Task<int> AddClothes(AddClothesViewModel model, string rootPath);
 
         Task<AllClothesByCategoryViewModel> AllClothesByCategory(int storageId, string category);
 

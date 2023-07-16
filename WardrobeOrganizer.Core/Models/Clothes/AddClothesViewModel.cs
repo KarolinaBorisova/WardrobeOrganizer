@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace WardrobeOrganizer.Core.Models.Clothes
         public string Description { get; set; }
 
         public string ImgUrl { get; set; }
+
+        public IFormFile Image { get; set; }
 
         public string Color { get; set; }
 
