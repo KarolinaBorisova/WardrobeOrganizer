@@ -77,6 +77,7 @@ namespace WardrobeOrganizer.Controllers
             catch (Exception ex)
             {
                 logger.LogError(nameof(Add), ex);
+                this.ModelState.AddModelError("Image", ex.Message);
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong! Try again";
             }   
            

@@ -28,12 +28,20 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId, string rootPath)
         {
-            if (model == null)
+            if (model == null || model.Image == null)
             {
                 throw new ArgumentNullException("Member is not valid");
             }
+
+            if (model.Image.Length > 2 *1024 * 1024)
+            {
+                throw new InvalidOperationException("Image size is too big");
+            }
+
+            Guid imgGuid = Guid.NewGuid();
+  
             var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
-            await this.SaveImage(model.Image, familyId.ToString(), rootPath, extention);
+            await this.SaveImage(model.Image, imgGuid, rootPath, extention);
 
             var member = new Member()
             {
@@ -47,7 +55,7 @@ namespace WardrobeOrganizer.Core.Services
                 UserHeight = model.UserHeight,
                 FamilyId = familyId,
                 ImgUrl = model.ImgUrl,
-                ImagePath = $"/images/{familyId}{extention}",
+                ImagePath = $"/images/{imgGuid}{extention}",
                 
             };
 
@@ -208,11 +216,11 @@ namespace WardrobeOrganizer.Core.Services
             
         }
 
-        private async Task SaveImage(IFormFile image, string familyId, string rootPath, string extention)
+        private async Task SaveImage(IFormFile image, Guid imgGuid, string rootPath, string extention)
         {
             Directory.CreateDirectory($"{rootPath}/images/");
            
-            var physicalPath = $"{rootPath}/images/{familyId}{extention}";
+            var physicalPath = $"{rootPath}/images/{imgGuid}{extention}";
 
             await using Stream fileStrem = new FileStream(physicalPath, FileMode.Create);
             await image.CopyToAsync(fileStrem);
