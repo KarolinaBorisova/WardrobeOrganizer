@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IOuterwearService, OuterwearService>();
             services.AddScoped<IShoesService, ShoesService>();
             services.AddScoped<IAccessoriesService, AccessoriesService>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }

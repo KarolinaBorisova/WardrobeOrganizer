@@ -19,10 +19,14 @@ namespace WardrobeOrganizer.Core.Services
     {
 
         private readonly IRepository repo;
+        private readonly IFileService fileService;
 
-        public ClothesService(IRepository _repo)
+
+        public ClothesService(IRepository _repo,
+            IFileService fileService)
         {
             this.repo = _repo;
+            this.fileService = fileService;
         }
 
         public async Task<int> AddClothes(AddClothesViewModel model, string rootPath)
@@ -37,10 +41,11 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException("Image size is too big");
             }
 
-            Guid imgGuid = Guid.NewGuid();
+            Guid imgName = Guid.NewGuid();
+            var folderName = "clothes";
 
             var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
-            await this.SaveImage(model.Image, imgGuid, rootPath, extention);
+            await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
 
             var clothing = new Clothes()
             {
@@ -53,7 +58,7 @@ namespace WardrobeOrganizer.Core.Services
                 Category = model.Category,
                 StorageId = model.StorageId,
                 MemberId = model.MemberId,
-                ImagePath = $"/clothes/{imgGuid}{extention}",
+                ImagePath = $"/images/{folderName}/{imgName}{extention}",
             };
             try
             {
@@ -345,16 +350,6 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException(ex.Message);
             }
            
-        }
-
-        private async Task SaveImage(IFormFile image, Guid imgGuid, string rootPath, string extention)
-        {
-            Directory.CreateDirectory($"{rootPath}/clothes/");
-
-            var physicalPath = $"{rootPath}/clothes/{imgGuid}{extention}";
-
-            await using Stream fileStrem = new FileStream(physicalPath, FileMode.Create);
-            await image.CopyToAsync(fileStrem);
         }
 
     }

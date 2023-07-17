@@ -19,11 +19,13 @@ namespace WardrobeOrganizer.Core.Services
     public class MemberService : IMemberService
     {
         private readonly IRepository repo;
-
+        private readonly IFileService fileService;
         
-        public MemberService(IRepository _repo)
+        public MemberService(IRepository _repo,
+            IFileService _fileService)
         {
             this.repo = _repo;
+            this.fileService = _fileService;
         }
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId, string rootPath)
@@ -38,10 +40,12 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException("Image size is too big");
             }
 
-            Guid imgGuid = Guid.NewGuid();
-  
+            Guid imgName = Guid.NewGuid();
+            var folderName = "member";
+
+
             var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
-            await this.SaveImage(model.Image, imgGuid, rootPath, extention);
+            await fileService.SaveImage(model.Image, imgName, folderName , rootPath, extention);
 
             var member = new Member()
             {
@@ -55,7 +59,7 @@ namespace WardrobeOrganizer.Core.Services
                 UserHeight = model.UserHeight,
                 FamilyId = familyId,
                 ImgUrl = model.ImgUrl,
-                ImagePath = $"/images/{imgGuid}{extention}",
+                ImagePath = $"/images/{folderName}/{imgName}{extention}",
                 
             };
 
@@ -214,16 +218,6 @@ namespace WardrobeOrganizer.Core.Services
                 throw new InvalidOperationException(ex.Message);
             }
             
-        }
-
-        private async Task SaveImage(IFormFile image, Guid imgGuid, string rootPath, string extention)
-        {
-            Directory.CreateDirectory($"{rootPath}/images/");
-           
-            var physicalPath = $"{rootPath}/images/{imgGuid}{extention}";
-
-            await using Stream fileStrem = new FileStream(physicalPath, FileMode.Create);
-            await image.CopyToAsync(fileStrem);
         }
 
     }
