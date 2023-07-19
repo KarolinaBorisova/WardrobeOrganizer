@@ -23,13 +23,15 @@ namespace WardrobeOrganizer.Controllers
         private readonly IStorageService storageService;
         private readonly IHouseService houseService;
         private readonly UserManager<User> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public OuterwearController(IOuterwearService _outerwearService,
             IFamilyService _familyService,
             IMemberService _memberService,
             IStorageService _storageService,
             IHouseService houseService,
-           UserManager<User> _userManager)
+           UserManager<User> _userManager, 
+           IWebHostEnvironment _webHostEnvironment)
         {
             this.outerwearService = _outerwearService;
             this.familyService = _familyService;
@@ -37,6 +39,7 @@ namespace WardrobeOrganizer.Controllers
             this.storageService = _storageService;
             this.houseService = houseService;
             this.userManager = _userManager;
+            this.webHostEnvironment = _webHostEnvironment;
 
              
         }
@@ -137,10 +140,11 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
             var storageId = model.StorageId;
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
             try
             {
-                int id = await outerwearService.AddOuterWear(model);
+                int id = await outerwearService.AddOuterWear(model, rootPath);
             }
             catch (Exception)
             {

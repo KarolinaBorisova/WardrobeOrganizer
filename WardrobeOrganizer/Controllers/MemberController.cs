@@ -142,25 +142,25 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var model = new InfoMemberViewModel()
+            var model = new EditMemberViewModel()
             {
                 Id = id,
                 FirstName = member.FirstName,
                 LastName = member.LastName,
-                ImgUrl = member.ImgUrl,
                 Birthdate = member.Birthdate,
                 Gender = member.Gender,
                 ShoeSizeEu = member.ShoeSizeEu,
                 FootLengthCm = member.FootLengthCm,
                 ClothesSize = member.ClothesSize,
-                UserHeight = member.UserHeight
+                UserHeight = member.UserHeight,
+                ImagePath = member.ImagePath,       
             };
             return View(model);
         }
 
         [HttpPost]
         [Authorize(Roles = RoleConstants.User)]
-        public async Task<IActionResult> Edit(InfoMemberViewModel model)
+        public async Task<IActionResult> Edit(EditMemberViewModel model)
         {
             if (await memberService.ExistsById(model.Id) == false)
             {
@@ -182,11 +182,12 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
             }
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
             try
             {
                
-                await memberService.Edit(model);
+                await memberService.Edit(model, rootPath);
                 TempData[MessageConstant.SuccessMessage] = "Member edited";
             }
             catch (Exception )

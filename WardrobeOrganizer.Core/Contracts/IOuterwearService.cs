@@ -10,7 +10,7 @@ namespace WardrobeOrganizer.Core.Contracts
 {
     public interface IOuterwearService
     {
-        Task<int> AddOuterWear(AddOuterwearViewModel model);
+        Task<int> AddOuterWear(AddOuterwearViewModel model, string rootPath);
 
         Task<AllOuterwearByCategoryViewModel> AllOuterwearByCategory(int storageId, string category);
 

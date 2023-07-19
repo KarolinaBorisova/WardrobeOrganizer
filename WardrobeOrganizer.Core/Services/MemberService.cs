@@ -58,7 +58,6 @@ namespace WardrobeOrganizer.Core.Services
                 ClothesSize = model.ClothesSize,
                 UserHeight = model.UserHeight,
                 FamilyId = familyId,
-                ImgUrl = model.ImgUrl,
                 ImagePath = $"/images/{folderName}/{imgName}{extention}",
                 
             };
@@ -87,7 +86,6 @@ namespace WardrobeOrganizer.Core.Services
                 Id = m.Id,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
-                ImgUrl = m.ImgUrl,
                 ImagePath = m.ImagePath
 
             }).ToListAsync();
@@ -131,7 +129,6 @@ namespace WardrobeOrganizer.Core.Services
                 Id = m.Id,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
-                ImgUrl = m.ImgUrl,
                 ImagePath = m.ImagePath,
                 Birthdate = m.Birthdate,
                 Gender = m.Gender,
@@ -173,20 +170,28 @@ namespace WardrobeOrganizer.Core.Services
             
           }
 
-        public async Task Edit( InfoMemberViewModel model)
+        public async Task Edit( EditMemberViewModel model, string rootPath)
         {
 
             if (model == null)
             {
                 throw new ArgumentNullException("Member is not valid");
             }
+
+            Guid imgName = Guid.NewGuid();
+            var folderName = "member";
+
+
+            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+            await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
             try
             {
                 var member = await repo.GetByIdAsync<Member>(model.Id);
 
                 member.FirstName = model.FirstName;
                 member.LastName = model.LastName;
-                member.ImgUrl = model.ImgUrl;
+                member.ImagePath = $"/images/{folderName}/{imgName}{extention}";
                 member.Birthdate = model.Birthdate;
                 member.Gender = model.Gender;
                 member.ShoeSizeEu = model.ShoeSizeEu;

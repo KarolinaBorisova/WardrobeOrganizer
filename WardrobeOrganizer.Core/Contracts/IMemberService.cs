@@ -19,7 +19,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<InfoMemberViewModel> GetMemberById(int MemberId);
 
-        Task Edit( InfoMemberViewModel model);
+        Task Edit( EditMemberViewModel model, string rootPath);
 
         Task Delete(int MemberId);
 

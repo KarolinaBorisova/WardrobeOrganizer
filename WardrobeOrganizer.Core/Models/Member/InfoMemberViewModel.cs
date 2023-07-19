@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Storage;
 using WardrobeOrganizer.Infrastructure.Data.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace WardrobeOrganizer.Core.Models.Member
 {
@@ -19,9 +20,7 @@ namespace WardrobeOrganizer.Core.Models.Member
        
         public FamilyViewModel? Family { get; set; }
 
-        public string? ImgUrl { get; set; }
-
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]

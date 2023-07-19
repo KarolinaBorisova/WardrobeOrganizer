@@ -15,18 +15,28 @@ namespace WardrobeOrganizer.Core.Services
     public class OuterwearService : IOuterwearService
     {
         private readonly IRepository repo;
+        private readonly IFileService fileService;
 
-        public OuterwearService(IRepository _repo)
+        public OuterwearService(IRepository _repo, IFileService fileService)
         {
             repo = _repo;
+            this.fileService = fileService;
         }
 
-        public async Task<int> AddOuterWear(AddOuterwearViewModel model)
+        public async Task<int> AddOuterWear(AddOuterwearViewModel model, string rootPath)
         {
             if (model == null)
             {
                 throw new ArgumentNullException("Outerwear is not valid");
             }
+
+            Guid imgName = Guid.NewGuid();
+            var folderName = "outerwear";
+
+
+            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+            await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
             var outerwear = new Outerwear()
             {
                 ImgUrl = model.ImgUrl,
@@ -37,7 +47,8 @@ namespace WardrobeOrganizer.Core.Services
                 Category = model.Category,
                 Color = model.Color,
                 StorageId = model.StorageId,
-                MemberId = model.MemberId
+                MemberId = model.MemberId,
+                ImagePath = $"/images/{folderName}/{imgName}{extention}",
 
             };
 
@@ -77,7 +88,8 @@ namespace WardrobeOrganizer.Core.Services
                         Size = o.Size,
                         SizeHeight = o.SizeHeight,
                         Category = o.Category,
-                        MemberId = o.MemberId
+                        MemberId = o.MemberId,
+                        ImagePath = o.ImagePath,
 
                     }).ToList()
                 }).FirstAsync();
@@ -115,6 +127,7 @@ namespace WardrobeOrganizer.Core.Services
                      StorageId = o.StorageId,
                      Category = category,
                      ImgUrl = o.ImgUrl,
+                     ImagePath = o.ImagePath,
                      Name = o.Name,
                          }).ToList()
                      }).FirstAsync();
@@ -285,7 +298,9 @@ namespace WardrobeOrganizer.Core.Services
                      SizeHeight = cl.SizeHeight,
                      StorageId = cl.StorageId,
                      ImgUrl = cl.ImgUrl,
+                     ImagePath = cl.ImagePath,
                      MemberId = memberId,
+
 
                  }).ToList()
              }).FirstAsync();
@@ -325,6 +340,7 @@ namespace WardrobeOrganizer.Core.Services
                        SizeHeight = cl.SizeHeight,
                        StorageId = cl.StorageId,
                        ImgUrl = cl.ImgUrl,
+                       ImagePath = cl.ImagePath,
                        MemberId = memberId,
 
                    }).ToList()
