@@ -11,7 +11,7 @@ namespace WardrobeOrganizer.Core.Contracts
 {
     public interface IShoesService
     {
-        Task<int> AddShoes(AddShoesViewModel model);
+        Task<int> AddShoes(AddShoesViewModel model, string rootPath);
 
         Task<AllShoesByCategoryViewModel> AllShoesByCategory(int storageId, string category);
 
@@ -25,7 +25,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task DeleteById(int shoesId);
 
-        Task Edit(EditShoesViewModel model);
+        Task Edit(EditShoesViewModel model, string rootPath);
 
         Task<AllMemberShoesViewModel> AllShoesByMemberId(int memberId);
 

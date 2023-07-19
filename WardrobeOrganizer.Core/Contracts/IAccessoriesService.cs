@@ -12,7 +12,7 @@ namespace WardrobeOrganizer.Core.Contracts
     public interface IAccessoriesService
     {
 
-        Task<int> AddAccessories(AddAccessoriesViewModel model);
+        Task<int> AddAccessories(AddAccessoriesViewModel model, string rootPath);
 
         Task<AllAccessoriesByCategoryViewModel> AllAccessoriesByCategory(int storageId, string category);
 
@@ -26,7 +26,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task DeleteById(int accessoriesId);
 
-        Task Edit(EditAccessoriesViewModel model);
+        Task Edit(EditAccessoriesViewModel model, string rootPath);
 
         Task<AllMemberAccessoriesViewModel> AllAccessoriesByMemberId(int memberId);
 

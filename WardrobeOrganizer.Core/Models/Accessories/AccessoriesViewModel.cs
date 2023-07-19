@@ -13,7 +13,7 @@ namespace WardrobeOrganizer.Core.Models.Accessories
 
         //public string Description { get; set; }
 
-        public string ImgUrl { get; set; }
+        public string ImagePath { get; set; }
 
         //public string Color { get; set; }
 
@@ -29,6 +29,6 @@ namespace WardrobeOrganizer.Core.Models.Accessories
 
         public int StorageId { get; set; }
 
-        public string ImagePath { get; set; }
+
     }
 }

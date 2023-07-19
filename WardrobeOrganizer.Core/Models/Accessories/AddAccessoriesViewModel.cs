@@ -13,8 +13,6 @@ namespace WardrobeOrganizer.Core.Models.Accessories
 
         public string Description { get; set; }
 
-        public string ImgUrl { get; set; }
-
         public IFormFile Image { get; set; }
 
         public string Color { get; set; }

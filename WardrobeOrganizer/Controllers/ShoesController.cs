@@ -23,13 +23,15 @@ namespace WardrobeOrganizer.Controllers
         private readonly IHouseService houseService;
         private readonly IStorageService storageService;
         private readonly UserManager<User> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public ShoesController(IShoesService _shoesService,
             IMemberService _memberService,
             IFamilyService _familyService,
             IHouseService _houseService,
             UserManager<User> _userManager,
-            IStorageService _storageService)
+            IStorageService _storageService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.shoesService = _shoesService;
             this.memberService = _memberService;
@@ -37,6 +39,7 @@ namespace WardrobeOrganizer.Controllers
             this.houseService = _houseService;
             this.userManager = _userManager;
            this.storageService = _storageService;
+            this.webHostEnvironment = webHostEnvironment;
         } 
 
         [HttpGet]
@@ -108,10 +111,11 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var storageId = model.StorageId;
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
             try
             {
-                await shoesService.AddShoes(model);
+                await shoesService.AddShoes(model, rootPath);
             }
             catch (Exception)
             {
@@ -277,7 +281,6 @@ namespace WardrobeOrganizer.Controllers
                 SizeEu = shoes.SizeEu,
                 Centimetres = shoes.Centimetres,
                 Color = shoes.Color,
-                ImgUrl = shoes.ImgUrl,
                 MemberId = shoes.MemberId,
                 Members = await memberService.AllMembersBasic(familyId)
             };
@@ -311,9 +314,11 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
+            var rootPath = this.webHostEnvironment.WebRootPath;
+
             try
             {
-                await shoesService.Edit(model);
+                await shoesService.Edit(model, rootPath);
                 TempData[MessageConstant.SuccessMessage] = "Shoes edited";
             }
             catch (Exception)

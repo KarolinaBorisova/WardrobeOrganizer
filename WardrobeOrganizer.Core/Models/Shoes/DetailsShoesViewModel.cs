@@ -15,7 +15,7 @@ namespace WardrobeOrganizer.Core.Models.Shoes
 
         public string Description { get; set; }
 
-        public string ImgUrl { get; set; }
+        public string ImagePath { get; set; }
 
         public string Color { get; set; }
 

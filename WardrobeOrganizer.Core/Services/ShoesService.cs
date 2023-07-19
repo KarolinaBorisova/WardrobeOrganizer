@@ -15,25 +15,41 @@ namespace WardrobeOrganizer.Core.Services
     public class ShoesService : IShoesService
     {
         private readonly IRepository repo;
+        private readonly IFileService fileService;
 
-        public ShoesService(IRepository _repo)
+
+        public ShoesService(IRepository _repo,
+            IFileService fileService)
         {
             this.repo = _repo;
+            this.fileService = fileService;
         }
 
-        public async Task<int> AddShoes(AddShoesViewModel model)
+        public async Task<int> AddShoes(AddShoesViewModel model, string rootPath)
         {
-            if (model == null)
+            if (model == null || model.Image == null)
             {
-                throw new ArgumentNullException("Shoes are not valid");
+                throw new ArgumentNullException("Shoes is not valid");
             }
+
+            if (model.Image.Length > 2 * 1024 * 1024)
+            {
+                throw new InvalidOperationException("Image size is too big");
+            }
+
+            Guid imgName = Guid.NewGuid();
+            var folderName = "shoes";
+
+            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+            await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
             var shoes = new Shoes()
             {
                 Name = model.Name,
                 Description = model.Description,
                 SizeEu = model.SizeEu,
                 Centimetres = model.Centimetres,
-                ImgUrl = model.ImgUrl,
+                ImagePath = $"/images/{folderName}/{imgName}{extention}",
                 Color = model.Color,
                 StorageId = model.StorageId,
                 Category = model.Category,
@@ -78,7 +94,7 @@ namespace WardrobeOrganizer.Core.Services
                     StorageId = sh.StorageId,
                     Category = sh.Category,
                     Centimetres = sh.Centimetres,
-                    ImgUrl = sh.ImgUrl,
+                    ImagePath = sh.ImagePath,
                     MemberId = sh.MemberId
 
                 }).ToList()
@@ -119,7 +135,7 @@ namespace WardrobeOrganizer.Core.Services
                         StorageId = sh.StorageId,
                         Category = sh.Category,
                         Centimetres = sh.Centimetres,
-                        ImgUrl = sh.ImgUrl,
+                        ImagePath = sh.ImagePath,
                         MemberId = sh.MemberId,
 
 
@@ -155,7 +171,7 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task Edit(EditShoesViewModel model)
+        public async Task Edit(EditShoesViewModel model , string rootPath)
         {
             if (model == null)
             {
@@ -163,16 +179,31 @@ namespace WardrobeOrganizer.Core.Services
             }
             var shoes = await repo.GetByIdAsync<Shoes>(model.Id);
 
-            if (shoes == null)
+            if (shoes == null || shoes.IsActive == false)
             {
                 throw new ArgumentNullException("Shoes not found");
+            }
+
+            if (model.Image != null)
+            {
+                if (model.Image.Length > 2 * 1024 * 1024)
+                {
+                    throw new InvalidOperationException("Image size is too big");
+                }
+
+                Guid imgName = Guid.NewGuid();
+                var folderName = "shoes";
+
+                var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+                await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
+                shoes.ImagePath = $"/images/{folderName}/{imgName}{extention}";
             }
             shoes.Name = model.Name;
             shoes.Centimetres = model.Centimetres;
             shoes.SizeEu = model.SizeEu;
             shoes.Description = model.Description;
             shoes.Color = model.Color;
-            shoes.ImgUrl = model.ImgUrl;
             shoes.MemberId = model.MemberId;
 
             try
@@ -221,7 +252,7 @@ namespace WardrobeOrganizer.Core.Services
                    Description = s.Description,
                    Color = s.Color,
                    StorageId = s.StorageId,
-                   ImgUrl = s.ImgUrl,
+                   ImagePath = s.ImagePath,
                    MemberName = s.Member.FirstName + " " + s.Member.LastName,
                    StorageName = s.Storage.Name,
                    HouseName = s.Storage.House.Name,
@@ -255,8 +286,9 @@ namespace WardrobeOrganizer.Core.Services
                    Centimetres = s.Centimetres,
                    Description = s.Description,
                    Color = s.Color,
-                   ImgUrl = s.ImgUrl,
-                   MemberId = s.MemberId
+                   MemberId = s.MemberId,
+
+
 
                }).FirstAsync();
             }
@@ -288,7 +320,7 @@ namespace WardrobeOrganizer.Core.Services
                     SizeEu = cl.SizeEu,
                     Centimetres = cl.Centimetres,
                     StorageId = cl.StorageId,
-                    ImgUrl = cl.ImgUrl,
+                    ImagePath = cl.ImagePath,
                     MemberId = memberId,
 
                 }).ToList()
@@ -329,7 +361,7 @@ namespace WardrobeOrganizer.Core.Services
                    SizeEu = s.SizeEu,
                    Centimetres = s.Centimetres,
                    StorageId = s.StorageId,
-                   ImgUrl = s.ImgUrl,
+                   ImagePath = s.ImagePath,
                    MemberId = memberId,
 
                }).ToList()

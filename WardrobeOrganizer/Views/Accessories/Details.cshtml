@@ -13,7 +13,7 @@
 <div>
     <div class="card">
         <div class="card-body">
-            <img src="@Model.ImgUrl" alt="Avatar" style="width:100%">
+            <img src="@Model.ImagePath" alt="Avatar" style="width:100%">
             <h4>@Model.Name</h4>
             <p class="card-text">Category: @Model.Category</p>
             <p class="card-text">Size: @Model.SizeAge</p>
@@ -30,7 +30,7 @@
                 <form method="post" asp-controller="Accessories" asp-action="Delete" asp-route-accessoriesId="@Model.Id">
                     <button class="btn btn-danger" type="submit">Delete @Model.Name</button>
                 </form>
-                <a class="btn btn-info" asp-controller="Accessories" asp-route-accessoriesId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
+                <a class="btn btn-success" asp-controller="Accessories" asp-route-accessoriesId="@Model.Id" asp-action="Edit">Edit @Model.Name</a>
             </div>       
         }
     </div>

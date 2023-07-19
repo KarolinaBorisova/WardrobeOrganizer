@@ -22,18 +22,24 @@ namespace WardrobeOrganizer.Controllers
         private readonly IStorageService storageService;
         private readonly IHouseService houseService;
         private readonly UserManager<User> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
 
         public AccessoriesController(IAccessoriesService _accessoriesService, 
             IFamilyService _familyService, 
             IMemberService _memberService,
             IStorageService _storageService,
-            UserManager<User> _userManager)
+            UserManager<User> _userManager,
+            IHouseService _houseService,
+        IWebHostEnvironment _webHostEnvironment)
         {
             this.accessoriesService = _accessoriesService;
             this.familyService = _familyService;
             this.memberService = _memberService;
             this.storageService = _storageService;
+            this.houseService = _houseService;  
+            this.webHostEnvironment = _webHostEnvironment;
+            this.userManager = _userManager;
         }
 
         public async Task<IActionResult> All(int storageId)
@@ -132,10 +138,11 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var storageId = model.StorageId;
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
             try
             {
-                await accessoriesService.AddAccessories(model);
+                await accessoriesService.AddAccessories(model, rootPath);
             }
             catch (Exception e)
             {
@@ -278,7 +285,6 @@ namespace WardrobeOrganizer.Controllers
                 Description = accessorise.Description,
                 SizeAge = accessorise.SizeAge,
                 Color = accessorise.Color,
-                ImgUrl = accessorise.ImgUrl,
                 MemberId = accessorise.MemberId,
                 Members = await memberService.AllMembersBasic(familyId),
             };
@@ -311,9 +317,11 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
+            var rootPath = this.webHostEnvironment.WebRootPath;
+
             try
             {
-                await accessoriesService.Edit(model);
+                await accessoriesService.Edit(model, rootPath);
                 TempData[MessageConstant.SuccessMessage] = "Accessorie edited";
             }
             catch (Exception)
