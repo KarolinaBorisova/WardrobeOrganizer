@@ -247,7 +247,6 @@ namespace WardrobeOrganizer.Controllers
                SizeHeight = clothing.SizeHeight,
                Color = clothing.Color,
                Description = clothing.Description,
-               ImgUrl = clothing.ImgUrl,
                Name = clothing.Name,
                Members = await memberService.AllMembersBasic(familyId),
                MemberId = clothing.MemberId
@@ -282,9 +281,11 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
+            var rootPath = this.webHostEnvironment.WebRootPath;
+
             try
             {
-                await clothesService.Edit(model);
+                await clothesService.Edit(model, rootPath);
                 TempData[MessageConstant.SuccessMessage] = "Clothing edited";
             }
             catch (Exception)

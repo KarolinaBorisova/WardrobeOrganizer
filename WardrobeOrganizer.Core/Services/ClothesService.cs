@@ -50,7 +50,6 @@ namespace WardrobeOrganizer.Core.Services
             var clothing = new Clothes()
             {
                 Name = model.Name,
-                ImgUrl = model.ImgUrl,
                 Color = model.Color,
                 Size = model.Size,
                 SizeHeight = model.SizeHeight,
@@ -92,7 +91,6 @@ namespace WardrobeOrganizer.Core.Services
                   {
                       Id = cl.Id,
                       Name = cl.Name,
-                      ImgUrl = cl.ImgUrl,
                       Category = cl.Category,
                       Size = cl.Size,
                       SizeHeight = cl.SizeHeight,
@@ -135,7 +133,7 @@ namespace WardrobeOrganizer.Core.Services
                       Id = cl.Id,
                       Size = cl.Size,
                       StorageId = cl.StorageId,
-                      ImgUrl = cl.ImgUrl,
+                      SizeHeight = cl.SizeHeight,
                       MemberId = cl.MemberId,
                       ImagePath = cl.ImagePath
 
@@ -171,7 +169,7 @@ namespace WardrobeOrganizer.Core.Services
                 StorageId = c.StorageId,
                 HouseName = c.Storage.House.Name,
                 HouseId = c.Storage.House.Id,
-                ImgUrl = c.ImgUrl,
+                ImagePath = c.ImagePath,
                 MemberId = c.MemberId,
                 MemberName = c.Member.FirstName + " " + c.Member.LastName,
 
@@ -219,7 +217,7 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task Edit(EditClothesViewModel model)
+        public async Task Edit(EditClothesViewModel model, string rootPath)
         {
             if (model == null)
             {
@@ -233,17 +231,31 @@ namespace WardrobeOrganizer.Core.Services
                 throw new ArgumentNullException("Clothing not found");
             }
 
+
+            try
+            {
+                if (model.Image != null)
+                {
+                    Guid imgName = Guid.NewGuid();
+                    var folderName = "clothing";
+
+                    var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+                    await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
+                    clothing.ImagePath = $"/images/{folderName}/{imgName}{extention}";
+                }
+
+
+
                 clothing.Id = model.Id;
                 clothing.Name = model.Name;
-                clothing.ImgUrl = model.ImgUrl;
                 clothing.Color = model.Color;
                 clothing.Description = model.Description;
                 clothing.Size = model.Size;
                 clothing.SizeHeight = model.SizeHeight;
                 clothing.MemberId = model.MemberId;
 
-            try
-            {
+
                 await repo.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -272,7 +284,7 @@ namespace WardrobeOrganizer.Core.Services
                   Id = cl.Id,
                   Size = cl.Size,
                   StorageId = cl.StorageId,
-                  ImgUrl = cl.ImgUrl,
+                  SizeHeight = cl.SizeHeight,
                   MemberId = memberId,
                   ImagePath = cl.ImagePath
 
@@ -310,7 +322,7 @@ namespace WardrobeOrganizer.Core.Services
                    Id = cl.Id,
                    Size = cl.Size,
                    StorageId = cl.StorageId,
-                   ImgUrl = cl.ImgUrl,
+                   SizeHeight = cl.SizeHeight,
                    MemberId = memberId,
                    ImagePath = cl.ImagePath
 
@@ -340,7 +352,6 @@ namespace WardrobeOrganizer.Core.Services
                      Color = c.Color,
                      Size = c.Size,
                      SizeHeight = c.SizeHeight,
-                     ImgUrl = c.ImgUrl,
                      MemberId = c.MemberId,
 
                  }).FirstAsync();

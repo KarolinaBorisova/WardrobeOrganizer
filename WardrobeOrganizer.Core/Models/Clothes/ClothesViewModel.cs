@@ -14,8 +14,6 @@ namespace WardrobeOrganizer.Core.Models.Clothes
 
         //public string Description { get; set; }
 
-        public string ImgUrl { get; set; }
-
         //public string Color { get; set; }
 
         public string Size { get; set; }

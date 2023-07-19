@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,21 +178,26 @@ namespace WardrobeOrganizer.Core.Services
             {
                 throw new ArgumentNullException("Member is not valid");
             }
-
-            Guid imgName = Guid.NewGuid();
-            var folderName = "member";
-
-
-            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
-            await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+ 
+            
 
             try
             {
                 var member = await repo.GetByIdAsync<Member>(model.Id);
 
+                if (model.Image != null)
+                {
+                    Guid imgName = Guid.NewGuid();
+                    var folderName = "member";
+
+                    var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+                    await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
+                    member.ImagePath = $"/images/{folderName}/{imgName}{extention}";
+                }
+
                 member.FirstName = model.FirstName;
                 member.LastName = model.LastName;
-                member.ImagePath = $"/images/{folderName}/{imgName}{extention}";
                 member.Birthdate = model.Birthdate;
                 member.Gender = model.Gender;
                 member.ShoeSizeEu = model.ShoeSizeEu;
