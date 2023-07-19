@@ -231,31 +231,32 @@ namespace WardrobeOrganizer.Core.Services
                 throw new ArgumentNullException("Clothing not found");
             }
 
+            if (model.Image != null)
+            {
+                if (model.Image.Length > 2 * 1024 * 1024)
+                {
+                    throw new InvalidOperationException("Image size is too big");
+                }
+
+                Guid imgName = Guid.NewGuid();
+                var folderName = "clothing";
+
+                var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+                await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
+                clothing.ImagePath = $"/images/{folderName}/{imgName}{extention}";
+            }
+
+            clothing.Id = model.Id;
+            clothing.Name = model.Name;
+            clothing.Color = model.Color;
+            clothing.Description = model.Description;
+            clothing.Size = model.Size;
+            clothing.SizeHeight = model.SizeHeight;
+            clothing.MemberId = model.MemberId;
 
             try
             {
-                if (model.Image != null)
-                {
-                    Guid imgName = Guid.NewGuid();
-                    var folderName = "clothing";
-
-                    var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
-                    await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
-
-                    clothing.ImagePath = $"/images/{folderName}/{imgName}{extention}";
-                }
-
-
-
-                clothing.Id = model.Id;
-                clothing.Name = model.Name;
-                clothing.Color = model.Color;
-                clothing.Description = model.Description;
-                clothing.Size = model.Size;
-                clothing.SizeHeight = model.SizeHeight;
-                clothing.MemberId = model.MemberId;
-
-
                 await repo.SaveChangesAsync();
             }
             catch (Exception ex)

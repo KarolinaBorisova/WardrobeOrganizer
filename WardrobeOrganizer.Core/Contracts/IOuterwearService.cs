@@ -24,7 +24,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task DeleteById(int outerwearId);
 
-        Task Edit(EditOuterwearViewModel model);
+        Task Edit(EditOuterwearViewModel model, string rootPath);
 
         Task<AllMemberOuterwearViewModel> AllOuterwearByMemberId(int memberId);
 

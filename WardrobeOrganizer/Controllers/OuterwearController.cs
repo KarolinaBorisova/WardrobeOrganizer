@@ -286,10 +286,10 @@ namespace WardrobeOrganizer.Controllers
                 SizeHeight = outerwear.SizeHeight,
                 Color = outerwear.Color,
                 Description = outerwear.Description,
-                ImgUrl = outerwear.ImgUrl,
                 Name = outerwear.Name,
                 MemberId = outerwear.MemberId,
                 Members = await memberService.AllMembersBasic(familiId)
+
             };
             return View(model);
         }
@@ -320,10 +320,11 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
+            var rootPath = this.webHostEnvironment.WebRootPath;
 
             try
             {
-                await outerwearService.Edit(model);
+                await outerwearService.Edit(model, rootPath);
                 TempData[MessageConstant.SuccessMessage] = "Outerwear edited";
             }
             catch (Exception)

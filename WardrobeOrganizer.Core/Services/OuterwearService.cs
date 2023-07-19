@@ -30,27 +30,41 @@ namespace WardrobeOrganizer.Core.Services
                 throw new ArgumentNullException("Outerwear is not valid");
             }
 
-            Guid imgName = Guid.NewGuid();
-            var folderName = "outerwear";
+
+            var outerwear = new Outerwear();
 
 
-            var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
-            await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
-
-            var outerwear = new Outerwear()
+            if (model.Image != null)
             {
-                ImgUrl = model.ImgUrl,
-                Description = model.Description,
-                Name = model.Name,
-                Size = model.Size,
-                SizeHeight = model.SizeHeight,
-                Category = model.Category,
-                Color = model.Color,
-                StorageId = model.StorageId,
-                MemberId = model.MemberId,
-                ImagePath = $"/images/{folderName}/{imgName}{extention}",
 
-            };
+                if (model.Image.Length > 2 * 1024 * 1024)
+                {
+                    throw new InvalidOperationException("Image size is too big");
+                }
+
+                Guid imgName = Guid.NewGuid();
+                var folderName = "outerwear";
+
+
+                var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+                await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
+                outerwear = new Outerwear()
+                {
+                    
+                    Description = model.Description,
+                    Name = model.Name,
+                    Size = model.Size,
+                    SizeHeight = model.SizeHeight,
+                    Category = model.Category,
+                    Color = model.Color,
+                    StorageId = model.StorageId,
+                    MemberId = model.MemberId,
+                    ImagePath = $"/images/{folderName}/{imgName}{extention}",
+
+                };
+            }
+
 
             try
             {
@@ -153,7 +167,6 @@ namespace WardrobeOrganizer.Core.Services
              {
                  Id = o.Id,
                  Name = o.Name,
-                 ImgUrl = o.ImgUrl,
                  Description = o.Description,
                  Category = o.Category,
                  Size = o.Size,
@@ -164,7 +177,8 @@ namespace WardrobeOrganizer.Core.Services
                  StorageName = o.Storage.Name,
                  MemberName = o.Member.FirstName + " " + o.Member.LastName,
                  MemberId = o.MemberId,
-                 HouseId = o.Storage.HouseId
+                 HouseId = o.Storage.HouseId,
+                 ImagePath = o.ImagePath
 
              }).FirstAsync();
             }
@@ -189,12 +203,12 @@ namespace WardrobeOrganizer.Core.Services
              {
                  Id = o.Id,
                  Name = o.Name,
-                 ImgUrl = o.ImgUrl,
                  Description = o.Description,
                  Size = o.Size,
                  SizeHeight = o.SizeHeight,
                  Color = o.Color,
-                 MemberId = o.MemberId
+                 MemberId = o.MemberId,
+
 
              }).FirstAsync();
             }
@@ -244,7 +258,7 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task Edit(EditOuterwearViewModel model)
+        public async Task Edit(EditOuterwearViewModel model, string rootPath)
         {
             if (model == null)
             {
@@ -252,20 +266,40 @@ namespace WardrobeOrganizer.Core.Services
             }
 
             var outerwear = await repo.GetByIdAsync<Outerwear>(model.Id);
+
             if (outerwear == null)
             {
                 throw new ArgumentNullException("Outerwear not found");
             }
+
+            if (model.Image != null)
+            {
+
+                if (model.Image.Length > 2 * 1024 * 1024)
+                {
+                    throw new InvalidOperationException("Image size is too big");
+                }
+
+                Guid imgName = Guid.NewGuid();
+                var folderName = "outerwear";
+
+
+                var extention = Path.GetExtension(model.Image.FileName.TrimStart('.'));
+                await fileService.SaveImage(model.Image, imgName, folderName, rootPath, extention);
+
+                outerwear.ImagePath = $"/images/{folderName}/{imgName}{extention}";
+              
+            }
+
             outerwear.IsActive = true;
             outerwear.Name = model.Name;
-            outerwear.ImgUrl = model.ImgUrl;
             outerwear.SizeHeight = model.SizeHeight;
             outerwear.Size = model.Size;
             outerwear.Color = model.Color;
             outerwear.Description = model.Description;
             outerwear.MemberId = model.MemberId;
-          
-   
+           
+
             try
             {
                 await repo.SaveChangesAsync();

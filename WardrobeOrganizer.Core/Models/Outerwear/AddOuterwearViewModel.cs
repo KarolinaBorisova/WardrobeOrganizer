@@ -19,9 +19,6 @@ namespace WardrobeOrganizer.Core.Models.Outerwear
         [MaxLength(300)]
         public string? Description { get; set; }
 
-        [Required]
-        public string ImgUrl { get; set; }
-
         public IFormFile Image { get; set; }
 
         [Required]
@@ -36,7 +33,6 @@ namespace WardrobeOrganizer.Core.Models.Outerwear
 
         public int? MemberId { get; set; }
 
-        // public  IEnumerable<MemberViewModel> Members{ get; set; }
         [Required]
         public string Category { get; set; }
 
