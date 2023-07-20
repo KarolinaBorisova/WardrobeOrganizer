@@ -97,7 +97,6 @@ namespace WardrobeOrganizer.Core.Services
                     {
                         Id = o.Id,
                         Name = o.Name,
-                        ImgUrl = o.ImgUrl,
                         StorageId = storageId,
                         Size = o.Size,
                         SizeHeight = o.SizeHeight,
@@ -140,7 +139,6 @@ namespace WardrobeOrganizer.Core.Services
                      SizeHeight = o.SizeHeight,
                      StorageId = o.StorageId,
                      Category = category,
-                     ImgUrl = o.ImgUrl,
                      ImagePath = o.ImagePath,
                      Name = o.Name,
                          }).ToList()
@@ -331,7 +329,6 @@ namespace WardrobeOrganizer.Core.Services
                      Size = cl.Size,
                      SizeHeight = cl.SizeHeight,
                      StorageId = cl.StorageId,
-                     ImgUrl = cl.ImgUrl,
                      ImagePath = cl.ImagePath,
                      MemberId = memberId,
 
@@ -373,7 +370,6 @@ namespace WardrobeOrganizer.Core.Services
                        Size = cl.Size,
                        SizeHeight = cl.SizeHeight,
                        StorageId = cl.StorageId,
-                       ImgUrl = cl.ImgUrl,
                        ImagePath = cl.ImagePath,
                        MemberId = memberId,
 
