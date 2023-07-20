@@ -70,4 +70,11 @@
 <div class="text-center">
     <a class="list-group-item list-group-item-action list-group-item-info btn" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="Add">Add new @Model.Category</a>
 </div>
+@if (!Model.Clothes.Any())
+{
+    <div class="img-container">
+        <div class="text-empty-wardrobe">There is nothing to wear here</div>
+        <img src="https://img.freepik.com/premium-photo/empty-clothes-hangers-hanging-clothes-rack-bedroom-copy-spase_339295-26.jpg?w=1380" alt="Smiley face">
+    </div>
+}
 <partial name="_ClothesCollectionPartial" for="Clothes">

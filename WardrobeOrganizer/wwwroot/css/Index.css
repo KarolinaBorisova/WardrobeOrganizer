@@ -245,3 +245,22 @@ form .list-group-item-info.btn {
 .dropdown-content .btn-info {
     color: #fff;
 }
+
+/* empty partial*/
+
+.img-container img{
+    width: unset;
+    overflow: hidden;
+}
+
+
+.img-container .text-empty-wardrobe{
+    position: absolute;
+    top: 50%;
+    left: 50%;  
+    transform: translate(-50%,-50%);
+    font-size: 63px;
+    border: 2px solid black;
+    padding: 10px 3px;
+    border-radius: 10px;
+}
