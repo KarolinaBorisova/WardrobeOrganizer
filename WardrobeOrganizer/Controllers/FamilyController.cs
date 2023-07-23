@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using WardrobeOrganizer.Core.Constants;
@@ -22,28 +23,37 @@ namespace WardrobeOrganizer.Controllers
         private readonly IMemberService memberService;
         private readonly IHouseService houseService;
         private readonly ILogger logger;
-
+        private readonly UserManager<User> userManager;
 
         public FamilyController(IFamilyService _familyService,
              IStorageService _storageService,
              IMemberService _memberService,
              IHouseService _houseService,
-             ILogger<FamilyController> _logger)
+             ILogger<FamilyController> _logger,
+             UserManager<User> _userManager)
         {
             familyService = _familyService;
             storageService = _storageService;
             memberService = _memberService;
             houseService = _houseService;
             logger = _logger;
+            userManager = _userManager;
         }
-      
+
         public async Task<IActionResult> Info(string userId)
         {
             var family = await familyService.GetFamilyByUserId(userId);
-            if (family == null)
+            var user = await userManager.FindByIdAsync(User.Id());
+
+            if (family == null && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "This user hasn't added family yet.";
                 return RedirectToAction("Add", "Family");
+            }
+            if (family == null && await userManager.IsInRoleAsync(user, RoleConstants.Administrator))
+            {
+                TempData[MessageConstant.ErrorMessage] = "This user hasn't added family yet.";
+                return RedirectToAction("Index", "Home");
             }
             var model = new InfoFamilyViewModel()
             {

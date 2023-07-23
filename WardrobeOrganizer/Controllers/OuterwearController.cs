@@ -54,8 +54,9 @@ namespace WardrobeOrganizer.Controllers
 
             var storage = await storageService.GetStorageById(storageId);
             var familyId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
 
-            if (storage.House.FamilyId != familyId)
+            if (storage.House.FamilyId != familyId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -174,8 +175,9 @@ namespace WardrobeOrganizer.Controllers
 
             var storage = await storageService.GetStorageById(storageId);
             int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
 
-            if (storage.House.FamilyId != familiId)
+            if (storage.House.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.WarningMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -345,8 +347,9 @@ namespace WardrobeOrganizer.Controllers
             }
             var member = await memberService.GetMemberById(memberId);
             int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
 
-            if (member.Family.Id != familiId)
+            if (member.Family.Id != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.WarningMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -380,8 +383,9 @@ namespace WardrobeOrganizer.Controllers
             }
             var member = await memberService.GetMemberById(memberId);
             int familiId = await familyService.GetFamilyId(User.Id());
+            var user = await userManager.FindByIdAsync(User.Id());
 
-            if (member.Family.Id != familiId)
+            if (member.Family.Id != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.WarningMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
