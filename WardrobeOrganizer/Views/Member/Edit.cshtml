@@ -8,46 +8,42 @@
 </div>
 <form method="post" EncType="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label class = "label" asp-for="FirstName">First name</label>
+    <div class="input-container member">
+        <div class="input-field">
+            <label class="label" asp-for="FirstName">First name</label>
             <input asp-for="FirstName" class="form-control" id="FirstName" placeholder="First name">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="LastName">Last Name</label>
-            <input asp-for="LastName" class="form-control" id="LastName" placeholder="Last name">
+            <input asp-for="LastName" class="form-control" id="LastName" placeholder="Last Name">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Image">Image</label>
             <input asp-for="Image" class="form-control" placeholder="Image">
         </div>
-    </div>
-    <div class="form-row col-md-4">
-        <label class="label" asp-for="Birthdate">Birthdate</label>
-        <input asp-for="Birthdate" type="date" class="form-control" id="Birthdate" placeholder="Birthdate">
-    </div>
-    <div class="form-row col-md-2">
-        <label class="label" asp-for="Gender">Gender</label>
-        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
-            <option selected="selected" value="">Please select</option>
-        </select>     
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-2">
+        <div class="input-field">
+            <label class="label" asp-for="Birthdate">Birthdate</label>
+            <input asp-for="Birthdate" type="date" class="form-control" id="Birthdate" placeholder="Birthdate">
+        </div>
+        <div class="input-field">
+            <label class="label" asp-for="Gender">Gender</label>
+            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+        <div class="input-field">
             <label class="label" asp-for="ShoeSizeEu">Shoe Size</label>
             <input asp-for="ShoeSizeEu" type="text" class="form-control" id="ShoeSizeEu">
         </div>
-        <div class="form-group col-md-2">
+        <div class="input-field">
             <label class="label" asp-for="FootLengthCm">Foot length in centimetres</label>
             <input asp-for="FootLengthCm" type="text" class="form-control" id="FootLengthCm">
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-2">
+        <div class="input-field">
             <label class="label" asp-for="ClothesSize">Clothing Size</label>
             <input asp-for="ClothesSize" type="text" class="form-control" id="ClothesSize">
         </div>
-        <div class="form-group col-md-2">
+        <div class="input-field">
             <label class="label" asp-for="UserHeight">Height</label>
             <input asp-for="UserHeight" type="text" class="form-control" id="UserHeight">
         </div>

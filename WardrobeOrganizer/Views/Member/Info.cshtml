@@ -6,30 +6,6 @@
 <div class="text-center">
     <h1 class="page-title">@Model.FirstName @Model.LastName</h1>
 </div>
-<div>
-    <div class="card">
-        <div class="card-body">
-            <img src="@Model.ImagePath" alt="Avatar" style="width:100%">
-            <h4>@Model.FirstName @Model.LastName</h4>
-            <p class="card-text">Birthdate: @Model.Birthdate</p>
-            <p class="card-text">Gender: @Model.Gender</p>
-            <p class="card-text">Height: @Model.UserHeight</p>
-            <p class="card-text">Clothes size: @Model.ClothesSize</p>
-            <p class="card-text">Shoes size: @Model.ShoeSizeEu</p>
-            <p class="card-text">Foot length in cm: @Model.FootLengthCm</p>
-
-        </div>
-        @if (User.IsInRole(RoleConstants.User))
-        {
-        <div class="card-footer">
-            <form method="post" asp-controller="Member" asp-action="Delete" asp-route-id="@Model.Id">
-                <button class="btn btn-danger" type="submit">Delete member</button>
-            </form>
-            <a class="btn btn-success" asp-controller="Member" asp-route-id="@Model.Id" asp-action="Edit">Edit member</a>
-        </div>
-        }
-    </div>
-</div>
 <div class="nav-container">
     <div class="dropdown">
         <a class="dropbtn" asp-controller="Clothes" asp-route-memberId="@Model.Id" asp-action="MemberAllClothes">Clothes</a>
@@ -81,12 +57,37 @@
     </div>
 </div>
 
-<div class="card">
+<div>
+    <div class="card">
+        <div class="card-body">
+            <img src="@Model.ImagePath" alt="Avatar" style="width:100%">
+            <h4>@Model.FirstName @Model.LastName</h4>
+            <p class="card-text">Birthdate: @Model.Birthdate</p>
+            <p class="card-text">Gender: @Model.Gender</p>
+            <p class="card-text">Height: @Model.UserHeight</p>
+            <p class="card-text">Clothes size: @Model.ClothesSize</p>
+            <p class="card-text">Shoes size: @Model.ShoeSizeEu</p>
+            <p class="card-text">Foot length in cm: @Model.FootLengthCm</p>
+
+        </div>
+        @if (User.IsInRole(RoleConstants.User))
+        {
+        <div class="card-footer">
+            <form method="post" asp-controller="Member" asp-action="Delete" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Delete member</button>
+            </form>
+            <a class="btn btn-success" asp-controller="Member" asp-route-id="@Model.Id" asp-action="Edit">Edit member</a>
+        </div>
+        }
+    </div>
+</div>
+@*
+    <div class="card">
     <ul id="list-container"></ul>
     <p class="card-text" id="houseName"><span></span></p>
 </div>
 <button class="btn btn-primary" id="apitest">Show Houses ApiTest</button>
-<script>
+    <script>
 
     document.getElementById("apitest").addEventListener("click", function () {
         fetch('api/house/houses/get')
@@ -104,7 +105,9 @@
 
             });
     });
-</script>
+</script>*@
+
+
 
 
 

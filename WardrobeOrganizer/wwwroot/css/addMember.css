@@ -1,3 +1,13 @@
 ﻿div {
     background-color: pink
 }
+
+.input-field.member .label {
+    display: block;
+    font-size: 25px;
+    margin-top: 12px;
+    margin-left: 15px;
+}
+.input-field.member {
+    text-align: unset;
+}

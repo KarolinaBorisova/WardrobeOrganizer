@@ -175,6 +175,18 @@ input.form-control {
 .input-field {
     text-align: center;
 }
+
+/*form for member*/
+    .input-container.member .label {
+        display: block;
+        font-size: 25px;
+        margin-top: 12px;
+        margin-left: 15px;
+    }
+
+.input-container.member {
+    text-align-last: start;
+}
 /*button in forms */
 form .list-group-item-info.btn {
     margin-top: 70px;

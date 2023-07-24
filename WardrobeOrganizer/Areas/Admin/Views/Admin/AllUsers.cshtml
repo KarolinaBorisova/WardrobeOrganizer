@@ -17,7 +17,14 @@
                 <h4>
                     <a class="card-title text-dark" asp-area="" asp-route-userId="@user.Id" asp-controller="Family" asp-action="Info">User: @user.Email</a></h4>
                 <h4>Fullname: @user.FullName</h4>
-                <h4>IsAcitve: @user.IsActive</h4>
+                @if (@user.IsActive)
+                {
+                    <h4>Is Acitve</h4>
+                }
+                else
+                {
+                    <h4>Blocked</h4>
+                }
             </div>
             <div class="card-footer">
                 <a class="btn btn-danger " asp-area="Admin" asp-route-id="@user.Id" asp-controller="Admin" asp-action="InActive">Block user</a>
