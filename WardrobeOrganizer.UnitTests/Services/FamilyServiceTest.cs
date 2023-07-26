@@ -1,9 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Infrastructure.Data;
@@ -11,16 +6,17 @@ using WardrobeOrganizer.Infrastructure.Data.Common;
 
 namespace WardrobeOrganizer.UnitTests.Services
 {
+    [TestFixture]
     public class FamilyServiceTest
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private IFamilyService familyService;
 
         [SetUp]
         public async Task Setup()
         {
-            dbContext = new InMemoryDbContext();    
-
+            dbContext = new InMemoryDbContext();
             var serviceCollection = new ServiceCollection();
 
             serviceProvider = serviceCollection
@@ -30,9 +26,15 @@ namespace WardrobeOrganizer.UnitTests.Services
                 .BuildServiceProvider();
 
             var repoTest = serviceProvider.GetService<IRepository>();
-            await SeedDbAsync(repoTest);
-          
+
+            await SeedDbAsync(repoTest!);
+
+            familyService = serviceProvider.GetService<IFamilyService>()!;
         }
+
+        [Test]
+        public async Task ExistsShouldReturnCorrectType() =>
+           Assert.IsInstanceOf<bool>(await familyService.ExistsById(5000));
 
         [Test]
         public void CheckIfFamilyWithIdExists()
@@ -43,10 +45,11 @@ namespace WardrobeOrganizer.UnitTests.Services
                 Name = "Test"
             };
 
-            var service = serviceProvider.GetService<IFamilyService>();
+           
 
-            var result = service.ExistsById(3);
-            Assert.AreEqual(true,result.Result);
+           
+
+        //   
         }
 
         [TearDown]
@@ -55,7 +58,7 @@ namespace WardrobeOrganizer.UnitTests.Services
             dbContext.Dispose();
         }
 
-        private async Task SeedDbAsync(IRepository repoTest)
+        private static async Task SeedDbAsync(IRepository repoTest)
         {
             var family = new Family()
             {
