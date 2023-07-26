@@ -47,9 +47,9 @@ namespace WardrobeOrganizer.Tests
 
             var result = service.ExistsById(1);
             Assert.NotNull(result);
-            Assert.Equal("true", result.ToString());
+           Assert.Equal("true", result.Result.ToString());
 
-            //TODO: exisist
+            //TODO: exists
 
 
         }
