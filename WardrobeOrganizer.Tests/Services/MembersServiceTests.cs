@@ -10,28 +10,28 @@ using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
 
-namespace WardrobeOrganizer.Tests
+namespace WardrobeOrganizer.Tests.Services
 {
     public class MembersServiceTests
     {
         [Fact]
         public async Task ExistShoudReturnTrueIfTheMemberIsFound()
-        {
-            var member = new Member
-            {
-                Id = 1,
-                FirstName = "KariTest",
-                LastName = "BorisovaTest",
-                FootLengthCm = 1,
-                ShoeSizeEu = 1,
-                ClothesSize = "L",
-                FamilyId = 1,
-                Birthdate = DateTime.Now,
-                IsActive = true,
-                Gender = Infrastructure.Data.Enums.Gender.Male,
-                ImagePath = "/images/member/e031de77-c950-4539-a040-717885f0339f.jpg",
-                UserHeight = 1, 
-            };
+        { //
+          // var member = new Member
+          // {
+          //     Id = 1,
+          //     FirstName = "KariTest",
+          //     LastName = "BorisovaTest",
+          //     FootLengthCm = 1,
+          //     ShoeSizeEu = 1,
+          //     ClothesSize = "L",
+          //     FamilyId = 1,
+          //     Birthdate = DateTime.Now,
+          //     IsActive = true,
+          //     Gender = Infrastructure.Data.Enums.Gender.Male,
+          //     ImagePath = "/images/member/e031de77-c950-4539-a040-717885f0339f.jpg",
+          //     UserHeight = 1, 
+          // };
 
             var list = new List<Member>();
             var mockRepo = new Mock<IRepository>();
@@ -39,15 +39,16 @@ namespace WardrobeOrganizer.Tests
             mockRepo.Setup(x => x.AddAsync(It.IsAny<Member>()))
                 .Callback((Member member) => list.Add(member));
 
-            var mockFileService = new Mock<IFileService>();
-          // mockFileService.Setup(x => x.SaveImage(It.IsAny<Member>()))
-          //     .Callback((Member member) => list.Add(member));
 
-            var service = new MemberService(mockRepo.Object,mockFileService.Object);
+            var mockFileService = new Mock<IFileService>();
+            // mockFileService.Setup(x => x.SaveImage(It.IsAny<Member>()))
+            //     .Callback((Member member) => list.Add(member));
+
+            var service = new MemberService(mockRepo.Object, mockFileService.Object);
 
             var result = service.ExistsById(1);
             Assert.NotNull(result);
-           Assert.Equal("true", result.Result.ToString());
+            Assert.Equal("true", result.Result.ToString());
 
             //TODO: exists
 
