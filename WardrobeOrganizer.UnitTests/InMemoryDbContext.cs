@@ -11,16 +11,16 @@ namespace WardrobeOrganizer.UnitTests
 {
     public class InMemoryDbContext
     {
-        private readonly SqliteConnection connection;
+        private readonly SqliteConnection sqliteConnection;
         private readonly DbContextOptions<ApplicationDbContext> dbContextOptions;
 
-        public InMemoryDbContext()
+        public InMemoryDbContext()  
         {
-            connection = new SqliteConnection("Filename=:memory:");
-            connection.Open();
+            sqliteConnection = new SqliteConnection("Filename=:memory:");
+            sqliteConnection.Open();
 
             dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlite(connection)
+                .UseSqlite(sqliteConnection)
                 .Options;
 
             using var context = new ApplicationDbContext(dbContextOptions);
@@ -30,6 +30,6 @@ namespace WardrobeOrganizer.UnitTests
 
         public ApplicationDbContext CreateContext() => new ApplicationDbContext(dbContextOptions);
 
-        public void Dispose() => connection.Dispose();
+        public void Dispose() => sqliteConnection.Dispose();
     }
 }

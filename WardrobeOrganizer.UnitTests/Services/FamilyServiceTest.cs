@@ -1,12 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NuGet.ContentModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Services;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
 
 namespace WardrobeOrganizer.UnitTests.Services
 {
-    [TestFixture]
     public class FamilyServiceTest
     {
         private ServiceProvider serviceProvider;
@@ -16,7 +22,8 @@ namespace WardrobeOrganizer.UnitTests.Services
         [SetUp]
         public async Task Setup()
         {
-            dbContext = new InMemoryDbContext();
+            dbContext = new InMemoryDbContext();    
+
             var serviceCollection = new ServiceCollection();
 
             serviceProvider = serviceCollection
@@ -25,32 +32,82 @@ namespace WardrobeOrganizer.UnitTests.Services
                 .AddSingleton<IFamilyService, FamilyService>()
                 .BuildServiceProvider();
 
-            var repoTest = serviceProvider.GetService<IRepository>();
-
-            await SeedDbAsync(repoTest!);
+            var repo = serviceProvider.GetService<IRepository>();
+            await SeedDbAsync(repo!);
 
             familyService = serviceProvider.GetService<IFamilyService>()!;
         }
 
         [Test]
-        public async Task ExistsShouldReturnCorrectType() =>
-           Assert.IsInstanceOf<bool>(await familyService.ExistsById(5000));
+        public async Task ExistsByIdShouldReturnCorrectType() {
+            Assert.IsInstanceOf<bool>(await familyService.ExistsById(1));
+        }
 
         [Test]
-        public void CheckIfFamilyWithIdExists()
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task ExistsByIdShouldReturnTrueWhenFamilyExists(int familyId) =>
+            Assert.That(await familyService.ExistsById(familyId), Is.True);
+
+        [Test]
+        [TestCase(50)]
+        public async Task ExistsByIdShouldReturnFalseWhenFamilyDoesntExisits(int familyd) =>
+           Assert.That(await familyService.ExistsById(familyd), Is.False);
+
+        [Test]
+        public async Task GetFamilyByIdShouldReturnCorrectType()
         {
-            var family = new Family()
-            {
-                Id = 1,
-                Name = "Test"
-            };
-
-           
-
-           
-
-        //   
+            Assert.IsInstanceOf<FamilyViewModel>(await familyService.GetFamilyById(1));
         }
+
+        [Test]
+        [TestCase(1)]
+        public async Task GetFamilyByIdShouldReturnCorrectFamily(int expectedId)
+        {
+            var actualId = (await familyService.GetFamilyById(expectedId)).Id;
+            Assert.That(actualId,Is.EqualTo(expectedId));
+        }
+
+        [Test]
+        [TestCase("TestUserId")]
+        public async Task GetFamilyByUserIdShouldReturnCorrectFamily(string userId)
+        {
+            var actualUserId = (await familyService.GetFamilyByUserId(userId)).UserId;
+            Assert.That(actualUserId, Is.EqualTo(userId));
+        }
+
+        [Test]
+        public async Task GetFamilyByUserIdShouldReturnCorrectType()
+        {
+            Assert.IsInstanceOf<FamilyViewModel>(await familyService.GetFamilyByUserId("TestUserId"));
+        }
+
+        [Test]
+        [TestCase("TestUserId")]
+        public async Task GetFamilyIdByUserIdShouldReturnCorrectFamilyId(string userId)
+        {
+            var actualId = (await familyService.GetFamilyId(userId));
+            Assert.That(actualId, Is.EqualTo(67));
+        }
+
+        [Test]
+        [TestCase("NotValidUserId")]
+        public async Task GetFamilyIdByUserIdShouldReturnZeroIfUserIdIsWrong(string userId)
+        {
+            var actualId = (await familyService.GetFamilyId(userId));
+            Assert.That(actualId, Is.EqualTo(0));
+        }
+
+        [Test]
+        public async Task HasFamilyShouldReturnCorrectType()
+        {
+            Assert.IsInstanceOf<bool>(await familyService.HasFamily("da"));
+        }
+
+        [Test]
+        [TestCase("TestUserId")]
+        public async Task HasFamilyShouldReturnTrueUserHaveFamily(string userId) =>
+            Assert.That(await familyService.HasFamily(userId), Is.True);
 
         [TearDown]
         public void TearDown()
@@ -58,11 +115,13 @@ namespace WardrobeOrganizer.UnitTests.Services
             dbContext.Dispose();
         }
 
-        private static async Task SeedDbAsync(IRepository repoTest)
+        private async Task SeedDbAsync(IRepository repoTest)
         {
             var family = new Family()
             {
-                Name = "TestFamily"
+                Id = 67,
+                Name = "TestFamily",
+                UserId = "TestUserId"
             };
 
             await repoTest.AddAsync(family);
