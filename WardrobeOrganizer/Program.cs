@@ -31,8 +31,8 @@ namespace WardrobeOrganizer
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-              
 
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";

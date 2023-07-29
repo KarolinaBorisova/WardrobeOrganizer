@@ -18,7 +18,7 @@ namespace WardrobeOrganizer.UnitTests
         {
             sqliteConnection = new SqliteConnection("Filename=:memory:");
             sqliteConnection.Open();
-
+                
             dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlite(sqliteConnection)
                 .Options;

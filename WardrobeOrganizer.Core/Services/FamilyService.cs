@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,14 @@ namespace WardrobeOrganizer.Core.Services
     public class FamilyService : IFamilyService
     {
         private readonly IRepository repo;
+        private readonly IMapper mapper;
 
-        public FamilyService(IRepository _repo)
+        public FamilyService(IRepository _repo,
+            IMapper _mapper)
         {
             this.repo = _repo;
+            this.mapper = _mapper;
+
         }
 
         public async Task<int> Create(FamilyViewModel model, string userId)
@@ -102,12 +107,7 @@ namespace WardrobeOrganizer.Core.Services
             {
                 return await repo.AllReadonly<Family>()
                .Where(f => f.Id == id)
-               .Select(f => new FamilyViewModel()
-               {
-                   Id = f.Id,
-                   Name = f.Name,
-                   UserId = f.UserId
-               }).FirstOrDefaultAsync();
+               .Select(f => mapper.Map<FamilyViewModel>(f)).FirstOrDefaultAsync();
 
             }
             catch (Exception ex)

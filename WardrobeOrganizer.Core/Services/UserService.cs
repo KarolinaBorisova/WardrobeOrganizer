@@ -33,14 +33,14 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 users.Users = await repo.AllReadonly<User>()
-         .Where(u => u.LastName != "Admin")
-         .Select(c => new UserViewModel()
-         {
-             Id = c.Id,
-             Email = c.Email,
-             FullName = c.FirstName + " " + c.LastName,
-             IsActive = c.IsActive,
-         }).ToListAsync();
+                .Where(u => u.LastName != "Admin")
+                .Select(c => new UserViewModel()
+              {
+                    Id = c.Id,
+                    Email = c.Email,
+                    FullName = c.FirstName + " " + c.LastName,
+                    IsActive = c.IsActive,
+              }).ToListAsync();
 
                 await repo.SaveChangesAsync();
 

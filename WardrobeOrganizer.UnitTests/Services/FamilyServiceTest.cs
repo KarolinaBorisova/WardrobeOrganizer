@@ -46,8 +46,14 @@ namespace WardrobeOrganizer.UnitTests.Services
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        public async Task ExistsByIdShouldReturnTrueWhenFamilyExists(int familyId) =>
+        public async Task ExistsByIdShouldReturnTrueWhenFamilyExists(int familyId)
+        {
+            var result = await familyService.ExistsById(familyId);
+
+            Console.WriteLine(result);
             Assert.That(await familyService.ExistsById(familyId), Is.True);
+
+        }
 
         [Test]
         [TestCase(50)]
@@ -59,6 +65,7 @@ namespace WardrobeOrganizer.UnitTests.Services
         {
             Assert.IsInstanceOf<FamilyViewModel>(await familyService.GetFamilyById(1));
         }
+
 
         [Test]
         [TestCase(1)]
@@ -105,9 +112,17 @@ namespace WardrobeOrganizer.UnitTests.Services
         }
 
         [Test]
-        [TestCase("TestUserId")]
-        public async Task HasFamilyShouldReturnTrueUserHaveFamily(string userId) =>
-            Assert.That(await familyService.HasFamily(userId), Is.True);
+        public async Task HasFamilyShouldReturnTrueIfUserHaveFamily()
+        {
+            Assert.That(await familyService.HasFamily("1"), Is.True);
+        }
+
+        [Test]
+        public async Task HasFamilyShouldReturnFalseIfUserHaveFamily()
+        {
+            Assert.That(await familyService.HasFamily("UserWithoutFamily"), Is.False);
+        }
+          
 
         [TearDown]
         public void TearDown()
@@ -123,6 +138,7 @@ namespace WardrobeOrganizer.UnitTests.Services
                 Name = "TestFamily",
                 UserId = "TestUserId"
             };
+
 
             await repoTest.AddAsync(family);
             await repoTest.SaveChangesAsync();
