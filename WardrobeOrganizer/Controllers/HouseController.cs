@@ -106,7 +106,7 @@ namespace WardrobeOrganizer.Controllers
                 Name = house.Name,
                 Address = house.Address,
                 Id = house.Id,
-                FamilyId = house.FamilyId
+                FamilyId = house.FamilyId,
             };
 
             return View(model);

@@ -18,6 +18,5 @@ namespace WardrobeOrganizer.Core.Models.User
 
         public ICollection<AllMembersViewModel> Members { get; set; }
 
-
     }
 }

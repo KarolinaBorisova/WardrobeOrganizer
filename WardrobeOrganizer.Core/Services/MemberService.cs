@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
@@ -21,12 +23,15 @@ namespace WardrobeOrganizer.Core.Services
     {
         private readonly IRepository repo;
         private readonly IFileService fileService;
+        private readonly IMapper mapper;
         
         public MemberService(IRepository _repo,
-            IFileService _fileService)
+            IFileService _fileService,
+            IMapper _mapper)
         {
             this.repo = _repo;
             this.fileService = _fileService;
+            this.mapper = _mapper;
         }
 
         public async Task<int> AddMember(AddMemberViewModel model, int familyId, string rootPath)
@@ -59,8 +64,7 @@ namespace WardrobeOrganizer.Core.Services
                 ClothesSize = model.ClothesSize,
                 UserHeight = model.UserHeight,
                 FamilyId = familyId,
-                ImagePath = $"/images/{folderName}/{imgName}{extention}",
-                
+                ImagePath = $"/images/{folderName}/{imgName}{extention}",     
             };
 
             try
@@ -81,15 +85,8 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 return await repo.AllReadonly<Member>()
-            .Where(f => f.FamilyId == familyId && f.IsActive)
-            .Select(m => new AllMembersViewModel
-            {
-                Id = m.Id,
-                FirstName = m.FirstName,
-                LastName = m.LastName,
-                ImagePath = m.ImagePath
-
-            }).ToListAsync();
+                .Where(f => f.FamilyId == familyId && f.IsActive)
+            .Select(m => mapper.Map<AllMembersViewModel>(m)).ToListAsync();
             }
             catch (Exception ex)
             {

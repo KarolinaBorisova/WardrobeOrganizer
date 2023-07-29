@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Accessories;
 using WardrobeOrganizer.Core.Models.Clothes;
+using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.Outerwear;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
@@ -17,13 +19,16 @@ namespace WardrobeOrganizer.Core.Services
     {
         private readonly IRepository repo;
         private readonly IFileService fileService;
+        private readonly IMapper mapper;
 
 
         public AccessoriesService(IRepository _repo,
-            IFileService fileService)
+            IFileService fileService,
+            IMapper _mapper)
         {
             this.repo = _repo;
             this.fileService = fileService;
+            this.mapper = _mapper;
         }
 
         public async Task<int> AddAccessories(AddAccessoriesViewModel model, string rootPath)
@@ -232,23 +237,7 @@ namespace WardrobeOrganizer.Core.Services
               .Include(a => a.Storage)
               .ThenInclude(s => s.House)
                .Where(a => a.Id == accessoriesId)
-               .Select(a => new DetailsAccessoriesViewModel()
-               {
-                   Id = a.Id,
-                   Name = a.Name,
-                   Category = a.Category,
-                   Description = a.Description,
-                   Color = a.Color,
-                   SizeAge = a.SizeAge,
-                   StorageId = a.StorageId,
-                   ImagePath = a.ImagePath,
-                   MemberName = a.Member.FirstName + " " + a.Member.LastName,
-                   HouseName = a.Storage.House.Name,
-                   StorageName = a.Storage.Name,
-                   MemberId = a.MemberId,
-                   HouseId = a.Storage.HouseId
-
-               }).FirstAsync();
+               .Select(a => mapper.Map<DetailsAccessoriesViewModel>(a)).FirstAsync();
             }
             catch (Exception ex)
             {
@@ -263,16 +252,7 @@ namespace WardrobeOrganizer.Core.Services
                 return await repo.AllReadonly<Accessories>()
             .Include(a => a.Member)
              .Where(a => a.Id == accessoriesId)
-             .Select(a => new EditAccessoriesViewModel()
-             {
-                 Id = a.Id,
-                 Name = a.Name,
-                 Description = a.Description,
-                 Color = a.Color,
-                 SizeAge = a.SizeAge,
-                 MemberId = a.MemberId
-
-             }).FirstAsync();
+             .Select(a => mapper.Map<EditAccessoriesViewModel>(a)).FirstAsync();
             }
             catch (Exception ex)
             {

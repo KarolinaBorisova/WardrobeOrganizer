@@ -108,7 +108,6 @@ namespace WardrobeOrganizer.Core.Services
                 return await repo.AllReadonly<Family>()
                .Where(f => f.Id == id)
                .Select(f => mapper.Map<FamilyViewModel>(f)).FirstOrDefaultAsync();
-
             }
             catch (Exception ex)
             {
@@ -124,13 +123,7 @@ namespace WardrobeOrganizer.Core.Services
                 return await repo.AllReadonly<Family>()
                .Include(f => f.User)
                .Where(f => f.UserId == userId)
-               .Select(f => new FamilyViewModel()
-               {
-                   Id = f.Id,
-                   Name = f.Name,
-                   UserId = userId
-               }).FirstOrDefaultAsync();
-
+               .Select(f => mapper.Map<FamilyViewModel>(f)).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {

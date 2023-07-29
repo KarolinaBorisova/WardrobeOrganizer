@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.House;
 using WardrobeOrganizer.Core.Models.Member;
 using WardrobeOrganizer.Core.Models.Storage;
@@ -16,10 +18,12 @@ namespace WardrobeOrganizer.Core.Services
     public class HouseService: IHouseService
     {
         private readonly IRepository repo;
+        private readonly IMapper mapper;
 
-        public HouseService(IRepository _repo)
+        public HouseService(IRepository _repo, IMapper mapper)
         {
             repo = _repo;
+            this.mapper = mapper;
         }
 
         public async Task<int> AddHouse(AddHouseViewModel model, int familiId)
@@ -55,16 +59,9 @@ namespace WardrobeOrganizer.Core.Services
             try
             {
                 return await repo.AllReadonly<House>()
-             .Where(h => h.FamilyId == familyId && h.IsActive)
-             .OrderBy(x => x.Name)
-            .Select(s => new AllHousesViewModel
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Address = s.Address,
-                FamilyId = familyId
-
-            }).ToListAsync();
+                .Where(h => h.FamilyId == familyId && h.IsActive)
+                .OrderBy(x => x.Name)
+                .Select(s => mapper.Map<AllHousesViewModel>(s)).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -139,13 +136,7 @@ namespace WardrobeOrganizer.Core.Services
             {
                 return await repo.AllReadonly<House>()
                .Where(h => h.Id == houseId && h.IsActive)
-               .Select(h => new InfoHouseViewModel()
-               {
-                   Id = h.Id,
-                   Address = h.Address,
-                   FamilyId = h.FamilyId,
-                   Name = h.Name,
-               })
+               .Select(h => mapper.Map<InfoHouseViewModel>(h))
                .FirstOrDefaultAsync();
 
             }

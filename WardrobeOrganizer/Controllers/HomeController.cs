@@ -52,7 +52,7 @@ namespace WardrobeOrganizer.Controllers
             {
                 Houses = await houseService.AllHouses(familiId),
                 Members = await memberService.AllMembers(familiId),
-                Family = await familyService.GetFamilyByUserId(User.Id())
+                Family = await familyService.GetFamilyByUserId(User.Id()),
             };
 
             return View(model);
