@@ -237,7 +237,23 @@ namespace WardrobeOrganizer.Core.Services
               .Include(a => a.Storage)
               .ThenInclude(s => s.House)
                .Where(a => a.Id == accessoriesId)
-               .Select(a => mapper.Map<DetailsAccessoriesViewModel>(a)).FirstAsync();
+               .Select(a => new DetailsAccessoriesViewModel()
+               {
+                   Id = a.Id,
+                   Name = a.Name,
+                   Category = a.Category,
+                   Description = a.Description,
+                   Color = a.Color,
+                   SizeAge = a.SizeAge,
+                   StorageId = a.StorageId,
+                   ImagePath = a.ImagePath,
+                   MemberName = a.Member.FirstName + " " + a.Member.LastName,
+                   HouseName = a.Storage.House.Name,
+                   StorageName = a.Storage.Name,
+                   MemberId = a.MemberId,
+                   HouseId = a.Storage.HouseId
+
+               }).FirstAsync();
             }
             catch (Exception ex)
             {
@@ -245,20 +261,20 @@ namespace WardrobeOrganizer.Core.Services
             }
           
         }
-        public async Task<EditAccessoriesViewModel> GetAccessoriesEditModelById(int accessoriesId)
-        {
-            try
-            {
-                return await repo.AllReadonly<Accessories>()
-            .Include(a => a.Member)
-             .Where(a => a.Id == accessoriesId)
-             .Select(a => mapper.Map<EditAccessoriesViewModel>(a)).FirstAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException(ex.Message);
-            }
-        }
+     //  public async Task<EditAccessoriesViewModel> GetAccessoriesEditModelById(int accessoriesId)
+     //  {
+     //      try
+     //      {
+     //          return await repo.AllReadonly<Accessories>()
+     //      .Include(a => a.Member)
+     //       .Where(a => a.Id == accessoriesId)
+     //       .Select(a => mapper.Map<EditAccessoriesViewModel>(a)).FirstAsync();
+     //      }
+     //      catch (Exception ex)
+     //      {
+     //          throw new InvalidOperationException(ex.Message);
+     //      }
+     //  }
 
         public async Task<AllMemberAccessoriesViewModel> AllAccessoriesByMemberId(int memberId)
         {

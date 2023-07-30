@@ -15,7 +15,6 @@ namespace WardrobeOrganizer.AutoMapper
                 CreateMap<House, AllHousesViewModel>().ReverseMap();
                 CreateMap<House, InfoHouseViewModel>().ReverseMap();
                 CreateMap<Member, AllMembersViewModel>().ReverseMap();
-                CreateMap<Accessories, DetailsAccessoriesViewModel>().ReverseMap();
                 CreateMap<Accessories, EditAccessoriesViewModel>().ReverseMap();
         }
     }
