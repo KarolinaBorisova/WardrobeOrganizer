@@ -337,32 +337,32 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task<EditClothesViewModel> GetClothesEditModelById(int clothingId)
-        {
-
-            try
-            {
-                return await repo.AllReadonly<Clothes>()
-                 .Include(c => c.Member)
-                 .Where(c => c.Id == clothingId && c.IsActive)
-                 .Select(c => new EditClothesViewModel()
-                 {
-                     Id = clothingId,
-                     Name = c.Name,
-                     Description = c.Description,
-                     Color = c.Color,
-                     Size = c.Size,
-                     SizeHeight = c.SizeHeight,
-                     MemberId = c.MemberId,
-
-                 }).FirstAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException(ex.Message);
-            }
-           
-        }
+       // public async Task<EditClothesViewModel> GetClothesEditModelById(int clothingId)
+       // {
+       //
+       //     try
+       //     {
+       //         return await repo.AllReadonly<Clothes>()
+       //          .Include(c => c.Member)
+       //          .Where(c => c.Id == clothingId && c.IsActive)
+       //          .Select(c => new EditClothesViewModel()
+       //          {
+       //              Id = clothingId,
+       //              Name = c.Name,
+       //              Description = c.Description,
+       //              Color = c.Color,
+       //              Size = c.Size,
+       //              SizeHeight = c.SizeHeight,
+       //              MemberId = c.MemberId,
+       //
+       //          }).FirstAsync();
+       //     }
+       //     catch (Exception ex)
+       //     {
+       //         throw new InvalidOperationException(ex.Message);
+       //     }
+       //    
+       // }
 
     }
 }

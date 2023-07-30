@@ -165,9 +165,9 @@ input.form-control {
     transform: scale(1.1);
     cursor:pointer;
 }
-    .card-wrapper div {
+/* .card-wrapper div {
         height: 20rem;
-    }
+    }*/
 /*Forms*/
 
 .form-control{

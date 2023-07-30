@@ -269,35 +269,35 @@ namespace WardrobeOrganizer.Core.Services
            
         }
 
-        public async Task<EditShoesViewModel> GetShoesEditModelById(int shoesId)
-        {
-            try
-            {
-                return await repo.AllReadonly<Shoes>()
-               .Include(s => s.Member)
-               .Include(c => c.Storage)
-               .ThenInclude(s => s.House)
-               .Where(s => s.Id == shoesId)
-               .Select(s => new EditShoesViewModel()
-               {
-                   Id = s.Id,
-                   Name = s.Name,
-                   SizeEu = s.SizeEu,
-                   Centimetres = s.Centimetres,
-                   Description = s.Description,
-                   Color = s.Color,
-                   MemberId = s.MemberId,
-
-
-
-               }).FirstAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException(ex.Message);
-            }
-        
-        }
+      //public async Task<EditShoesViewModel> GetShoesEditModelById(int shoesId)
+      //{
+      //    try
+      //    {
+      //        return await repo.AllReadonly<Shoes>()
+      //       .Include(s => s.Member)
+      //       .Include(c => c.Storage)
+      //       .ThenInclude(s => s.House)
+      //       .Where(s => s.Id == shoesId)
+      //       .Select(s => new EditShoesViewModel()
+      //       {
+      //           Id = s.Id,
+      //           Name = s.Name,
+      //           SizeEu = s.SizeEu,
+      //           Centimetres = s.Centimetres,
+      //           Description = s.Description,
+      //           Color = s.Color,
+      //           MemberId = s.MemberId,
+      //
+      //
+      //
+      //       }).FirstAsync();
+      //    }
+      //    catch (Exception ex)
+      //    {
+      //        throw new InvalidOperationException(ex.Message);
+      //    }
+      //
+      //}
 
         public async Task<AllMemberShoesViewModel> AllShoesByMemberId(int memberId)
         {

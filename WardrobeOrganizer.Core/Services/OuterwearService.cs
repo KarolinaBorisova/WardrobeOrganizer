@@ -188,35 +188,35 @@ namespace WardrobeOrganizer.Core.Services
          
         }
 
-        public async Task<EditOuterwearViewModel> GetOuterwearEditModelById(int outerwearId)
-        {
-            try
-            {
-                return await repo.AllReadonly<Outerwear>()
-             .Include(o => o.Member)
-             .Include(o => o.Storage)
-             .ThenInclude(s => s.House)
-             .Where(o => o.Id == outerwearId)
-             .Select(o => new EditOuterwearViewModel()
-             {
-                 Id = o.Id,
-                 Name = o.Name,
-                 Description = o.Description,
-                 Size = o.Size,
-                 SizeHeight = o.SizeHeight,
-                 Color = o.Color,
-                 MemberId = o.MemberId,
-
-
-             }).FirstAsync();
-            }
-            catch (Exception ex)
-            {
-
-                throw new InvalidOperationException(ex.Message);
-            }
-         
-        }
+     // public async Task<EditOuterwearViewModel> GetOuterwearEditModelById(int outerwearId)
+     // {
+     //     try
+     //     {
+     //         return await repo.AllReadonly<Outerwear>()
+     //      .Include(o => o.Member)
+     //      .Include(o => o.Storage)
+     //      .ThenInclude(s => s.House)
+     //      .Where(o => o.Id == outerwearId)
+     //      .Select(o => new EditOuterwearViewModel()
+     //      {
+     //          Id = o.Id,
+     //          Name = o.Name,
+     //          Description = o.Description,
+     //          Size = o.Size,
+     //          SizeHeight = o.SizeHeight,
+     //          Color = o.Color,
+     //          MemberId = o.MemberId,
+     //
+     //
+     //      }).FirstAsync();
+     //     }
+     //     catch (Exception ex)
+     //     {
+     //
+     //         throw new InvalidOperationException(ex.Message);
+     //     }
+     //  
+     // }
 
 
         public async Task<bool> ExistsById(int outerwearId)

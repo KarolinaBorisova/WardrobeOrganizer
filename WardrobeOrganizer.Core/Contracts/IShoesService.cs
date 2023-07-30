@@ -19,7 +19,7 @@ namespace WardrobeOrganizer.Core.Contracts
 
         Task<DetailsShoesViewModel> GetShoesDetailsModelById(int shoesId);
 
-        Task<EditShoesViewModel> GetShoesEditModelById(int shoesId);
+       // Task<EditShoesViewModel> GetShoesEditModelById(int shoesId);
 
         Task<bool> ExistsById(int shoesId);
 
