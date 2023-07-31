@@ -30,6 +30,7 @@ namespace WardrobeOrganizer.UnitTests.Services
                 .AddSingleton(sp => dbContext.CreateContext())
                 .AddSingleton<IRepository, Repository>()
                 .AddSingleton<IFamilyService, FamilyService>()
+                .AddAutoMapper(typeof(Program).Assembly)
                 .BuildServiceProvider();
 
             var repo = serviceProvider.GetService<IRepository>();

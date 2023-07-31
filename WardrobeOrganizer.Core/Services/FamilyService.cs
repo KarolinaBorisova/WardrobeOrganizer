@@ -42,12 +42,7 @@ namespace WardrobeOrganizer.Core.Services
                 throw new ArgumentNullException("User not found");
             }
 
-            var family = new Family()
-            {
-                Name = model.Name,
-                UserId = userId,
-                User = user,
-            };
+            var family = mapper.Map<Family>(model);
 
           
             user.Family = family;

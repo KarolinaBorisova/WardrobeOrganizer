@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WardrobeOrganizer.AutoMapper;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Family;
 using WardrobeOrganizer.Core.Models.House;
@@ -22,6 +24,9 @@ namespace WardrobeOrganizer.UnitTests.Services
         [SetUp]
         public async Task Setup()
         {
+         // var configuration = new MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile()));
+          //  var mappeir = new Mapper(configuration);
+          
             dbContext = new InMemoryDbContext();
 
             var serviceCollection = new ServiceCollection();
@@ -30,11 +35,13 @@ namespace WardrobeOrganizer.UnitTests.Services
                 .AddSingleton(sp => dbContext.CreateContext())
                 .AddSingleton<IRepository, Repository>()
                 .AddSingleton<IHouseService, HouseService>()
+                .AddAutoMapper(typeof(Program).Assembly)
                 .BuildServiceProvider();
 
             var repo = serviceProvider.GetService<IRepository>();
             await SeedDbAsync(repo!);
 
+          // var mapper = serviceProvider.GetService<IMapper>();
             houseService = serviceProvider.GetService<IHouseService>()!;
         }
 
@@ -110,7 +117,7 @@ namespace WardrobeOrganizer.UnitTests.Services
            Assert.IsInstanceOf<ICollection<AllHousesViewModel>>(await houseService.AllHouses(67));
 
         [Test]
-        public async Task AllHousesShouldRetutnCorrectCount() =>
+        public async Task AllHousesShouldReturnCorrectCount() =>
             Assert.That((await houseService.AllHouses(67)).Count(), Is.EqualTo(1));
 
 
