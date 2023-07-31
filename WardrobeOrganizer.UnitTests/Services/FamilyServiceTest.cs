@@ -123,13 +123,11 @@ namespace WardrobeOrganizer.UnitTests.Services
         {
             Assert.That(await familyService.HasFamily("UserWithoutFamily"), Is.False);
         }
-          
+
+
 
         [TearDown]
-        public void TearDown()
-        {
-            dbContext.Dispose();
-        }
+        public void TearDown() => dbContext.Dispose();
 
         private async Task SeedDbAsync(IRepository repoTest)
         {

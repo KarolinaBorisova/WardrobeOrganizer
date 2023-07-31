@@ -24,8 +24,6 @@ namespace WardrobeOrganizer.UnitTests.Services
         [SetUp]
         public async Task Setup()
         {
-         // var configuration = new MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile()));
-          //  var mappeir = new Mapper(configuration);
           
             dbContext = new InMemoryDbContext();
 
@@ -41,7 +39,6 @@ namespace WardrobeOrganizer.UnitTests.Services
             var repo = serviceProvider.GetService<IRepository>();
             await SeedDbAsync(repo!);
 
-          // var mapper = serviceProvider.GetService<IMapper>();
             houseService = serviceProvider.GetService<IHouseService>()!;
         }
 
@@ -58,7 +55,6 @@ namespace WardrobeOrganizer.UnitTests.Services
         {
             var result = await houseService.ExistsById(houseId);
 
-            Console.WriteLine(result);
             Assert.That(await houseService.ExistsById(houseId), Is.True);
 
         }
@@ -70,10 +66,9 @@ namespace WardrobeOrganizer.UnitTests.Services
            Assert.That(await houseService.ExistsById(houseId), Is.False);
 
         [Test]
-        public async Task GetHouseByIdShouldReturnCorrectType()
-        {
+        public async Task GetHouseByIdShouldReturnCorrectType() =>
             Assert.IsInstanceOf<InfoHouseViewModel>(await houseService.GetHouseById(67));
-        }
+  
 
         [Test]
         public async Task GetHouseByIdShouldReturnCorrectHouse()
@@ -81,7 +76,6 @@ namespace WardrobeOrganizer.UnitTests.Services
             var house = await houseService.GetHouseById(67);
             Assert.That(house.Name, Is.EqualTo("TestHouse"));
         }
-
 
         [Test]
         [TestCase("TestUserId")]
@@ -113,6 +107,18 @@ namespace WardrobeOrganizer.UnitTests.Services
         }
 
         [Test]
+        public async Task AddHouseShouldThrowExceptionWhenIdIsNotValid()
+        {
+            var model = new AddHouseViewModel
+            {      
+                Name = "HouseName",
+                Address = "HouseAddress",
+            };
+
+            Assert.That(() => houseService.AddHouse(model, 600), Throws.Exception.TypeOf<InvalidOperationException>());
+        }
+
+        [Test]
         public async Task AllHousesShouldReturnCorrectType() =>
            Assert.IsInstanceOf<ICollection<AllHousesViewModel>>(await houseService.AllHouses(67));
 
@@ -122,10 +128,7 @@ namespace WardrobeOrganizer.UnitTests.Services
 
 
         [TearDown]
-        public void TearDown()
-        {
-            dbContext.Dispose();
-        }
+        public void TearDown() => dbContext.Dispose();
 
         private async Task SeedDbAsync(IRepository repoTest)
         {
