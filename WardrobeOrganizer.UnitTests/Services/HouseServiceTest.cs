@@ -119,12 +119,27 @@ namespace WardrobeOrganizer.UnitTests.Services
         }
 
         [Test]
+        public async Task AddHouseShouldThrowExceptionWhenModelIsNull() => 
+            Assert.That(() => houseService.AddHouse(null, 600), Throws.Exception.TypeOf<ArgumentNullException>());
+        
+
+        [Test]
         public async Task AllHousesShouldReturnCorrectType() =>
            Assert.IsInstanceOf<ICollection<AllHousesViewModel>>(await houseService.AllHouses(67));
 
         [Test]
         public async Task AllHousesShouldReturnCorrectCount() =>
             Assert.That((await houseService.AllHouses(67)).Count(), Is.EqualTo(1));
+
+        [Test]
+        [TestCase("67")]
+        [TestCase("68")]
+        public async Task DeleteShouldWorkCorrect(int houseId)
+        {
+            await houseService.Delete(houseId);
+
+            Assert.That(await houseService.ExistsById(houseId), Is.False);
+        }
 
 
         [TearDown]

@@ -100,6 +100,48 @@ namespace WardrobeOrganizer.UnitTests.Services
             Assert.That(() => storageService.AddStorage(model), Throws.Exception.TypeOf<InvalidOperationException>());
         }
 
+        [Test]
+        public async Task AllStoragesShouldReturnCorrectType() =>
+         Assert.IsInstanceOf<ICollection<AllStoragesViewModel>>(await storageService.AllStorages(50));
+
+        [Test]
+        public async Task AllStoragesShouldReturnCorrectCount() =>
+            Assert.That((await storageService.AllStorages(50)).Count(), Is.EqualTo(1));
+
+        [Test]
+        public async Task AllStoragesShouldReturn0WhenHouseIdIsWrong() =>
+          Assert.That((await storageService.AllStorages(500)).Count(), Is.EqualTo(0));
+
+        [Test]
+        [TestCase("20")]
+        [TestCase("25")]
+        public async Task DeleteShouldWorkCorrect(int storageId)
+        {
+            await storageService.Delete(storageId);
+
+            Assert.That(await storageService.ExistsById(storageId), Is.False);
+        }
+        [Test]
+
+        public async Task EditShouldWorkCorrect()
+        {
+            InfoStorageViewModel model = new()
+            {
+                Id = 20,
+                Name = "TestStorageEdited"
+
+            };
+
+            await storageService.Edit(model);
+
+            var storage = await storageService.GetStorageById(model.Id);
+
+            Assert.That(model.Name, Is.EqualTo(storage.Name));
+        }
+        public async Task EditShouldThrowExceptionIfModelIsNull() =>
+            Assert.That(() => storageService.Edit(null), Throws.Exception.TypeOf<ArgumentNullException>());
+       
+
         [TearDown]
         public void TearDown() => dbContext.Dispose();
         
