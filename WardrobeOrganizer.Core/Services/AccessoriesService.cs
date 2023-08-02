@@ -19,16 +19,14 @@ namespace WardrobeOrganizer.Core.Services
     {
         private readonly IRepository repo;
         private readonly IFileService fileService;
-        private readonly IMapper mapper;
+
 
 
         public AccessoriesService(IRepository _repo,
-            IFileService fileService,
-            IMapper _mapper)
+            IFileService fileService)
         {
             this.repo = _repo;
             this.fileService = fileService;
-            this.mapper = _mapper;
         }
 
         public async Task<int> AddAccessories(AddAccessoriesViewModel model, string rootPath)
@@ -142,7 +140,7 @@ namespace WardrobeOrganizer.Core.Services
             }
             catch (Exception ex)
             {
-                throw new InvalidCastException(ex.Message);
+                throw new InvalidOperationException(ex.Message);
             }
            
         }
