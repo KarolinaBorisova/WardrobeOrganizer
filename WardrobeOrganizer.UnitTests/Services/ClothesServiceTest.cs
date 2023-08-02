@@ -163,6 +163,7 @@ namespace WardrobeOrganizer.UnitTests.Services
         [Test]
         public async Task AllClothesByCategoryAndMemberIdShouldReturn0WhencategoryIsWrong() =>
            Assert.That((await clothesService.AllClothesByCategoryAndMemberId(10, "wrongCategory")).Clothes.Count(), Is.EqualTo(0));
+
         [TearDown]
         public void TearDown() => dbContext.Dispose();
 

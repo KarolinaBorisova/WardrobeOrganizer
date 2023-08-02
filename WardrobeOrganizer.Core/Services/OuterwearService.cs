@@ -25,17 +25,13 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<int> AddOuterWear(AddOuterwearViewModel model, string rootPath)
         {
-            if (model == null)
+            if (model == null || model.Image == null)
             {
                 throw new ArgumentNullException("Outerwear is not valid");
             }
 
 
             var outerwear = new Outerwear();
-
-
-            if (model.Image != null)
-            {
 
                 if (model.Image.Length > 2 * 1024 * 1024)
                 {
@@ -63,9 +59,7 @@ namespace WardrobeOrganizer.Core.Services
                     ImagePath = $"/images/{folderName}/{imgName}{extention}",
 
                 };
-            }
-
-
+       
             try
             {
                 await repo.AddAsync(outerwear);
