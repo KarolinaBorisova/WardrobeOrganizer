@@ -6,9 +6,9 @@
     <h1 class="page-title">@ViewData["Title"]</h1>
 </div>
 <div class="text-center">
-    <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.StorageId" asp-action="Info">Back to storage</a>
-    <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-action="All">Back to all clothes</a>
-    <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="ClothesByCategory">Back to all @Model.Category</a>
+    <a class="btn btn-info" asp-controller="Storage" asp-route-id="@Model.StorageId" asp-action="Info">Go to storage</a>
+    <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-action="All">All clothes</a>
+    <a class="btn btn-info" asp-controller="Clothes" asp-route-storageId="@Model.StorageId" asp-route-category="@Model.Category" asp-action="ClothesByCategory">All @Model.Category</a>
 </div>
 <div>
     <div class="card">
