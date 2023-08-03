@@ -123,7 +123,7 @@ input.form-control {
     align-items: center;
 }
 .card-group > .card {   
-    width: 70%;
+    width: 100%;
 }
 .list-group {
     display: flex;
@@ -222,6 +222,13 @@ form .list-group-item-info.btn {
     transform: translate(-50%, -50%);
     z-index: -2;
     opacity: 0.5;
+}
+
+.storage-background {
+    margin: 0px 50%;
+    transform: translateX(-50%);
+    z-index: -10;
+    position: relative;
 }
 /*footer btns*/
 .btn {

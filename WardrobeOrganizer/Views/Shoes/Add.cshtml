@@ -8,40 +8,38 @@
 </div>
 <form method="post" EncType="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
+    <div class="input-container">
+        <div class="input-field">
             <label class="label" asp-for="Name">Name</label>
             <input asp-for="Name" class="form-control" id="Name" placeholder="Name">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Image">Image</label>
             <input asp-for="Image" class="form-control" placeholder="Image">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Color">Color</label>
             <input asp-for="Color" class="form-control" id="Color" placeholder="Color">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="SizeEu">SizeEu</label>
             <input asp-for="SizeEu" class="form-control" id="SizeEu" placeholder="SizeEu">
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Centimetres">Centimetres</label>
             <input asp-for="Centimetres" type="text" class="form-control" id="Centimetres">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="MemberId">Member</label>
             <select asp-for="MemberId" asp-items="@members">
                 <option selected="selected" value="">Please select</option>
             </select>
         </div>
-        <input type="hidden" asp-for="Category" value="@Model.Category"/>
-    </div>
-    <div class="form-group col-md-6">
-        <label class="label" asp-for="Description">Description</label>
-        <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
+        <input type="hidden" asp-for="Category" value="@Model.Category" />
+        <div class="input-field">
+            <label class="label" asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
+        </div>
     </div>
     <button type="submit" class="list-group-item list-group-item-action list-group-item-info btn">Add shoes</button>
 </form>

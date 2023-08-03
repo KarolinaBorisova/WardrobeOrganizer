@@ -8,36 +8,34 @@
 </div>
 <form method="post" EncType="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
+    <div class="input-container">
+        <div class="input-field">
             <label class="label" asp-for="Name">Name</label>
             <input asp-for="Name" class="form-control" id="Name" placeholder="Name">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Image">Image</label>
             <input asp-for="Image" class="form-control" placeholder="Image">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="Color">Color</label>
             <input asp-for="Color" class="form-control" id="Color" placeholder="Color">
         </div>
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="SizeAge">Size by age</label>
             <input asp-for="SizeAge" class="form-control" id="ImgUSizerl" placeholder="SizeAge">
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="input-field">
             <label class="label" asp-for="MemberId">Member</label>
             <select asp-for="MemberId" asp-items="@members">
                 <option selected="selected" value="">Please select</option>
             </select>
         </div>
         <input type="hidden" asp-for="@Model.Category">
-    </div>
-    <div class="form-group col-md-6">
-        <label class="label" asp-for="Description">Description</label>
-        <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
-    </div>
+        <div class="input-field">
+            <label class="label" asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
+        </div>
+    </div>   
     <button type="submit" class="list-group-item list-group-item-action list-group-item-info btn">Add @Model.Category</button>
 </form>
