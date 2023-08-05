@@ -304,7 +304,7 @@ form .list-group-item-info.btn {
     border-radius: 10px;
 }
 
-.search-container {
+.search-container{
     display: flex;
-    justify-content: space-between;
+justify-content: space-between;
 }
