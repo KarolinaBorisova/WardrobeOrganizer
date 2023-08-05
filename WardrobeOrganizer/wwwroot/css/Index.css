@@ -303,3 +303,8 @@ form .list-group-item-info.btn {
     padding: 10px 3px;
     border-radius: 10px;
 }
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+}
