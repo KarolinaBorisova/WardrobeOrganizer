@@ -19,43 +19,46 @@
    
 </div>
 <div>
-    <div class="list-group-item">Size</div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div><div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div><div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div><div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
+        <div class="list-group-item">Color</div>
+        @foreach (var item in Model.Colors)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <label class="form-check-label" for="flexCheckDefault">@item</label>
+            </div>
+        }
+
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
+<div>
+        <div class="list-group-item">Shoe EU size</div>
+        @foreach (var item in Model.ShoeSizesEu)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <label class="form-check-label" for="flexCheckDefault">@item</label>
+            </div>
+        }
+
     </div>
 </div>
 <div>
-    <div class="list-group-item">Color</div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div><div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div><div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div><div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>
-    </div>
+    <div class="list-group-item">Ages</div>
+    @foreach (var item in Model.SizeByAges)
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">@item</label>
+        </div>
+    }
+</div>
+<div>
+    <div class="list-group-item">Clothes Size</div>
+    @foreach (var item in Model.ClothesSizes)
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+            <label class="form-check-label" for="flexCheckDefault">@item</label>
+        </div>
+    }
 </div>
 </div>

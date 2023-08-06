@@ -10,7 +10,11 @@ namespace WardrobeOrganizer.Core.Models.Search
     {
         public IEnumerable<string> Categories { get; set; }
 
-        public IEnumerable<string> Sizes { get; set; }
+        public IEnumerable<string> ClothesSizes { get; set; }
+
+        public IEnumerable<int> ShoeSizesEu { get; set; }
+
+        public IEnumerable<int> SizeByAges { get; set; }
 
         public IEnumerable<string> Colors { get; set; }
     }

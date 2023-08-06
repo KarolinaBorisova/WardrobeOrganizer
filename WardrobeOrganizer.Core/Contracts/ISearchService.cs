@@ -8,11 +8,10 @@ namespace WardrobeOrganizer.Core.Contracts
 {
     public interface ISearchService
     {
-        IEnumerable<string> GetAllColors();
+        Task<IEnumerable<string>> GetAllColors();
         IEnumerable<string> GetAllCategories();
-        IEnumerable<int> GetAllSizesByAges();
-        IEnumerable<string> GetAllClothesSizes();
-        IEnumerable<int> GetAllShoeSizes();
-        IEnumerable<int> GetAllShoeSizesinCm();
+        Task<IEnumerable<int>> GetAllSizesByAges();
+        Task<IEnumerable<string>> GetAllClothesSizes();
+        Task<IEnumerable<int>> GetAllShoeSizes();
     }
 }

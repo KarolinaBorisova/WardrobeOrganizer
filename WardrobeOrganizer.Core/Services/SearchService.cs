@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
 using WardrobeOrganizer.Infrastructure.Data.Enums;
 
@@ -42,29 +44,127 @@ namespace WardrobeOrganizer.Core.Services
             return list;          
         }
 
-        public IEnumerable<string> GetAllClothesSizes()
+        public async Task<IEnumerable<string>> GetAllClothesSizes()
         {
-            throw new NotImplementedException();
+            var clothesSizes = new List<string>();
+
+            var clothes = await repo.AllReadonly<Clothes>()
+                  .Where(c => c.Size != null)
+                  .ToListAsync();
+            foreach (var item in clothes)
+            {
+                if (!clothesSizes.Contains(item.Size))
+                {
+                    clothesSizes.Add(item.Size);
+                }
+
+            }
+            var outwear = await repo.AllReadonly<Outerwear>()
+                 .Where(c => c.Size != null)
+                 .ToListAsync();
+            foreach (var item in outwear)
+            {
+                if (!clothesSizes.Contains(item.Size))
+                {
+                    clothesSizes.Add(item.Size);
+                }
+
+            }
+
+            return clothesSizes;
         }
 
-        public IEnumerable<string> GetAllColors()
+        public async Task<IEnumerable<string>> GetAllColors()
         {
-            throw new NotImplementedException();
+            var colors = new List<string>();
+
+          var clothes =   await repo.AllReadonly<Clothes>()
+                .Where(c => c.Color != null)
+                .ToListAsync();
+            foreach (var item in clothes)
+            {
+                if (!colors.Contains(item.Color))
+                {
+                    colors.Add(item.Color);
+                }
+                
+            }
+            var accessories = await repo.AllReadonly<Accessories>()
+              .Where(c => c.Color != null)
+              .ToListAsync();
+            foreach (var item in accessories)
+            {
+                if (!colors.Contains(item.Color))
+                {
+                    colors.Add(item.Color);
+                }
+
+            }
+            var shoes = await repo.AllReadonly<Shoes>()
+              .Where(c => c.Color != null)
+              .ToListAsync();
+            foreach (var item in shoes)
+            {
+                if (!colors.Contains(item.Color))
+                {
+                    colors.Add(item.Color);
+                }
+
+            }
+            var outerwear = await repo.AllReadonly<Outerwear>()
+              .Where(c => c.Color != null)
+              .ToListAsync();
+            foreach (var item in outerwear)
+            {
+                if (!colors.Contains(item.Color))
+                {
+                    colors.Add(item.Color);
+                }
+
+            }
+
+            return colors;
+
         }
 
-        public IEnumerable<int> GetAllShoeSizes()
+        public async Task<IEnumerable<int>> GetAllShoeSizes()
         {
-            throw new NotImplementedException();
+            var sizesEu = new List<int>();
+
+            var shoes = await repo.AllReadonly<Shoes>()
+                  .Where(c => c.SizeEu != null)
+                  .ToListAsync();
+
+            foreach (var item in shoes)
+            {
+                if (!sizesEu.Contains(item.SizeEu))
+                {
+                    sizesEu.Add(item.SizeEu);
+                }
+
+            }
+
+            return sizesEu;
         }
 
-        public IEnumerable<int> GetAllShoeSizesinCm()
+        public async Task<IEnumerable<int>> GetAllSizesByAges()
         {
-            throw new NotImplementedException();
-        }
+            var sizeByAges = new List<int>();
 
-        public IEnumerable<int> GetAllSizesByAges()
-        {
-            throw new NotImplementedException();
+            var accessories = await repo.AllReadonly<Accessories>()
+                  .Where(c => c.SizeAge != null)
+                  .ToListAsync();
+
+            foreach (var item in accessories)
+            {
+                if (!sizeByAges.Contains(item.SizeAge))
+                {
+                    sizeByAges.Add(item.SizeAge);
+                }
+
+            }
+
+            return sizeByAges;
         }
     }
 }

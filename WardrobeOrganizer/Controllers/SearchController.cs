@@ -13,14 +13,17 @@ namespace WardrobeOrganizer.Controllers
             this.searchService = _searchService;
                 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new SearchIndexViewModel
             {
                 //size
                 //color
-                //category
-                Categories = searchService.GetAllCategories(),
+               Colors = await searchService.GetAllColors(),
+               Categories = searchService.GetAllCategories(),
+               ShoeSizesEu = await searchService.GetAllShoeSizes(),
+               SizeByAges = await searchService.GetAllSizesByAges(),
+               ClothesSizes = await searchService.GetAllClothesSizes(),
             };
 
 
