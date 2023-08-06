@@ -33,16 +33,15 @@ namespace WardrobeOrganizer.Controllers
         [HttpGet]
         public async Task<IActionResult> List(SearchListViewModel model)
         {
-            var clothes = await searchService.GetAllFilteredItems(model);
-
+            
             var viewModel = new ItemsListViewModel()
             {
                 //Accessories
                 //Clothes = await searchService.GetAllFilteredItems(model)
                 //Shoes
                 //Outerwear
-                Items = clothes,
-            };
+                Items = await searchService.GetAllFilteredItems(model)
+        };
             return View(viewModel); 
         } 
     }

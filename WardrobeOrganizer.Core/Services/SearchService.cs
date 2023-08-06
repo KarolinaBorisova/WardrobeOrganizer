@@ -132,16 +132,54 @@ namespace WardrobeOrganizer.Core.Services
         {
            var items = new List<Item>();
 
-            var clothes = await repo.AllReadonly<Clothes>()
-                .Where(c => model.ClothesSizes.Contains(c.Size))
-                .ToListAsync();
-            items.AddRange(clothes);
+            var queryClothes = repo.AllReadonly<Clothes>().AsQueryable();
+            var queryShoes = repo.AllReadonly<Shoes>().AsQueryable();
+            var queryAccessories = repo.AllReadonly<Accessories>().AsQueryable();
+            var queryOutwear = repo.AllReadonly<Outerwear>().AsQueryable();
 
-            var outwears = await repo.AllReadonly<Outerwear>()
-                .Where(c => model.ClothesSizes.Contains(c.Size))
-                .ToListAsync();
-            items.AddRange(outwears);
+            if (model.Categories != null)
+            {
+                foreach (var category in model.Categories)
+                {
+                    queryClothes = queryClothes.Where(i => i.Category == category);
+                    queryShoes = queryShoes.Where(i => i.Category == category);
+                    queryAccessories = queryAccessories.Where(i => i.Category == category);
+                    queryOutwear = queryOutwear.Where(i => i.Category == category);
+                }
+            }
 
+            if (model.ClothesSizes != null)
+            {
+                queryClothes = queryClothes.Where(c => model.ClothesSizes.Contains(c.Size));
+
+            //    items.AddRange(clothes);
+
+                queryOutwear = queryOutwear.Where(c => model.ClothesSizes.Contains(c.Size));
+               
+              //  items.AddRange(outwears);
+            }
+            if (model.ShoeSizesEu != null)
+            {
+                queryShoes = queryShoes.Where(c => model.ShoeSizesEu.Contains(c.SizeEu));
+          
+               // items.AddRange(shoes);
+            }
+
+            if (model.SizeByAges != null)
+            {
+                queryAccessories = queryAccessories.Where(c => model.SizeByAges.Contains(c.SizeAge));
+
+                //items.AddRange(accessories);
+            }
+           await queryClothes.ToListAsync();
+            await queryShoes.ToListAsync();
+            await queryAccessories.ToListAsync();
+            await queryOutwear.ToListAsync();
+
+            items.AddRange(queryClothes);
+            items.AddRange(queryAccessories);
+            items.AddRange(queryOutwear);
+            items.AddRange(queryShoes);
             return items;
 
         }
