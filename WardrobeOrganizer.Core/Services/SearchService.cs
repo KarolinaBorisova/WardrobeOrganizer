@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WardrobeOrganizer.Core.Contracts;
+using WardrobeOrganizer.Core.Models.Search;
 using WardrobeOrganizer.Infrastructure.Data;
 using WardrobeOrganizer.Infrastructure.Data.Common;
 using WardrobeOrganizer.Infrastructure.Data.Enums;
@@ -124,6 +125,24 @@ namespace WardrobeOrganizer.Core.Services
             }
 
             return colors;
+
+        }
+
+        public async Task<IEnumerable<Item>> GetAllFilteredItems(SearchListViewModel model)
+        {
+           var items = new List<Item>();
+
+            var clothes = await repo.AllReadonly<Clothes>()
+                .Where(c => model.ClothesSizes.Contains(c.Size))
+                .ToListAsync();
+            items.AddRange(clothes);
+
+            var outwears = await repo.AllReadonly<Outerwear>()
+                .Where(c => model.ClothesSizes.Contains(c.Size))
+                .ToListAsync();
+            items.AddRange(outwears);
+
+            return items;
 
         }
 
