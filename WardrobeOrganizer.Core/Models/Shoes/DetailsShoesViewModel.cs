@@ -36,5 +36,7 @@ namespace WardrobeOrganizer.Core.Models.Shoes
         public string? HouseName { get; set; }
 
         public int HouseId { get; set; }
+
+        public string UserId { get; set; }
     }
 }

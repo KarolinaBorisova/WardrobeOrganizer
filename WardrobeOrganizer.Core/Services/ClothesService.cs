@@ -58,6 +58,7 @@ namespace WardrobeOrganizer.Core.Services
                 StorageId = model.StorageId,
                 MemberId = model.MemberId,
                 ImagePath = $"/images/{folderName}/{imgName}{extention}",
+                UserId = model.UserId,
             };
             try
             {
@@ -172,6 +173,7 @@ namespace WardrobeOrganizer.Core.Services
                 ImagePath = c.ImagePath,
                 MemberId = c.MemberId,
                 MemberName = c.Member.FirstName + " " + c.Member.LastName,
+                UserId = c.UserId
 
 
             }).FirstAsync();

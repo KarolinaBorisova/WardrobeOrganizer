@@ -42,7 +42,7 @@
             <input asp-for="Description" class="form-control" id="Description" placeholder="Description">
         </div>
     </div>
-     
+    <input type="hidden" asp-for="@Model.UserId">
     <button type="submit" class="list-group-item list-group-item-action list-group-item-info btn">Add clothing</button>
 </form>
 

@@ -143,11 +143,13 @@ namespace WardrobeOrganizer.Core.Services
             {
                 var clothes = await repo.AllReadonly<Clothes>()
                 .Where(c => model.ClothesSizes.Contains(c.Size))
+                .Where(c=>c.UserId == userId)
                 .ToListAsync();
                 items.AddRange(clothes);
 
                 var outwears = await repo.AllReadonly<Outerwear>()
                    .Where(c => model.ClothesSizes.Contains(c.Size))
+                   .Where(c => c.UserId == userId)
                    .ToListAsync();
                 items.AddRange(outwears);
             }
@@ -155,6 +157,7 @@ namespace WardrobeOrganizer.Core.Services
             {
                 var shoes = await repo.AllReadonly<Shoes>()
               .Where(c => model.ShoeSizesEu.Contains(c.SizeEu))
+              .Where(c => c.UserId == userId)
               .ToListAsync();
                 items.AddRange(shoes);
             }
@@ -163,6 +166,7 @@ namespace WardrobeOrganizer.Core.Services
             {
                 var accessories = await repo.AllReadonly<Accessories>()
              .Where(c => model.SizeByAges.Contains(c.SizeAge))
+             .Where(c => c.UserId == userId)
              .ToListAsync();
                 items.AddRange(accessories);
             }

@@ -144,7 +144,6 @@ namespace WardrobeOrganizer.Controllers
 
             try
             {
-                model.UserId = User.Id();
                 await accessoriesService.AddAccessories(model, rootPath);
             }
             catch (Exception e)
@@ -188,7 +187,7 @@ namespace WardrobeOrganizer.Controllers
                 var model = await accessoriesService.AllAccessoriesByCategory(storageId, category);
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception)   
             {
                 return RedirectToAction("Error", "Home");
             }

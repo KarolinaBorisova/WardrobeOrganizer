@@ -74,7 +74,8 @@ namespace WardrobeOrganizer.Controllers
             {
                 StorageId = storageId,
                 Category = category,
-                Members = await memberService.AllMembersBasic(familyId)
+                Members = await memberService.AllMembersBasic(familyId),
+                UserId = User.Id()
             };
             return View(model);
         }
@@ -201,22 +202,24 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var shoes = await shoesService.GetShoesDetailsModelById(Id);
-            var house = await houseService.GetHouseById(shoes.HouseId);
-
             try
             {
-                int familiId = await familyService.GetFamilyId(User.Id());
+                var model = await shoesService.GetShoesDetailsModelById(Id);
                 var user = await userManager.FindByIdAsync(User.Id());
 
-                if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+                try
                 {
-                    TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                    if (model.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
+                    {
+                        TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                        return RedirectToAction("Error", "Home");
+                    }
+                    return View(model);
+                }
+                catch (Exception)
+                {
                     return RedirectToAction("Error", "Home");
                 }
-
-                var model = await shoesService.GetShoesDetailsModelById(Id);
-                return View(model);
             }
             catch (Exception)
             {
@@ -233,12 +236,9 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");  
             }
             var shoes = await shoesService.GetShoesDetailsModelById(shoesId);
-            var house = await houseService.GetHouseById(shoes.HouseId);
-
-            int familyId = await familyService.GetFamilyId(User.Id());
             var user = await userManager.FindByIdAsync(User.Id());
 
-            if (house.FamilyId != familyId)
+            if (shoes.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -265,12 +265,10 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
             var shoes = await shoesService.GetShoesDetailsModelById(shoesId);
-            var house = await houseService.GetHouseById(shoes.HouseId);
-
-            int familyId = await familyService.GetFamilyId(User.Id());
             var user = await userManager.FindByIdAsync(User.Id());
+            int familyId = await familyService.GetFamilyId(User.Id());
 
-            if (house.FamilyId != familyId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            if (shoes.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -305,12 +303,9 @@ namespace WardrobeOrganizer.Controllers
             }
 
             var shoes = await shoesService.GetShoesDetailsModelById(model.Id);
-            var house = await houseService.GetHouseById(shoes.HouseId);
-
-            int familyId = await familyService.GetFamilyId(User.Id());
             var user = await userManager.FindByIdAsync(User.Id());
 
-            if (house.FamilyId != familyId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            if (shoes.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -329,7 +324,7 @@ namespace WardrobeOrganizer.Controllers
 
             }
             var shoesId = model.Id;
-            return RedirectToAction("Details", "Shoes", new { shoesId });
+            return RedirectToAction("Details", "Shoes", new { Id = shoesId });
 
         }
 

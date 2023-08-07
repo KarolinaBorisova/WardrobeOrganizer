@@ -137,8 +137,8 @@ namespace WardrobeOrganizer.Controllers
             {
                 StorageId = storageId,
                 Category = category,
-                Members = await memberService.AllMembersBasic(familyId)  
-                
+                Members = await memberService.AllMembersBasic(familyId),
+                UserId = User.Id()
             };
             return View(model);
         }
@@ -198,22 +198,17 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var clothe = await clothesService.GetClothesDetailsModelById(Id);
-            var house = await houseService.GetHouseById(clothe.HouseId);
+            var model = await clothesService.GetClothesDetailsModelById(Id);
+            var user = await userManager.FindByIdAsync(User.Id());
 
             try
             {
-                int familiId = await familyService.GetFamilyId(User.Id());
-                var user = await userManager.FindByIdAsync(User.Id());
-
-                 if (house.FamilyId != familiId && await userManager.IsInRoleAsync(user, RoleConstants.User))
-                 {
-                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
-                  return RedirectToAction("Error", "Home");
-                 }
-
-                 var model = await clothesService.GetClothesDetailsModelById(Id);
-                 return View(model);
+                if (model.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
+                {
+                    TempData[MessageConstant.ErrorMessage] = "Not allowed";
+                    return RedirectToAction("Error", "Home");
+                }
+                return View(model);
             }
             catch (Exception)
             {
@@ -231,17 +226,19 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
                 return RedirectToAction("Error", "Home");
             }
+
+         
             var clothing = await clothesService.GetClothesDetailsModelById(clothingId);
-            var house = await houseService.GetHouseById(clothing.HouseId);
-
-            int familyId = await familyService.GetFamilyId(User.Id());
             var user = await userManager.FindByIdAsync(User.Id());
+            int familyId = await familyService.GetFamilyId(User.Id());
 
-            if (house.FamilyId != familyId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            if (clothing.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
             }
+
+
             var model = new EditClothesViewModel()
             {
                Id= clothingId,
@@ -272,12 +269,9 @@ namespace WardrobeOrganizer.Controllers
 
             }
             var clothing = await clothesService.GetClothesDetailsModelById(model.Id);
-            var house = await houseService.GetHouseById(clothing.HouseId);
-
-            int familyId = await familyService.GetFamilyId(User.Id());
             var user = await userManager.FindByIdAsync(User.Id());
 
-            if (house.FamilyId != familyId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            if (clothing.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");
@@ -295,7 +289,7 @@ namespace WardrobeOrganizer.Controllers
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong";
             }
             var clothingId = model.Id;
-            return RedirectToAction("Details", "Clothes", new { clothingId });
+            return RedirectToAction("Details", "Clothes", new { Id = clothingId });
         }
 
         [HttpPost]
@@ -308,12 +302,9 @@ namespace WardrobeOrganizer.Controllers
                 return RedirectToAction("Clothes", "All");
             }
             var clothing = await clothesService.GetClothesDetailsModelById(clothingId);
-            var house = await houseService.GetHouseById(clothing.HouseId);
-
-            int familyId = await familyService.GetFamilyId(User.Id());
             var user = await userManager.FindByIdAsync(User.Id());
 
-            if (house.FamilyId != familyId && await userManager.IsInRoleAsync(user, RoleConstants.User))
+            if (clothing.UserId != user.Id && await userManager.IsInRoleAsync(user, RoleConstants.User))
             {
                 TempData[MessageConstant.ErrorMessage] = "Not allowed";
                 return RedirectToAction("Error", "Home");

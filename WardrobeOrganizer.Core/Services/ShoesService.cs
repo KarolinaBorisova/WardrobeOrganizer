@@ -54,7 +54,8 @@ namespace WardrobeOrganizer.Core.Services
                 StorageId = model.StorageId,
                 Category = model.Category,
                 MemberId = model.MemberId,
-           
+                UserId = model.UserId,
+
             };
 
             try
@@ -257,7 +258,8 @@ namespace WardrobeOrganizer.Core.Services
                    StorageName = s.Storage.Name,
                    HouseName = s.Storage.House.Name,
                    MemberId = s.MemberId,
-                   HouseId = s.Storage.HouseId
+                   HouseId = s.Storage.HouseId,
+                   UserId = s.UserId
 
                }).FirstAsync();
             }
