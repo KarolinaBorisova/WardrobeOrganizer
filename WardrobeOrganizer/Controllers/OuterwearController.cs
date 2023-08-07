@@ -195,14 +195,14 @@ namespace WardrobeOrganizer.Controllers
            
         }
 
-        public async Task<IActionResult> Details(int outerwearId)
+        public async Task<IActionResult> Details(int Id)
         {
-            if (await outerwearService.ExistsById(outerwearId)== false)
+            if (await outerwearService.ExistsById(Id)== false)
             {
                 return RedirectToAction("Error", "Home");
             }
 
-            var outerwear = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
+            var outerwear = await outerwearService.GetOuterwearDetailsModelById(Id);
             var house = await houseService.GetHouseById(outerwear.HouseId);
   
             try
@@ -216,7 +216,7 @@ namespace WardrobeOrganizer.Controllers
                     return RedirectToAction("Error", "Home");
                 }
 
-                var model = await outerwearService.GetOuterwearDetailsModelById(outerwearId);
+                var model = await outerwearService.GetOuterwearDetailsModelById(Id);
                 return View(model);
             }
             catch (Exception)

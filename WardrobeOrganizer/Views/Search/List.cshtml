@@ -3,7 +3,7 @@
     ViewData["Title"] = $"Filtered items";
 }
 <div class="text-center">
-    <h1 class="page-title">@ViewData["Title"]</h1>
+    <h1 class="page-title">@ViewData["Title"]</h1>  
 </div>
 @if (!Model.Items.Any())
 {
@@ -17,7 +17,7 @@
         {
             <div class="card-wrapper">
                 
-            <a class="card-title text-dark" asp-controller="@item.GetType().Name" asp-route-clothingId="@item.Id" asp-action="Details">
+            <a class="card-title text-dark" asp-controller="@item.GetType().Name" asp-route-Id="@item.Id" asp-action="Details">
                     <div class="card-body">
                         <img src="@item.ImagePath" alt="Avatar">
                         <h4>@item.Name</h4>

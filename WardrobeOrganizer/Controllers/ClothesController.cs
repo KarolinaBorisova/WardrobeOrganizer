@@ -190,15 +190,15 @@ namespace WardrobeOrganizer.Controllers
             return RedirectToAction("ClothesByCategory", "Clothes", new { storageId, model.Category });
         }
 
-        public async Task<IActionResult> Details(int clothingId)
+        public async Task<IActionResult> Details(int Id)
         {
-            if (await clothesService.ExistsById(clothingId) == false)
+            if (await clothesService.ExistsById(Id) == false)
             {
                 TempData[MessageConstant.WarningMessage] = "Can`t find this clothes";
                 return RedirectToAction("Error", "Home");
             }
 
-            var clothe = await clothesService.GetClothesDetailsModelById(clothingId);
+            var clothe = await clothesService.GetClothesDetailsModelById(Id);
             var house = await houseService.GetHouseById(clothe.HouseId);
 
             try
@@ -212,7 +212,7 @@ namespace WardrobeOrganizer.Controllers
                   return RedirectToAction("Error", "Home");
                  }
 
-                 var model = await clothesService.GetClothesDetailsModelById(clothingId);
+                 var model = await clothesService.GetClothesDetailsModelById(Id);
                  return View(model);
             }
             catch (Exception)

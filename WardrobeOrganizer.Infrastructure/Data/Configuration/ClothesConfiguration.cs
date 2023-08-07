@@ -23,7 +23,8 @@ namespace WardrobeOrganizer.Infrastructure.Data.Configuration
                 Category = "Tshirt",
                 Size = "М",
                 StorageId = 1,
-                ImagePath = "/images/1.jpg"
+                ImagePath = "/images/1.jpg",
+                UserId = "1"
 
             };
 

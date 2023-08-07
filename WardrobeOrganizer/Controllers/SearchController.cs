@@ -1,16 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WardrobeOrganizer.Core.Contracts;
 using WardrobeOrganizer.Core.Models.Search;
+using WardrobeOrganizer.Extensions;
+using WardrobeOrganizer.Infrastructure.Data;
 
 namespace WardrobeOrganizer.Controllers
 {
     public class SearchController : BaseController
     {
         private readonly ISearchService searchService;
+        private readonly UserManager<User> userManager;
 
-        public SearchController(ISearchService _searchService)
+        public SearchController(ISearchService _searchService,
+            UserManager<User> _userManager)
         {
             this.searchService = _searchService;
+            this.userManager = _userManager;
                 
         }
         public async Task<IActionResult> Index()
@@ -40,7 +46,7 @@ namespace WardrobeOrganizer.Controllers
                 //Clothes = await searchService.GetAllFilteredItems(model)
                 //Shoes
                 //Outerwear
-                Items = await searchService.GetAllFilteredItems(model)
+                Items = await searchService.GetAllFilteredItems(model, User.Id())
         };
             return View(viewModel); 
         } 

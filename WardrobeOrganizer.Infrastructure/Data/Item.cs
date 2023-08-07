@@ -40,5 +40,6 @@ namespace WardrobeOrganizer.Infrastructure.Data
         [ForeignKey(nameof(MemberId))]
         public Member? Member { get; set; }
 
+        public string UserId { get; set; }
     }
 }

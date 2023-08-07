@@ -56,7 +56,8 @@ namespace WardrobeOrganizer.Core.Services
                 Color = model.Color,
                 Description = model.Description,
                 ImagePath = $"/images/{folderName}/{imgName}{extention}",
-                MemberId = model.MemberId
+                MemberId = model.MemberId,
+                UserId = model.UserId,
             };
 
             try
@@ -249,7 +250,8 @@ namespace WardrobeOrganizer.Core.Services
                    HouseName = a.Storage.House.Name,
                    StorageName = a.Storage.Name,
                    MemberId = a.MemberId,
-                   HouseId = a.Storage.HouseId
+                   HouseId = a.Storage.HouseId,
+                   UserId = a.UserId
 
                }).FirstAsync();
             }

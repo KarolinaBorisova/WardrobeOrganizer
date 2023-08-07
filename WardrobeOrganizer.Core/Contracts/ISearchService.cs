@@ -15,6 +15,6 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<IEnumerable<int>> GetAllSizesByAges();
         Task<IEnumerable<string>> GetAllClothesSizes();
         Task<IEnumerable<int>> GetAllShoeSizes();
-        Task<IEnumerable<Item>> GetAllFilteredItems(SearchListViewModel model);
+        Task<IEnumerable<Item>> GetAllFilteredItems(SearchListViewModel model,  string userId);
     }
 }
