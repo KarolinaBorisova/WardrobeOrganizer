@@ -132,12 +132,6 @@ namespace WardrobeOrganizer.Core.Services
         {
 
 
-
-
-
-
-
-
            var items = new List<Item>();
             if (model.ClothesSizes != null)
             {
@@ -170,8 +164,64 @@ namespace WardrobeOrganizer.Core.Services
              .ToListAsync();
                 items.AddRange(accessories);
             }
+            if (model.Colors != null )
+            {
+                var clothes = await repo.AllReadonly<Clothes>()
+               .Where(c => model.Colors.Contains(c.Color))
+               .Where(c => c.UserId == userId)
+               .ToListAsync();
+                items.AddRange(clothes);
 
-            return items;
+                var outwears = await repo.AllReadonly<Outerwear>()
+                   .Where(c => model.Colors.Contains(c.Color))
+                   .Where(c => c.UserId == userId)
+                   .ToListAsync();
+                items.AddRange(outwears);
+
+                var shoes = await repo.AllReadonly<Shoes>()
+              .Where(c => model.Colors.Contains(c.Color))
+              .Where(c => c.UserId == userId)
+              .ToListAsync();
+                items.AddRange(shoes);
+
+                var accessories = await repo.AllReadonly<Accessories>()
+             .Where(c => model.Colors.Contains(c.Color))
+             .Where(c => c.UserId == userId)
+             .ToListAsync();
+                items.AddRange(accessories);
+            }
+
+            if (model.Categories != null)
+            {
+                var clothes = await repo.AllReadonly<Clothes>()
+               .Where(c => model.Categories.Contains(c.Category))
+               .Where(c => c.UserId == userId)
+               .ToListAsync();
+                items.AddRange(clothes);
+
+                var outwears = await repo.AllReadonly<Outerwear>()
+                   .Where(c => model.Categories.Contains(c.Category))
+                   .Where(c => c.UserId == userId)
+                   .ToListAsync();
+                items.AddRange(outwears);
+
+                var shoes = await repo.AllReadonly<Shoes>()
+              .Where(c => model.Categories.Contains(c.Category))
+              .Where(c => c.UserId == userId)
+              .ToListAsync();
+                items.AddRange(shoes);
+
+                var accessories = await repo.AllReadonly<Accessories>()
+             .Where(c => model.Categories.Contains(c.Category))
+             .Where(c => c.UserId == userId)
+             .ToListAsync();
+
+                items.AddRange(accessories);
+
+            }
+ 
+            var distinctList = items.DistinctBy(x => x.Id).ToList();
+            return distinctList;
 
         }
 
