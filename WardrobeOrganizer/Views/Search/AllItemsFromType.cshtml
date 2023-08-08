@@ -5,6 +5,7 @@
 <div class="text-center">
     <h1 class="page-title">@ViewData["Title"]</h1>
 </div>
+<partial name="_SearchByCategoryNavigation">
 @if (!Model.Items.Any())
 {
     <div class="img-container">
@@ -21,7 +22,6 @@
         @if (type.Name == "Clothes" || type.Name == "Outerwear")
         {
             <div class="clothes-size-container">
-                <div>Clothes sizes</div>
                 @foreach (var item in Model.ClothesSizes)
                 {
                     <div class="form-check">
@@ -35,7 +35,6 @@
         else if (type.Name == "Shoes")
         {
             <div class="shoes-size-container">
-                <div>Shoes sizes</div>
                 @foreach (var item in Model.ShoeSizesEu)
                 {
                     <div class="form-check">
