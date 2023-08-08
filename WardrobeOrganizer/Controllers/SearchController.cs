@@ -21,19 +21,38 @@ namespace WardrobeOrganizer.Controllers
         }
         public async Task<IActionResult> Index()
         {
+
             var model = new SearchIndexViewModel
             {
                 //size
                 //color
-               Colors = await searchService.GetAllColors(),
-               Categories = searchService.GetAllCategories(),
-               ShoeSizesEu = await searchService.GetAllShoeSizes(),
-               SizeByAges = await searchService.GetAllSizesByAges(),
-               ClothesSizes = await searchService.GetAllClothesSizes(),
+              Colors = await searchService.GetAllColors(),
+             // Categories = searchService.GetAllCategories(),
+             //ShoeSizesEu = await searchService.GetAllShoeSizes(),
+             //SizeByAges = await searchService.GetAllSizesByAges(),
+             //ClothesSizes = await searchService.GetAllClothesSizes(),
             };
 
 
             return View(model);
+        }
+
+        public async Task<IActionResult> AllItemsFromType(string itemType)
+        {
+
+            var viewModel = new ItemsListViewModel()
+            {
+                //Accessories
+                //Clothes = await searchService.GetAllFilteredItems(model)  
+                //Shoes
+                //Outerwear
+                Items = await searchService.AllItems(itemType, User.Id()),
+                ShoeSizesEu = await searchService.GetAllShoeSizes(),
+                SizeByAges = await searchService.GetAllSizesByAges(),
+                ClothesSizes = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+            
         }
 
         [HttpGet]
@@ -46,7 +65,7 @@ namespace WardrobeOrganizer.Controllers
                 //Clothes = await searchService.GetAllFilteredItems(model)
                 //Shoes
                 //Outerwear
-                Items = await searchService.GetAllFilteredItems(model, User.Id())
+               // Items = await searchService.GetAllFilteredItems(model, User.Id())
         };
             return View(viewModel); 
         } 

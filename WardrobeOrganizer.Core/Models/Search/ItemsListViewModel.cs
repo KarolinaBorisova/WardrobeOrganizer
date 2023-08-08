@@ -17,7 +17,14 @@ namespace WardrobeOrganizer.Core.Models.Search
         // public IEnumerable<AccessoriesViewModel> Accessories { get; set; }
         // public IEnumerable<OuterwearViewModel> Outerwears { get; set; }
         // public IEnumerable<ShoesViewModel> Shoes { get; set; }
+        public string Category { get; set; }
 
         public IEnumerable<Item> Items { get; set; }
+
+        public IEnumerable<string> ClothesSizes { get; set; }
+
+        public IEnumerable<int> ShoeSizesEu { get; set; }
+
+        public IEnumerable<int> SizeByAges { get; set; }
     }
 }
