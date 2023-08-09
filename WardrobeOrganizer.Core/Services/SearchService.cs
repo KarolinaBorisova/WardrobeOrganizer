@@ -23,6 +23,24 @@ namespace WardrobeOrganizer.Core.Services
                 repo = _repo;
         }
 
+        public async Task<IEnumerable<Item>> AllAccessoriesByCategory(string category, string userId)
+        {
+            return await repo.AllReadonly<Accessories>()
+                .Where(c => c.UserId == userId)
+                .Where(c => c.Category == category) 
+                .Where(c=> c.IsActive == true)
+                            .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Item>> AllClothesByCategory(string category, string userId)
+        {
+            return await repo.AllReadonly<Clothes>()
+               .Where(c => c.UserId == userId)
+               .Where(c => c.Category == category)
+               .Where(c => c.IsActive == true)
+                           .ToListAsync();
+        }
+
         public async Task<IEnumerable<Item>> AllItems(string itemType, string userId)
         {
           
@@ -33,21 +51,25 @@ namespace WardrobeOrganizer.Core.Services
                     case "clothes":
                         return await repo.AllReadonly<Clothes>()
                             .Where(c => c.UserId == userId)
+                            .Where(c => c.IsActive == true)
                             .ToListAsync();
 
                     case "shoes":
                         return await repo.AllReadonly<Shoes>()
                             .Where(c => c.UserId == userId)
+                            .Where(c => c.IsActive == true)
                             .ToListAsync();
 
                     case "outerwear":
                         return await repo.AllReadonly<Outerwear>()
                             .Where(c => c.UserId == userId)
+                              .Where(c => c.IsActive == true)
                             .ToListAsync();
 
                     case "accessories":
                         return await repo.AllReadonly<Accessories>()
                             .Where(c => c.UserId == userId)
+                              .Where(c => c.IsActive == true)
                             .ToListAsync();
 
                     default:
@@ -60,6 +82,24 @@ namespace WardrobeOrganizer.Core.Services
             {
                 throw new InvalidOperationException(ex.Message);
             }
+        }
+
+        public async Task<IEnumerable<Item>> AllOuterwearByCategory(string category, string userId)
+        {
+            return await repo.AllReadonly<Outerwear>()
+               .Where(c => c.UserId == userId)
+               .Where(c => c.Category == category)
+               .Where(c => c.IsActive == true)
+                           .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Item>> AllShoesByCategory(string category, string userId)
+        {
+            return await repo.AllReadonly<Shoes>()
+              .Where(c => c.UserId == userId)
+              .Where(c => c.Category == category)
+              .Where(c => c.IsActive == true)
+                          .ToListAsync();
         }
 
         public IEnumerable<string> GetAllCategories()
@@ -121,6 +161,7 @@ namespace WardrobeOrganizer.Core.Services
 
           var clothes =   await repo.AllReadonly<Clothes>()
                 .Where(c => c.Color != null)
+                .Where(c => c.IsActive == true)
                 .ToListAsync();
             foreach (var item in clothes)
             {
@@ -132,6 +173,7 @@ namespace WardrobeOrganizer.Core.Services
             }
             var accessories = await repo.AllReadonly<Accessories>()
               .Where(c => c.Color != null)
+                .Where(c => c.IsActive == true)
               .ToListAsync();
             foreach (var item in accessories)
             {
@@ -143,6 +185,7 @@ namespace WardrobeOrganizer.Core.Services
             }
             var shoes = await repo.AllReadonly<Shoes>()
               .Where(c => c.Color != null)
+                .Where(c => c.IsActive == true)
               .ToListAsync();
             foreach (var item in shoes)
             {
@@ -154,6 +197,7 @@ namespace WardrobeOrganizer.Core.Services
             }
             var outerwear = await repo.AllReadonly<Outerwear>()
               .Where(c => c.Color != null)
+                .Where(c => c.IsActive == true)
               .ToListAsync();
             foreach (var item in outerwear)
             {

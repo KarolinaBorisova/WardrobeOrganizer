@@ -54,7 +54,76 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel);
             
         }
+        public async Task<IActionResult> AllClothesFromCategory(string category)
+        {
 
+            var viewModel = new ItemsListViewModel()
+            {
+                //Accessories
+                //Clothes = await searchService.GetAllFilteredItems(model)  
+                //Shoes
+                //Outerwear
+                Items = await searchService.AllClothesByCategory(category, User.Id()),
+                ShoeSizesEu = await searchService.GetAllShoeSizes(),
+                SizeByAges = await searchService.GetAllSizesByAges(),
+                ClothesSizes = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+
+        }
+        public async Task<IActionResult> AllOuterwearFromCategory(string category)
+        {
+
+            var viewModel = new ItemsListViewModel()
+            {
+                //Accessories
+                //Clothes = await searchService.GetAllFilteredItems(model)  
+                //Shoes
+                //Outerwear
+                Items = await searchService.AllOuterwearByCategory(category, User.Id()),
+                ShoeSizesEu = await searchService.GetAllShoeSizes(),
+                SizeByAges = await searchService.GetAllSizesByAges(),
+                ClothesSizes = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+
+        }
+        public async Task<IActionResult> AllShoesFromCategory(string category)
+        {
+
+            var viewModel = new ItemsListViewModel()
+            {
+                //Accessories
+                //Clothes = await searchService.GetAllFilteredItems(model)  
+                //Shoes
+                //Outerwear
+                Items = await searchService.AllShoesByCategory(category, User.Id()),
+                ShoeSizesEu = await searchService.GetAllShoeSizes(),
+                SizeByAges = await searchService.GetAllSizesByAges(),
+                ClothesSizes = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+
+        }
+
+        public async Task<IActionResult> AllAccessoriesFromCategory(string category)
+        {
+
+            var viewModel = new ItemsListViewModel()
+            {
+                //Accessories
+                //Clothes = await searchService.GetAllFilteredItems(model)  
+                //Shoes
+                //Outerwear
+                Items = await searchService.AllAccessoriesByCategory(category, User.Id()),
+                ShoeSizesEu = await searchService.GetAllShoeSizes(),
+                SizeByAges = await searchService.GetAllSizesByAges(),
+                ClothesSizes = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+
+        }
+     
         [HttpGet]
         public async Task<IActionResult> List(SearchListViewModel model)
         {
