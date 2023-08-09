@@ -125,7 +125,7 @@ namespace WardrobeOrganizer.Controllers
         }
      
         [HttpGet]
-        public async Task<IActionResult> List(SearchListViewModel model)
+        public async Task<IActionResult> AllItemsFromColor(SearchListViewModel model)
         {
             
             var viewModel = new ItemsListViewModel()
@@ -134,7 +134,7 @@ namespace WardrobeOrganizer.Controllers
                 //Clothes = await searchService.GetAllFilteredItems(model)
                 //Shoes
                 //Outerwear
-               // Items = await searchService.GetAllFilteredItems(model, User.Id())
+                Items = await searchService.GetAllItemsByColor(model, User.Id())
         };
             return View(viewModel); 
         } 

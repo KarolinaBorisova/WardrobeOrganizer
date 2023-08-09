@@ -10,6 +10,7 @@
 <partial name="_SearchByCategoryNavigation">
 <div>
     <div class="list-title">Search by color</div>
+        <form method="get" asp-action="AllItemsFromColor" class="serach-container">
     @foreach (var item in Model.Colors)
     {
         <div class="form-check">
@@ -17,6 +18,8 @@
             <label class="form-check-label" for="@item">@item</label>
         </div>
     }
+        <button class="btn btn-primary">Search</button>
+        </form>
 </div>
 
 @*<form method="get" asp-action="List" class="serach-container">
