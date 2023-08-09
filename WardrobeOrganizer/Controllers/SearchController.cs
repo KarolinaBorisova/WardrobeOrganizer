@@ -135,8 +135,21 @@ namespace WardrobeOrganizer.Controllers
                 //Shoes
                 //Outerwear
                 Items = await searchService.GetAllItemsByColor(model, User.Id())
-        };
+            };
             return View(viewModel); 
-        } 
+        }
+        
+        public async Task<IActionResult> AllItemsByTypeSize(string type,SearchListViewModel model)
+        {
+            var viewModel = new ItemsListViewModel()
+            {
+                //Accessories
+                //Clothes = await searchService.GetAllFilteredItems(model)
+                //Shoes
+                //Outerwear
+                Items = await searchService.GetAllItemsFromTypeBySize(model, User.Id(), type)
+            };
+            return View(viewModel);
+        }
     }
 }

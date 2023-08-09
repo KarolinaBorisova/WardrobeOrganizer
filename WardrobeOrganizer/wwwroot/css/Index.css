@@ -287,9 +287,11 @@ form .list-group-item-info.btn {
 
 /* empty partial*/
 
-.img-container img{
+.img-container img {
     width: unset;
     overflow: hidden;
+    border-radius: 28px;
+    box-shadow: 10px 10px 5px 2px rgba(77, 53, 53, 0.75);
 }
 
 
@@ -304,7 +306,15 @@ form .list-group-item-info.btn {
     border-radius: 10px;
 }
 
-.search-container{
+/*search checkboxes*/
+.search-container {
     display: flex;
-justify-content: space-between;
+    align-items:center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-check-input {
+    width: 2em;
+    height: 2em;
 }

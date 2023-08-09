@@ -223,21 +223,25 @@ namespace WardrobeOrganizer.Core.Services
             var clothes = await repo.AllReadonly<Clothes>()
                 .Where(c => c.UserId == userId)
                 .Where(c => model.Colors.Contains(c.Color))
+                .Where(c => c.IsActive == true)
                 .ToListAsync();
 
             var shoes = await repo.AllReadonly<Shoes>()
                .Where(c => c.UserId == userId)
                .Where(c => model.Colors.Contains(c.Color))
+               .Where(c => c.IsActive == true)
                .ToListAsync();
         
             var outerwears = await repo.AllReadonly<Outerwear>()
                .Where(c => c.UserId == userId)
                .Where(c => model.Colors.Contains(c.Color))
+               .Where(c => c.IsActive == true)
                .ToListAsync();
 
             var accessories = await repo.AllReadonly<Accessories>()
                .Where(c => c.UserId == userId)
                .Where(c => model.Colors.Contains(c.Color))
+               .Where(c => c.IsActive == true)
                .ToListAsync();
              
                 items.AddRange(clothes);
@@ -342,6 +346,86 @@ namespace WardrobeOrganizer.Core.Services
                 //   return items;
         
                  }
+
+        public async Task<IEnumerable<Item>> GetAllItemsFromTypeBySize(SearchListViewModel model, string userId, string type)
+        {
+            var items = new List<Item>();
+
+            if (model.Colors == null && model.ShoeSizesEu == null &&
+                model.ClothesSizes ==null && model.SizeByAges == null)
+            {
+                throw new InvalidOperationException();
+            }
+            if (type == "Clothes")
+            {
+                var clothes =  repo.AllReadonly<Clothes>()
+                    .Where(c => c.UserId == userId)
+                    .Where(c => c.IsActive == true)
+                    .Where(c => model.ClothesSizes.Contains(c.Size))
+                    .AsQueryable();
+
+                if (model.Colors != null && model.Colors.Any())
+                {
+                    clothes = clothes.Where(c=>model.Colors.Contains(c.Color));
+                }
+
+                await clothes.ToListAsync();
+                items.AddRange(clothes);
+
+            }
+            if (type == "Outerwear")
+            {
+                var outerwear = repo.AllReadonly<Outerwear>()
+                    .Where(c => c.UserId == userId)
+                    .Where(c => c.IsActive == true)
+                    .Where(c => model.ClothesSizes.Contains(c.Size))
+                    .AsQueryable();
+
+                if (model.Colors != null && model.Colors.Any())
+                {
+                    outerwear = outerwear.Where(c => model.Colors.Contains(c.Color));
+                }
+
+                await outerwear.ToListAsync();
+                items.AddRange(outerwear);
+
+            }
+            if (type == "Shoes")
+            {
+                var shoes = repo.AllReadonly<Shoes>()
+                    .Where(c => c.UserId == userId)
+                    .Where(c => c.IsActive == true)
+                    .Where(c => model.ShoeSizesEu.Contains(c.SizeEu))
+                    .AsQueryable();
+
+                if (model.Colors != null && model.Colors.Any())
+                {
+                    shoes = shoes.Where(c => model.Colors.Contains(c.Color));
+                }
+
+                await shoes.ToListAsync();
+                items.AddRange(shoes);
+
+            }
+            if (type == "Accessories")
+            {
+                var accessories = repo.AllReadonly<Accessories>()
+                    .Where(c => c.UserId == userId)
+                    .Where(c => c.IsActive == true)
+                    .Where(c => model.SizeByAges.Contains(c.SizeAge))
+                    .AsQueryable();
+
+                if (model.Colors != null && model.Colors.Any())
+                {
+                    accessories = accessories.Where(c => model.Colors.Contains(c.Color));
+                }
+
+                await accessories.ToListAsync();
+                items.AddRange(accessories);
+
+            }
+            return items;
+        }
 
         public async Task<IEnumerable<int>> GetAllShoeSizes()
         {

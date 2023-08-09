@@ -15,7 +15,7 @@
     }
     <div class="list-title">Search by size</div>
     <div class="sizes-container">
-        <div class="shoes-size-container">
+         <form method="get" asp-action="AllItemsFromColor" class="search-container"> 
             @foreach (var item in Model.ShoeSizesEu)
             {
                 <div class="form-check">
@@ -23,8 +23,8 @@
                     <label class="form-check-label" for="@item">@item</label>
                 </div>
             }
-        </div>
         <button class="btn btn-primary">Search</button>
+        </form>
     </div>
     <div class="container card-img">
         @foreach (var item in Model.Items)

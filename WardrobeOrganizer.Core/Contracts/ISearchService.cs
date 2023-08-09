@@ -22,5 +22,6 @@ namespace WardrobeOrganizer.Core.Contracts
         Task<IEnumerable<Item>> AllOuterwearByCategory(string category, string userId);
         Task<IEnumerable<Item>> AllAccessoriesByCategory(string category, string userId);
         Task<IEnumerable<Item>> GetAllItemsByColor(SearchListViewModel model,  string userId);
+        Task<IEnumerable<Item>> GetAllItemsFromTypeBySize(SearchListViewModel model, string userId,string type);
     }
 }

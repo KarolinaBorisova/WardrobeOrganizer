@@ -18,10 +18,10 @@
     @{
         var listType = Model.Items.GetType();
         var type = listType.GetGenericArguments()[0];
-
+            <form method="get" asp-action="AllItemsByTypeSize" asp-route-type="@type.Name" class="search-container">
         @if (type.Name == "Clothes" || type.Name == "Outerwear")
         {
-            <div class="clothes-size-container">
+           
                 @foreach (var item in Model.ClothesSizes)
                 {
                     <div class="form-check">
@@ -29,12 +29,11 @@
                         <label class="form-check-label" for="@item">@item</label>
                     </div>
                 }
-            </div>
+         
 
         }
         else if (type.Name == "Shoes")
         {
-            <div class="shoes-size-container">
                 @foreach (var item in Model.ShoeSizesEu)
                 {
                     <div class="form-check">
@@ -42,11 +41,11 @@
                         <label class="form-check-label" for="@item">@item</label>
                     </div>
                 }
-            </div>
+        
         }
         else if(type.Name == "Accessories")
         {
-            <div class="age-size-container">
+          
                 <div>Age</div>
                 @foreach (var item in Model.ShoeSizesEu)
                 {
@@ -55,8 +54,10 @@
                         <label class="form-check-label" for="@item">@item</label>
                     </div>
                 }
-            </div>
+      
         }
+            <button class="btn btn-primary">Search</button>
+            </form>
     }
     
 </div>
@@ -72,6 +73,5 @@
                 </div>
             </a>
         </div>
-    }
-        <button class="btn btn-primary">Search</button>
+    }     
 </div>
