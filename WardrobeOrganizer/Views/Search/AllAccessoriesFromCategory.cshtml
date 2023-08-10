@@ -1,6 +1,6 @@
-﻿@model ItemsListViewModel
+﻿@model AccessoriesListViewModel
 @{
-    ViewData["Title"] = $"All clothes";
+    ViewData["Title"] = $"All {Model.Category}";
 }
 <div class="text-center">
     <h1 class="page-title">@ViewData["Title"]</h1>
@@ -18,7 +18,7 @@
         
             <div>Age</div>
              <form method="get" asp-action="AllItemsFromColor" class="search-container"> 
-            @foreach (var item in Model.ShoeSizesEu)
+            @foreach (var item in Model.SizeByAges)
             {
                 <div class="form-check">
                     <input id="@item" class="form-check-input" type="checkbox" value="@item" name="Colors" />
