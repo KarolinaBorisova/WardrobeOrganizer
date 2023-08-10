@@ -91,11 +91,6 @@ namespace WardrobeOrganizer.Controllers
 
         }
 
-
-
-
-
-
         public async Task<IActionResult> AllClothesFromCategory(string category)
         {
 
@@ -151,7 +146,7 @@ namespace WardrobeOrganizer.Controllers
         }
      
         [HttpGet]
-        public async Task<IActionResult> AllItemsFromColor(SearchListViewModel model)
+        public async Task<IActionResult> AllItemsFromColor(SearchByColorViewModel model)
         {
             
             var viewModel = new ItemsListViewModel()
@@ -165,18 +160,18 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel); 
         }
         
-        public async Task<IActionResult> AllItemsByTypeSize(SearchListViewModel model)
-        {
-            var viewModel = new ItemsListViewModel()
-            {
-                //Accessories
-                //Clothes = await searchService.GetAllFilteredItems(model)
-                //Shoes
-                //Outerwear
-                Items = await searchService.GetAllItemsFromTypeBySize(model, User.Id()),
-                
-            };
-            return View(viewModel);
-        }
+   //  public async Task<IActionResult> AllItemsByTypeSize(SearchListViewModel model)
+   //  {
+   //      var viewModel = new ItemsListViewModel()
+   //      {
+   //          //Accessories
+   //          //Clothes = await searchService.GetAllFilteredItems(model)
+   //          //Shoes
+   //          //Outerwear
+   //          Items = await searchService.GetAllItemsFromTypeBySize(model, User.Id()),
+   //          
+   //      };
+   //      return View(viewModel);
+   //  }
     }
 }
