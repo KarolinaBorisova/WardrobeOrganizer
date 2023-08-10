@@ -37,23 +37,66 @@ namespace WardrobeOrganizer.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AllItemsFromType(string itemType)
+        public async Task<IActionResult> AllClothes()
         {
 
-            var viewModel = new ItemsListViewModel()
+            var viewModel = new ClothesListViewModel()
             {
-                //Accessories
-                //Clothes = await searchService.GetAllFilteredItems(model)  
-                //Shoes
-                //Outerwear
-                Items = await searchService.AllItems(itemType, User.Id()),
-                ShoeSizesEu = await searchService.GetAllShoeSizes(),
-                SizeByAges = await searchService.GetAllSizesByAges(),
+                
+                Items = await searchService.AllItems("clothes", User.Id()),
+                Colors = await searchService.GetAllColors(),
                 ClothesSizes = await searchService.GetAllClothesSizes(),
             };
             return View(viewModel);
             
         }
+        public async Task<IActionResult> AllAccessories()
+        {
+
+            var viewModel = new AccessoriesListViewModel()
+            {
+
+                Items = await searchService.AllItems("accessories", User.Id()),
+                Colors = await searchService.GetAllColors(),
+                SizeByAges = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+
+        }
+
+        public async Task<IActionResult> AllOuterwears()
+        {
+
+            var viewModel = new OuterwearListViewModel()
+            {
+
+                Items = await searchService.AllItems("outerwear", User.Id()),
+                Colors = await searchService.GetAllColors(),
+                ClothesSizes = await searchService.GetAllClothesSizes(),
+            };
+            return View(viewModel);
+
+        }
+
+        public async Task<IActionResult> AllShoes()
+        {
+
+            var viewModel = new ShoesListViewModel()
+            {
+
+                Items = await searchService.AllItems("shoes", User.Id()),
+                Colors = await searchService.GetAllColors(),
+                ShoeSizesEu = await searchService.GetAllShoeSizes(),
+            };
+            return View(viewModel);
+
+        }
+
+
+
+
+
+
         public async Task<IActionResult> AllClothesFromCategory(string category)
         {
 
@@ -139,7 +182,7 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel); 
         }
         
-        public async Task<IActionResult> AllItemsByTypeSize(string type,SearchListViewModel model)
+        public async Task<IActionResult> AllItemsByTypeSize(SearchListViewModel model)
         {
             var viewModel = new ItemsListViewModel()
             {
@@ -147,7 +190,8 @@ namespace WardrobeOrganizer.Controllers
                 //Clothes = await searchService.GetAllFilteredItems(model)
                 //Shoes
                 //Outerwear
-                Items = await searchService.GetAllItemsFromTypeBySize(model, User.Id(), type)
+                Items = await searchService.GetAllItemsFromTypeBySize(model, User.Id()),
+                
             };
             return View(viewModel);
         }

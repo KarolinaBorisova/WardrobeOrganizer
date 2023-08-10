@@ -347,7 +347,7 @@ namespace WardrobeOrganizer.Core.Services
         
                  }
 
-        public async Task<IEnumerable<Item>> GetAllItemsFromTypeBySize(SearchListViewModel model, string userId, string type)
+        public async Task<IEnumerable<Item>> GetAllItemsFromTypeBySize(SearchListViewModel model, string userId)
         {
             var items = new List<Item>();
 
@@ -356,9 +356,9 @@ namespace WardrobeOrganizer.Core.Services
             {
                 throw new InvalidOperationException();
             }
-            if (type == "Clothes")
+            if (model.Type == "Clothes")
             {
-                var clothes =  repo.AllReadonly<Clothes>()
+                var clothes = repo.AllReadonly<Clothes>()
                     .Where(c => c.UserId == userId)
                     .Where(c => c.IsActive == true)
                     .Where(c => model.ClothesSizes.Contains(c.Size))
@@ -373,7 +373,7 @@ namespace WardrobeOrganizer.Core.Services
                 items.AddRange(clothes);
 
             }
-            if (type == "Outerwear")
+            if (model.Type == "Outerwear")
             {
                 var outerwear = repo.AllReadonly<Outerwear>()
                     .Where(c => c.UserId == userId)
@@ -390,7 +390,7 @@ namespace WardrobeOrganizer.Core.Services
                 items.AddRange(outerwear);
 
             }
-            if (type == "Shoes")
+            if (model.Type == "Shoes")
             {
                 var shoes = repo.AllReadonly<Shoes>()
                     .Where(c => c.UserId == userId)
@@ -407,7 +407,7 @@ namespace WardrobeOrganizer.Core.Services
                 items.AddRange(shoes);
 
             }
-            if (type == "Accessories")
+            if (model.Type == "Accessories")
             {
                 var accessories = repo.AllReadonly<Accessories>()
                     .Where(c => c.UserId == userId)

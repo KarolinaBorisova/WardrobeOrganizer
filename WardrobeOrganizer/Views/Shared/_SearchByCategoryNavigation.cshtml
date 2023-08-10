@@ -1,6 +1,6 @@
 ﻿<div class="nav-container">
     <div class="dropdown">
-        <a class="dropbtn" asp-controller="Search" asp-route-itemType="clothes" asp-action="AllItemsFromType">Clothes</a>
+        <a class="dropbtn" asp-controller="Search" asp-action="AllClothes">Clothes</a>
         <div class="dropdown-content">
             <a class="btn btn-info" asp-controller="Search" asp-route-category="Tshirts" asp-action="AllClothesFromCategory">Tshirts</a>
             <a class="btn btn-info" asp-controller="Search" asp-route-category="Longsleeves" asp-action="AllClothesFromCategory">Longsleeves</a>
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <a class="dropbtn" asp-controller="Search" asp-route-itemType="outerwear" asp-action="AllItemsFromType">Outerwear</a>
+        <a class="dropbtn" asp-controller="Search" asp-action="AllOuterwears">Outerwear</a>
         <div class="dropdown-content">
             <a class="btn btn-info" asp-controller="Search" asp-route-category="WinterJackets" asp-action="AllOuterwearFromCategory">WinterJackets</a>
             <a class="btn btn-info" asp-controller="Search" asp-route-category="RainJackets" asp-action="AllOuterwearFromCategory">RainJackets</a>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <a class="dropbtn" asp-controller="Search" asp-route-itemType="shoes" asp-action="AllItemsFromType">Shoes</a>
+        <a class="dropbtn" asp-controller="Search" asp-action="AllShoes">Shoes</a>
         <div class="dropdown-content">
             <a class="btn btn-info" asp-controller="Search" asp-route-category="Boots" asp-action="AllShoesFromCategory">Boots</a>
             <a class="btn btn-info" asp-controller="Search" asp-route-category="Trainers" asp-action="AllShoesFromCategory">Trainers</a>
@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <a class="dropbtn" asp-controller="Search" asp-route-itemType="accessories" asp-action="AllItemsFromType">Accessories</a>
+        <a class="dropbtn" asp-controller="Search" asp-action="AllAccessories">Accessories</a>
         <div class="dropdown-content">
             <a class="btn btn-info" asp-controller="Search" asp-route-category="Hats" asp-action="AllAccessoriesFromCategory">Hats</a>
             <a class="btn btn-info" asp-controller="Search" asp-route-category="Gloves" asp-action="AllAccessoriesFromCategory">Gloves</a>

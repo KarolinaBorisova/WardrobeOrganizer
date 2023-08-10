@@ -1,0 +1,42 @@
+﻿@model ShoesListViewModel
+@{
+    ViewData["Title"] = $"All Shoes";
+}
+<div class="text-center">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+</div>
+<partial name="_SearchByCategoryNavigation">
+    @if (!Model.Items.Any())
+    {
+        <div class="img-container">
+            <div class="text-empty-wardrobe">There is nothing to wear here</div>
+            <img src="https://img.freepik.com/premium-photo/empty-clothes-hangers-hanging-clothes-rack-bedroom-copy-spase_339295-26.jpg?w=1380" alt="Smiley face">
+        </div>
+    }
+    <div class="list-title">Search by size</div>
+    <div class="sizes-container">
+            <form method="get" asp-action="AllItemsByTypeSize" class="search-container">   
+                    @foreach (var item in Model.ShoeSizesEu)
+                    {
+                        <div class="form-check">
+                            <input id="@item" class="form-check-input" type="checkbox" value="@item" name="Colors" />
+                            <label class="form-check-label" for="@item">@item</label>
+                        </div>
+                    }
+                <button class="btn btn-primary">Search</button>
+            </form>
+    </div>
+    <div class="container card-img">
+        @foreach (var item in Model.Items)
+        {
+            <div class="card-wrapper">
+
+                <a class="card-title text-dark" asp-controller="@item.GetType().Name" asp-route-Id="@item.Id" asp-action="Details">
+                    <div class="card-body">
+                        <img src="@item.ImagePath" alt="Avatar">
+                        <h4>@item.Name</h4>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
