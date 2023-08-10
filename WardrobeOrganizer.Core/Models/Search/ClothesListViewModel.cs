@@ -16,5 +16,7 @@ namespace WardrobeOrganizer.Core.Models.Search
         public IEnumerable<string> Colors { get; set; }
 
         public string? Category { get; set; }
+
+        public SearchByClothesSizeViewModel model { get; set; }
     }
 }

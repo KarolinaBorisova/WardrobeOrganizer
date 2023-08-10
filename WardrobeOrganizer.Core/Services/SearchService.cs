@@ -253,7 +253,6 @@ namespace WardrobeOrganizer.Core.Services
 
         public async Task<IEnumerable<Item>> AllItems(string itemType, string userId)
         {
-          
             try
             {
                 switch (itemType)
@@ -285,13 +284,47 @@ namespace WardrobeOrganizer.Core.Services
                     default:
                         throw new InvalidOperationException("Invalid itemType");
                 }
-       
-       
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException(ex.Message);
             }
+        }
+
+        public async Task<IEnumerable<Item>> GetClothesBySize(SearchByClothesSizeViewModel model, string userId)
+        {
+            return await repo.AllReadonly<Clothes>()
+                .Where(c => c.UserId == userId)
+                .Where(c => c.IsActive == true)
+                .Where(c => model.ClothesSizes.Contains(c.Size))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Item>> GetOuterwearsBySize(SearchByClothesSizeViewModel model, string userId)
+        {
+            return await repo.AllReadonly<Outerwear>()
+                .Where(c => c.UserId == userId)
+                .Where(c => c.IsActive == true)
+                .Where(c => model.ClothesSizes.Contains(c.Size))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Item>> GetAccessoriesBySize(SearchBySizeAgeViewModel model, string userId)
+        {
+            return await repo.AllReadonly<Accessories>()
+               .Where(c => c.UserId == userId)
+               .Where(c => c.IsActive == true)
+               .Where(c => model.SizeByAges.Contains(c.SizeAge))
+               .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Item>> GetShoesBySize(SearchByShoesSizeViewModel model, string userId)
+        {
+            return await repo.AllReadonly<Shoes>()
+                .Where(c => c.UserId == userId)
+                .Where(c => c.IsActive == true)
+                .Where(c => model.ShoeSizesEu.Contains(c.SizeEu))
+                .ToListAsync();
         }
 
 
