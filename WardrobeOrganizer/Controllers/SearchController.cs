@@ -203,11 +203,12 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> AllOuterwearsBySize(SearchByClothesSizeViewModel model)
+        public async Task<IActionResult> AllOuterwearsBySizeAndCategory(SearchByClothesSizeViewModel model)
         {
             var viewModel = new OuterwearListViewModel()
             {
-                Items = await searchService.GetOuterwearsBySize(model, User.Id()),
+                Category = model.Category,
+                Items = await searchService.GetOuterwearsBySizeAndCategory(model, User.Id(), model.Category),
                 model = new SearchByClothesSizeViewModel()
                 {
                     ClothesSizes = await searchService.GetAllClothesSizes()
@@ -216,11 +217,12 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> AllAccessoriesBySize(SearchBySizeAgeViewModel model)
+        public async Task<IActionResult> AllAccessoriesBySizeAndCategory(SearchBySizeAgeViewModel model)
         {
             var viewModel = new AccessoriesListViewModel()
             {
-                Items = await searchService.GetAccessoriesBySize(model, User.Id()),
+                Category = model.Category,
+                Items = await searchService.GetAccessoriesBySizeAndCategory(model, User.Id(), model.Category),
                 model = new SearchBySizeAgeViewModel()
                 {
                     SizeByAges = await searchService.GetAllSizesByAges()
@@ -229,11 +231,13 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> AllShoesBySize(SearchByShoesSizeViewModel model)
+        public async Task<IActionResult> AllShoesBySizeAndCategory(SearchByShoesSizeViewModel model)
         {
             var viewModel = new ShoesListViewModel()
             {
-                Items = await searchService.GetShoesBySize(model, User.Id()),
+
+                Category = model.Category,
+                Items = await searchService.GetShoesBySizeAndCategory(model, User.Id(), model.Category),
                 model = new SearchByShoesSizeViewModel()
                 {
                     ShoeSizesEu = await searchService.GetAllShoeSizes()

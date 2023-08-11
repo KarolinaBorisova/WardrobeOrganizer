@@ -15,7 +15,8 @@
     }
     <div class="list-title">Search by size</div>
     <div class="sizes-container">
-        <form method="get" asp-action="AllOuterwearsBySize" class="search-container">
+        <input type="hidden" asp-route-category="@Model.Category" />
+        <form method="get" asp-action="AllOuterwearsBySizeAndCategory" class="search-container">
             @foreach (var item in Model.ClothesSizes)
                     {
                         <div class="form-check">

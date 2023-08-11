@@ -304,40 +304,55 @@ namespace WardrobeOrganizer.Core.Services
                 query = query.Where(c=>c.Category == category).AsQueryable();
                     
             }
-            // return await repo.AllReadonly<Clothes>()
-            //     .Where(c => c.UserId == userId)
-            //     .Where(c => c.IsActive == true)
-            //     .Where(c => model.ClothesSizes.Contains(c.Size))
-            //     .ToListAsync();
-
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Item>> GetOuterwearsBySize(SearchByClothesSizeViewModel model, string userId)
+        public async Task<IEnumerable<Item>> GetOuterwearsBySizeAndCategory(SearchByClothesSizeViewModel model, string userId, string category)
         {
-            return await repo.AllReadonly<Outerwear>()
-                .Where(c => c.UserId == userId)
+            var query = repo.AllReadonly<Outerwear>()
+                 .Where(c => c.UserId == userId)
                 .Where(c => c.IsActive == true)
                 .Where(c => model.ClothesSizes.Contains(c.Size))
-                .ToListAsync();
+                .AsQueryable();
+
+            if (category != null)
+            {
+                query = query.Where(c => c.Category == category).AsQueryable();
+
+            }
+            return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Item>> GetAccessoriesBySize(SearchBySizeAgeViewModel model, string userId)
+        public async Task<IEnumerable<Item>> GetAccessoriesBySizeAndCategory(SearchBySizeAgeViewModel model, string userId, string category)
         {
-            return await repo.AllReadonly<Accessories>()
-               .Where(c => c.UserId == userId)
-               .Where(c => c.IsActive == true)
-               .Where(c => model.SizeByAges.Contains(c.SizeAge))
-               .ToListAsync();
+            var query = repo.AllReadonly<Accessories>()
+                 .Where(c => c.UserId == userId)
+                .Where(c => c.IsActive == true)
+                .Where(c => model.SizeByAges.Contains(c.SizeAge))
+                .AsQueryable();
+
+            if (category != null)
+            {
+                query = query.Where(c => c.Category == category).AsQueryable();
+
+            }
+            return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Item>> GetShoesBySize(SearchByShoesSizeViewModel model, string userId)
+        public async Task<IEnumerable<Item>> GetShoesBySizeAndCategory(SearchByShoesSizeViewModel model, string userId, string category)
         {
-            return await repo.AllReadonly<Shoes>()
-                .Where(c => c.UserId == userId)
+            var query = repo.AllReadonly<Shoes>()
+                 .Where(c => c.UserId == userId)
                 .Where(c => c.IsActive == true)
                 .Where(c => model.ShoeSizesEu.Contains(c.SizeEu))
-                .ToListAsync();
+                .AsQueryable();
+
+            if (category != null)
+            {
+                query = query.Where(c => c.Category == category).AsQueryable();
+
+            }
+            return await query.ToListAsync();
         }
 
 

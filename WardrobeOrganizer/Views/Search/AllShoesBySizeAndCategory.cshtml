@@ -1,6 +1,6 @@
 ﻿@model ShoesListViewModel
 @{
-    ViewData["Title"] = $"All Shoes by size";
+      ViewData["Title"] = $"All {Model.Category}";
 }
 <div class="text-center">
     <h1 class="page-title">@ViewData["Title"]</h1>
@@ -15,15 +15,16 @@
     }
     <div class="list-title">Search by size</div>
     <div class="sizes-container">
-        <form method="get" asp-action="AllShoesBySize" class="search-container">
-            @foreach (var item in Model.ShoeSizesEu)
+        <form method="get" asp-action="AllShoesBySizeAndCategory" class="search-container">
+            @foreach (var item in Model.model.ShoeSizesEu)
             {
                 <div class="form-check">
                     <input id="@item" class="form-check-input" type="checkbox" value="@item" name="ShoeSizesEu" />
                     <label class="form-check-label" for="@item">@item</label>
                 </div>
             }
-            <button class="btn btn-primary">Search</button>
+            <button class="btn btn-primary">Search</button
+                <input type="hidden" name="Category" value="@Model.Category" />
         </form>
     </div>
     <div class="container card-img">

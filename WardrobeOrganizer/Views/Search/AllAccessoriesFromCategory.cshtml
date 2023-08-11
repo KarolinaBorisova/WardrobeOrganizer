@@ -17,7 +17,7 @@
     <div class="sizes-container">
         
             <div>Age</div>
-             <form method="get" asp-action="AllItemsFromColor" class="search-container"> 
+        <form method="get" asp-action="AllAccessoriesBySizeAndCategory" class="search-container">
             @foreach (var item in Model.model.SizeByAges)
             {
                 <div class="form-check">
@@ -26,6 +26,7 @@
                 </div>
             }
         <button class="btn btn-primary">Search</button>
+            <input type="hidden" name="Category" value="@Model.Category" />
         </form>
     </div>
     <div class="container card-img">
