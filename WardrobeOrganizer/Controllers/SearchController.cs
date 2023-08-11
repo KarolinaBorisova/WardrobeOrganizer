@@ -193,6 +193,7 @@ namespace WardrobeOrganizer.Controllers
         {
             var viewModel = new ClothesListViewModel()
             {
+                Category = model.Category,
                 Items = await searchService.GetClothesBySizeAndCategory(model, User.Id(),model.Category),
                 model = new SearchByClothesSizeViewModel()
                 {
