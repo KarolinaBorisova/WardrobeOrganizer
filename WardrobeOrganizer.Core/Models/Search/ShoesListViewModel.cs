@@ -17,5 +17,7 @@ namespace WardrobeOrganizer.Core.Models.Search
 
         public IEnumerable<int> ShoeSizesEu { get; set; }
 
+        public SearchByShoesSizeViewModel model { get; set; }
+
     }
 }

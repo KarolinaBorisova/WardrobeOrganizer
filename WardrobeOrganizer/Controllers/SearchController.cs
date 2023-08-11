@@ -63,6 +63,10 @@ namespace WardrobeOrganizer.Controllers
                 Items = await searchService.AllItems("accessories", User.Id()),
                 Colors = await searchService.GetAllColors(),
                 SizeByAges = await searchService.GetAllSizesByAges(),
+                model = new SearchBySizeAgeViewModel()
+                {
+                    SizeByAges = await searchService.GetAllSizesByAges()
+                }
             };
             return View(viewModel);
 
@@ -77,6 +81,10 @@ namespace WardrobeOrganizer.Controllers
                 Items = await searchService.AllItems("outerwear", User.Id()),
                 Colors = await searchService.GetAllColors(),
                 ClothesSizes = await searchService.GetAllClothesSizes(),
+                model = new SearchByClothesSizeViewModel()
+                {
+                    ClothesSizes = await searchService.GetAllClothesSizes()
+                }
             };
             return View(viewModel);
 
@@ -91,6 +99,10 @@ namespace WardrobeOrganizer.Controllers
                 Items = await searchService.AllItems("shoes", User.Id()),
                 Colors = await searchService.GetAllColors(),
                 ShoeSizesEu = await searchService.GetAllShoeSizes(),
+                model = new SearchByShoesSizeViewModel()
+                {
+                    ShoeSizesEu = await searchService.GetAllShoeSizes()
+                }
             };
             return View(viewModel);
 
@@ -175,11 +187,15 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> AllOuterwearsClothesBySize(SearchByClothesSizeViewModel model)
+        public async Task<IActionResult> AllOuterwearsBySize(SearchByClothesSizeViewModel model)
         {
             var viewModel = new OuterwearListViewModel()
             {
                 Items = await searchService.GetOuterwearsBySize(model, User.Id()),
+                model = new SearchByClothesSizeViewModel()
+                {
+                    ClothesSizes = await searchService.GetAllClothesSizes()
+                }
             };
             return View(viewModel);
         }
@@ -189,6 +205,10 @@ namespace WardrobeOrganizer.Controllers
             var viewModel = new AccessoriesListViewModel()
             {
                 Items = await searchService.GetAccessoriesBySize(model, User.Id()),
+                model = new SearchBySizeAgeViewModel()
+                {
+                    SizeByAges = await searchService.GetAllSizesByAges()
+                }
             };
             return View(viewModel);
         }
@@ -198,6 +218,10 @@ namespace WardrobeOrganizer.Controllers
             var viewModel = new ShoesListViewModel()
             {
                 Items = await searchService.GetShoesBySize(model, User.Id()),
+                model = new SearchByShoesSizeViewModel()
+                {
+                    ShoeSizesEu = await searchService.GetAllShoeSizes()
+                }
             };
             return View(viewModel);
         }
