@@ -18,10 +18,10 @@
         
             <div>Age</div>
              <form method="get" asp-action="AllItemsFromColor" class="search-container"> 
-            @foreach (var item in Model.SizeByAges)
+            @foreach (var item in Model.model.SizeByAges)
             {
                 <div class="form-check">
-                    <input id="@item" class="form-check-input" type="checkbox" value="@item" name="Colors" />
+                    <input id="@item" class="form-check-input" type="checkbox" value="@item" name="SizeByAges" />
                     <label class="form-check-label" for="@item">@item</label>
                 </div>
             }

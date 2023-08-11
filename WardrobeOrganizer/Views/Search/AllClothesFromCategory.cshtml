@@ -15,15 +15,16 @@
     }
     <div class="list-title">Search by size</div>
     <div class="sizes-container">
-        <form method="get" asp-action="AllItemsFromColor" class="search-container">      
-                    @foreach (var item in Model.ClothesSizes)
+        <form method="get" asp-action="AllClothesBySizeAndCategory" class="search-container">
+            @foreach (var item in Model.model.ClothesSizes)
                     {
                         <div class="form-check">
-                            <input id="@item" class="form-check-input" type="checkbox" value="@item" name="Colors" />
+                    <input id="@item" class="form-check-input" type="checkbox" value="@item" name="ClothesSizes" />
                             <label class="form-check-label" for="@item">@item</label>
                         </div>
                     }             
         <button class="btn btn-primary">Search</button>
+            <input type="hidden" name="Category" value="@Model.Category"/>
         </form>
     </div>
     <div class="container card-img">

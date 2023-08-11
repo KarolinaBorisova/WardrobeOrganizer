@@ -1,6 +1,6 @@
 ﻿@model ClothesListViewModel
 @{
-    ViewData["Title"] = $"All Clothes by size";
+    ViewData["Title"] = $"All {Model.Category}";
 }
 <div class="text-center">
     <h1 class="page-title">@ViewData["Title"]</h1>
@@ -15,7 +15,7 @@
     }
     <div class="list-title">Search by size</div>
     <div class="sizes-container">
-        <form method="get" asp-action="AllClothesBySize" class="search-container">
+        <form method="get" asp-action="AllClothesBySizeAndCategory" class="search-container">
             @foreach (var item in Model.model.ClothesSizes)
             {
                 <div class="form-check">
@@ -24,6 +24,7 @@
                 </div>
             }
             <button class="btn btn-primary">Search</button>
+            <input type="hidden" name="Category" value="@Model.Category" />
         </form>
     </div>
     <div class="container card-img">

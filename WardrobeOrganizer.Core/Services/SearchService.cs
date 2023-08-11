@@ -291,13 +291,26 @@ namespace WardrobeOrganizer.Core.Services
             }
         }
 
-        public async Task<IEnumerable<Item>> GetClothesBySize(SearchByClothesSizeViewModel model, string userId)
+        public async Task<IEnumerable<Item>> GetClothesBySizeAndCategory(SearchByClothesSizeViewModel model, string userId, string category)
         {
-            return await repo.AllReadonly<Clothes>()
-                .Where(c => c.UserId == userId)
+            var query = repo.AllReadonly<Clothes>()
+                 .Where(c => c.UserId == userId)
                 .Where(c => c.IsActive == true)
                 .Where(c => model.ClothesSizes.Contains(c.Size))
-                .ToListAsync();
+                .AsQueryable();
+
+            if (category != null )
+            {
+                query = query.Where(c=>c.Category == category).AsQueryable();
+                    
+            }
+            // return await repo.AllReadonly<Clothes>()
+            //     .Where(c => c.UserId == userId)
+            //     .Where(c => c.IsActive == true)
+            //     .Where(c => model.ClothesSizes.Contains(c.Size))
+            //     .ToListAsync();
+
+            return await query.ToListAsync();
         }
 
         public async Task<IEnumerable<Item>> GetOuterwearsBySize(SearchByClothesSizeViewModel model, string userId)

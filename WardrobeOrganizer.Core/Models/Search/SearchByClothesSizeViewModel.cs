@@ -9,5 +9,7 @@ namespace WardrobeOrganizer.Core.Models.Search
     public class SearchByClothesSizeViewModel
     {
         public IEnumerable<string> ClothesSizes { get; set; }
+
+        public string Category { get; set; }
     }
 }

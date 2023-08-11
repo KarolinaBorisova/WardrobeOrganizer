@@ -118,6 +118,9 @@ namespace WardrobeOrganizer.Controllers
                 Colors = await searchService.GetAllColors(),
                 Category = category,
                 model = new SearchByClothesSizeViewModel()
+                {
+                    ClothesSizes = await searchService.GetAllClothesSizes()
+                }
             };
             return View(viewModel);
 
@@ -130,7 +133,11 @@ namespace WardrobeOrganizer.Controllers
                 Items = await searchService.AllOuterwearByCategory(category, User.Id()),     
                 ClothesSizes = await searchService.GetAllClothesSizes(),
                 Colors= await searchService.GetAllColors(),
-                Category=category
+                Category=category,
+                model = new SearchByClothesSizeViewModel()
+                {
+                    ClothesSizes = await searchService.GetAllClothesSizes()
+                }
             };
             return View(viewModel);
 
@@ -143,7 +150,11 @@ namespace WardrobeOrganizer.Controllers
                 Items = await searchService.AllShoesByCategory(category, User.Id()),
                 ShoeSizesEu = await searchService.GetAllShoeSizes(),
                 Colors = await searchService.GetAllColors(),
-                Category = category           
+                Category = category,
+                model = new SearchByShoesSizeViewModel()
+                {
+                    ShoeSizesEu = await searchService.GetAllShoeSizes()
+                }
             };
             return View(viewModel);
 
@@ -157,7 +168,11 @@ namespace WardrobeOrganizer.Controllers
                 Items = await searchService.AllAccessoriesByCategory(category, User.Id()),
                 SizeByAges = await searchService.GetAllSizesByAges(),
                 Colors = await searchService.GetAllColors(),
-                Category=category
+                Category=category,
+                model = new SearchBySizeAgeViewModel()
+                {
+                    SizeByAges = await searchService.GetAllSizesByAges()
+                }
             };
             return View(viewModel);
 
@@ -174,11 +189,11 @@ namespace WardrobeOrganizer.Controllers
             return View(viewModel); 
         }
         
-        public async Task<IActionResult> AllClothesBySize(SearchByClothesSizeViewModel model)
+        public async Task<IActionResult> AllClothesBySizeAndCategory(SearchByClothesSizeViewModel model)
         {
             var viewModel = new ClothesListViewModel()
             {
-                Items = await searchService.GetClothesBySize(model, User.Id()),
+                Items = await searchService.GetClothesBySizeAndCategory(model, User.Id(),model.Category),
                 model = new SearchByClothesSizeViewModel()
                 {
                     ClothesSizes = await searchService.GetAllClothesSizes()
