@@ -23,6 +23,7 @@
 * Automapper
 * HTML
 * CSS
+* NUnit
 
 
 ## Project overview
