@@ -65,6 +65,9 @@
 
 
 ## Project structure
+![Screenshot 2023-08-14 143944](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/a769b14c-6c87-4a52-8970-615872d9c47d)
+
+
 
 ### Web
 - In this project are:
@@ -72,19 +75,28 @@
 > AutoMapper
 > Controllers
 > Views
+![web](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/eff06eef-fbd1-44e1-8813-557c0a590591)
+![views](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/dc971b8a-8b79-4dd5-8b49-45f9849cbd83)
+
 
 ### Core
 - In this project are
 > Constans
 > View models
 > Services
+![core](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ed0455fe-73e4-4f6b-84cb-365acafa655b)
+
 
 ### Infrastructure
 - In this project are
 > Repository
 > Enums
 > Entities
->  
+![ifrastructure](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/bfea90bd-136a-4ddd-bf10-2f6cd5007248)
+
 ### Unit Tests
+
+
+
 
 
