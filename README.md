@@ -85,6 +85,7 @@
 * Constans
 * View models
 * Services
+  
 ![core](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ed0455fe-73e4-4f6b-84cb-365acafa655b)
 
 
@@ -93,6 +94,7 @@
 * Repository
 * Enums
 * Entities
+  
 ![ifrastructure](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/bfea90bd-136a-4ddd-bf10-2f6cd5007248)
 
 ### Unit Tests
