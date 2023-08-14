@@ -71,19 +71,20 @@
 
 ### Web
 - In this project are:
-> Web Api
-> AutoMapper
-> Controllers
-> Views
+* Web Api
+* AutoMapper
+* Controllers
+* Views
+  
 ![web](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/eff06eef-fbd1-44e1-8813-557c0a590591)
 ![views](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/dc971b8a-8b79-4dd5-8b49-45f9849cbd83)
 
 
 ### Core
 - In this project are
-> Constans
-> View models
-> Services
+* Constans
+* View models
+* Services
 ![core](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ed0455fe-73e4-4f6b-84cb-365acafa655b)
 
 
