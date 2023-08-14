@@ -60,4 +60,4 @@
 ![Screenshot 2023-08-14 141131](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/7aa1598c-f489-47c0-b925-c1f2b6ac0b7d)
 
 >Searched items
-![Screenshot 2023-08-14 140505](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ec46654f-7f34-4063-ab2a-104526417494)
+![Screenshot 2023-08-14 142816](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/dafffe25-2fae-4714-8988-8dac2396de12)
