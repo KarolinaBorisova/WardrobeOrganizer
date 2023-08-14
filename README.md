@@ -1,16 +1,16 @@
 # WardrobeOrganizer
 
-### Asp.Net-Core application
+### Asp. Net-Core application
 
 
-> WardrobeOrganizer is web based applicaiton that helps you digitally organize your clothes.
-> Users can easely register and login.
-> Registered users can create family with members and houses. Every house has different storages with all of items inside.
-> User can add, edit and delete members, houses, storages, items.
-> When adding an item in the storage you can upload photo and write some information about it. Size, color, category, owner.
-> Whit this app you can check what you have in your houses and storages.
-> You can use search to find clothe by color or size.
-> Also you can check member`s clothes and shose and see where are they.
+> WardrobeOrganizer is a web-based application that helps you digitally organize your clothes.
+> Users can easily register and log in.
+> Registered users can create families with members and houses. Every house has different storage with all of the items inside.
+> User can add, edit and delete members, houses, storages, and items.
+> When adding an item to the storage you can upload a photo and write some information about it. Size, color, category, owner.
+> Whit this app you can check what you have in your houses and storage.
+> You can use search to find clothing by color or size.
+> Also you can check members' clothes and shoes and see where they are.
 
 
 
@@ -24,15 +24,16 @@
 * HTML
 * CSS
 * NUnit
+* SQLite
 
 
-## Project overview
+## Project Overview
 
-###Login page
+### Login page
 >![Screenshot 2023-08-14 140505](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ec46654f-7f34-4063-ab2a-104526417494)
 
 ### Home page
-> Home page contains family name with all members and houses
+> Home page contains a family name with all members and houses
 ![Screenshot 2023-08-14 140614](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/37bb4611-3668-4b5e-8bf8-bdb3ee44e458)
 
 ### All Houses
@@ -61,3 +62,29 @@
 
 >Searched items
 ![Screenshot 2023-08-14 142816](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/dafffe25-2fae-4714-8988-8dac2396de12)
+
+
+## Project structure
+
+### Web
+- In this project are:
+> Web Api
+> AutoMapper
+> Controllers
+> Views
+
+### Core
+- In this project are
+> Constans
+> View models
+> Services
+
+### Infrastructure
+- In this project are
+> Repository
+> Enums
+> Entities
+>  
+### Unit Tests
+
+
