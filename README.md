@@ -70,7 +70,7 @@
 
 
 ### Web
-- In this project are:
+#### In this project are:
 * Web Api
 * AutoMapper
 * Controllers
@@ -89,10 +89,10 @@
 
 
 ### Infrastructure
-- In this project are
-> Repository
-> Enums
-> Entities
+#### In this project are
+* Repository
+* Enums
+* Entities
 ![ifrastructure](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/bfea90bd-136a-4ddd-bf10-2f6cd5007248)
 
 ### Unit Tests
