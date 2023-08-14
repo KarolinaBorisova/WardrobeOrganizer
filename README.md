@@ -40,16 +40,17 @@
 ![Screenshot 2023-08-14 140708](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/a597c60d-5232-4069-b419-5683df4e1cce)
 
 >Member information and member`s items
-![Screenshot 2023-08-14 140911](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/c4fedb8c-f433-441b-bfe7-2e4c68cdf97b)
+![Screenshot 2023-08-14 140747](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/aacc9d74-1333-4ff0-8ede-8633879117ea)
 
 >Storage infomration
+![Screenshot 2023-08-14 140911](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/c4fedb8c-f433-441b-bfe7-2e4c68cdf97b)
+
+>All clothes in storage
 ![Screenshot 2023-08-14 140938](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/9eacf17d-2e92-43f6-8a31-497a282f6b7a)
 
->All clothes in storage 
-![Screenshot 2023-08-14 140505](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ec46654f-7f34-4063-ab2a-104526417494)
 
 >Search by category or color 
 ![Screenshot 2023-08-14 141131](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/7aa1598c-f489-47c0-b925-c1f2b6ac0b7d)
 
 >Searched items
-![Screenshot 2023-08-14 140747](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/aacc9d74-1333-4ff0-8ede-8633879117ea)
+![Screenshot 2023-08-14 140505](https://github.com/KarolinaBorisova/WardrobeOrganizer/assets/85222435/ec46654f-7f34-4063-ab2a-104526417494)
