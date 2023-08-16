@@ -51,7 +51,6 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
 
             }
 
-
             return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
         }
 
@@ -64,7 +63,6 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Home");
             }
            
-
             try
             {
                 var user = await userService.GetUserById(id);
@@ -83,7 +81,6 @@ namespace WardrobeOrganizer.Areas.Admin.Controllers
                 // logger.LogInformation("Can not delete member with id {0}", Id);
 
             }
-
 
             return RedirectToAction("AllUsers", "Admin", new { area = "Admin" });
         }

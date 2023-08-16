@@ -51,6 +51,7 @@ namespace WardrobeOrganizer.UnitTests.Services
                 Color = "pink",
                 Size = "XLTest",
                 StorageId = 20,
+                UserId = "1"
 
             };
             var roothpath = "testRooth";
@@ -203,7 +204,8 @@ namespace WardrobeOrganizer.UnitTests.Services
                     },
                 },
                 IsActive = true,
-                Size = "TestSize"
+                Size = "TestSize",
+                UserId = "1"
 
             };
 
@@ -236,7 +238,8 @@ namespace WardrobeOrganizer.UnitTests.Services
                     },
                 },
                 IsActive = true,
-                Size = "TestSize1"
+                Size = "TestSize1",
+                UserId = "1"
             };
             await repoTest.AddAsync(outerwear);
             await repoTest.SaveChangesAsync();
