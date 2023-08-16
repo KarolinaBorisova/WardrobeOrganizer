@@ -318,3 +318,10 @@ form .list-group-item-info.btn {
     width: 2em;
     height: 2em;
 }
+
+.form-check-label {
+    font-size: 20px;
+    margin: 2px 10px 0px 4px;
+}
+
+
